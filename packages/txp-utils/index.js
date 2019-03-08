@@ -1,3 +1,2 @@
-export default ()=>{
-  console.log('我是一个工具')
-}
+export { default as clearObjNull } from './src/clearObjNull';
+export { default as jsCalculation } from './src/jsCalculation';
