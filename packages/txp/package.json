@@ -1,0 +1,18 @@
+{
+  "name": "txp",
+  "version": "0.1.0",
+  "description": "This is my NPM package",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShawDanon/txp/tree/master/packages/txp"
+  },
+  "homepage": "https://github.com/ShawDanon/txp/tree/master/packages/txp",
+  "authors": [
+    "tangxiaoping <shawdanon@foxmail.com> (https://github.com/ShawDanon)"
+  ],
+  "bugs": {
+    "url": "https://github.com/ShawDanon/txp/issues"
+  },
+  "license": "MIT"
+}
