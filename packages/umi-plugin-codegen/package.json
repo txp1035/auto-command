@@ -1,0 +1,21 @@
+{
+  "name": "umi-plugin-codegen",
+  "version": "0.0.1",
+  "description": "Generate the front-end code by parsing the interface document",
+  "main": "./lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShawDanon/txp/tree/master/packages/umi-plugin-codegen"
+  },
+  "homepage": "https://github.com/ShawDanon/txp/tree/master/packages/umi-plugin-codegen",
+  "authors": [
+    "tangxiaoping <shawdanon@foxmail.com> (https://github.com/ShawDanon)"
+  ],
+  "bugs": {
+    "url": "https://github.com/ShawDanon/txp/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}
