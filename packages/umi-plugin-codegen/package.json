@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-codegen",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "Generate the front-end code by parsing the interface document",
   "main": "./lib/index.js",
   "repository": {
