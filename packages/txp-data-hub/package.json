@@ -1,6 +1,6 @@
 {
   "name": "txp-data-hub",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "This is a service that processes end-end data.",
   "main": "index.js",
   "repository": {
