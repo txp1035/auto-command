@@ -2,7 +2,7 @@
   "name": "txp-data-hub",
   "version": "0.1.2",
   "description": "This is a service that processes end-end data.",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/ShawDanon/txp/tree/master/packages/txp-data-hub"

@@ -2,7 +2,7 @@
   "name": "txp-utils",
   "version": "0.1.6",
   "description": "Common tools of JS",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/ShawDanon/txp/tree/master/packages/txp-utils"
