@@ -20,8 +20,11 @@
     "milady",
     "alitajs"
   ],
+  "files": [
+    "lib"
+  ],
   "license": "MIT",
   "dependencies": {
-    "milady": "^0.0.2"
+    "milady": "^0.0.4"
   }
 }
