@@ -4,10 +4,41 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "father-build",
-    "publish": "lerna publish"
+    "publish": "lerna publish",
+    "lint": "npm run lint:js && npm run lint:prettier",
+    "lint-staged": "lint-staged",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
+    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./",
+    "lint:prettier": "check-prettier lint",
+    "prettier": "prettier -c --write **/*",
+    "test": "umi-test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.less": "stylelint --syntax less",
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write",
+      "git add"
+    ],
+    "**/*.{js,jsx}": "npm run lint-staged:js",
+    "**/*.{js,ts,tsx}": "npm run lint-staged:js"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.15",
+    "@umijs/fabric": "^1.1.9",
     "father-build": "^1.3.0",
-    "lerna": "^3.13.1"
+    "husky": "^3.0.1",
+    "lerna": "^3.13.1",
+    "lint-staged": "^9.2.0",
+    "prettier": "^1.18.2"
+  },
+  "dependencies": {
+    "check-prettier": "^1.0.3",
+    "umi": "^2.8.12"
   }
 }

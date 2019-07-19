@@ -1,4 +1,24 @@
 language: node_js
 
 node_js:
-  - '11'
+  - '8'
+  - '10'
+  - '12'
+
+before_script:
+  - npm run eslint
+
+script:
+  - npm run build
+  - npm run bootstrap
+  - npm run test
+
+after_success:
+  - npm run coveralls
+
+cache:
+  directories:
+    - node_modules
+
+git:
+  depth: 5
