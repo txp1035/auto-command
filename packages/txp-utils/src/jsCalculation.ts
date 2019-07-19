@@ -1,6 +1,6 @@
 export default {
-  add: function(...arr) {
-    let count;
+  add(...arr: number[]) {
+    let count: number;
     if (arr.length >= 2) {
       arr.forEach(element => {
         if (count === undefined) {
@@ -13,8 +13,8 @@ export default {
     }
     return count;
   },
-  sub: function(...arr) {
-    let count;
+  sub(...arr: number[]) {
+    let count: number;
     if (arr.length >= 2) {
       arr.forEach(element => {
         if (count === undefined) {
@@ -27,8 +27,8 @@ export default {
     }
     return count;
   },
-  mul: function(...arr) {
-    let count;
+  mul(...arr: number[]) {
+    let count: number;
     if (arr.length >= 2) {
       arr.forEach(element => {
         if (count === undefined) {
@@ -41,8 +41,8 @@ export default {
     }
     return count;
   },
-  div: function(...arr) {
-    let count;
+  div(...arr: number[]) {
+    let count: number;
     if (arr.length >= 2) {
       arr.forEach(element => {
         if (count === undefined) {
@@ -54,5 +54,5 @@ export default {
       });
     }
     return count;
-  }
+  },
 };
