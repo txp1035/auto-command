@@ -1,6 +1,6 @@
 {
   "name": "txp-first",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "This is my first NPM package, which was used for testing",
   "bin": {
     "txp": "./bin/txp.js"
