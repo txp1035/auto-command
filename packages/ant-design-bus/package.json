@@ -1,6 +1,6 @@
 {
   "name": "ant-design-bus",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "This is a business component based on ant design",
   "main": "./lib/index.js",
   "files": [
