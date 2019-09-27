@@ -1,1 +1,1 @@
-export { default as BaiDuMap } from './BaiDuMap';
+console.log('this is a bus');
