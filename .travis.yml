@@ -6,7 +6,7 @@ node_js:
   - '12'
 
 before_script:
-  - npm run eslint
+  - npm run lint
 
 script:
   - npm run build
