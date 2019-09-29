@@ -1,25 +1,39 @@
 export default function main() {
-  const script = document.createElement('script');
+  const code = getCode();
+  appendScript(code);
+}
+function appendScript(code: string) {
+  // 定义元素
+  const hmtScript = document.createElement('script');
+  hmtScript.innerHTML = 'var _hmt = _hmt || []';
+  const codeScript = document.createElement('script');
+  codeScript.async = true;
+  codeScript.src = `//hm.baidu.com/hm.js?${code}`;
+  // 插入元素
   const head = document.querySelector('head');
-  const test = 'c19649af12cb73de53b0f4ba717ae927';
-  const formal = 'd94cd395390c9b72ed33667c613aad4e';
-  script.innerHTML = `var _hmt = _hmt || [];
-  (function() {
-    const hm = document.createElement('script');
-    const { host } = window.location;
-    if (host === 'partner.depotnextdoor.com') {
-      hm.src = 'https://hm.baidu.com/hm.js?${formal}';
-    }
-    if (host === 'partner-test.depotnextdoor.com') {
-      hm.src = 'https://hm.baidu.com/hm.js?${test}';
-    }
-    if (host === 'localhost:8000') {
-      hm.src = 'https://hm.baidu.com/hm.js?${test}';
-    }
-    const s = document.getElementsByTagName('head')[0];
-    s.parentNode.insertBefore(hm, s);
-  })();`;
-  if (head) {
-    head.appendChild(script);
+  if (head && !head.firstElementChild) {
+    const title = document.createElement('title');
+    head.appendChild(title);
   }
+  if (head) {
+    head.insertBefore(codeScript, head && head.firstElementChild);
+    head.insertBefore(hmtScript, head && head.firstElementChild);
+  }
+}
+function getCode() {
+  const code = {
+    PosTest: 'c19649af12cb73de53b0f4ba717ae927',
+    Pos: 'd94cd395390c9b72ed33667c613aad4e',
+  };
+  const { host } = window.location;
+  if (host === 'partner.depotnextdoor.com') {
+    return code.Pos;
+  }
+  if (host === 'partner-test.depotnextdoor.com') {
+    return code.PosTest;
+  }
+  if (host === 'localhost:8000') {
+    return code.PosTest;
+  }
+  return 'null';
 }
