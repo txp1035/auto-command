@@ -1,9 +1,20 @@
+declare global {
+  interface Window {
+    finddog: object;
+  }
+}
 export default function main() {
   if (checkCode()) {
     return;
   }
   const code = getCode();
   appendScript(code);
+  logger();
+}
+function logger() {
+  window.finddog = {
+    version: '1.0.4',
+  };
 }
 function checkCode() {
   const head = document.querySelector('head');
