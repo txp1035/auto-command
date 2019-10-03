@@ -1,6 +1,6 @@
 {
   "name": "fine-dog",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "This is a fine dog",
   "main": "./lib/index.js",
   "files": [
