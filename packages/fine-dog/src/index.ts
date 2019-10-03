@@ -1,5 +1,5 @@
 export default function main() {
-  if (checkCode) {
+  if (checkCode()) {
     return;
   }
   const code = getCode();
