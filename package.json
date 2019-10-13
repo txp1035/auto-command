@@ -1,10 +1,10 @@
 {
-  "name": "root",
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "father-build",
-    "publish": "lerna publish",
+    "publish": "npm run build && lerna publish",
+    "changelog": "lerna-changelog",
     "lint": "npm run lint:js && npm run lint:prettier",
     "lint-staged": "lint-staged",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
@@ -34,6 +34,7 @@
     "father-build": "^1.10.0",
     "husky": "^3.0.1",
     "lerna": "^3.13.1",
+    "lerna-changelog": "^0.8.2",
     "lint-staged": "^9.2.0",
     "prettier": "^1.18.2"
   },
