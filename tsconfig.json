@@ -1,22 +1,33 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "declaration": true,
+    "target": "esnext",
+    // "module": "esnext",
+    // "target": "es5",
+    // "module": "commonjs",
+    // "declaration": true,
     "moduleResolution": "node",
+    // "importHelpers": true,
+    "jsx": "preserve",
+    "allowJs": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
-    "jsx": "react",
+    // "sourceMap": true,
     "experimentalDecorators": true,
-    "noImplicitAny": true,
-    "preserveConstEnums": true,
-    "outDir": "lib/",
-    "baseUrl": ".",
+    // "noImplicitAny": true,
+    // "preserveConstEnums": true,
+    // "outDir": "lib/",
+    "baseUrl": "./",
     "strict": true,
-    "strictNullChecks": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "declaration": true
+    // "strictNullChecks": true,
+    // "paths": {
+    //   "@/*": ["src/*"]
+    // },
+    // "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", "lib", "fixtures", "examples"]
 }
