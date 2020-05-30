@@ -1,11 +1,6 @@
-const fabric = require('@umijs/fabric');
-
 module.exports = {
-  ...fabric.default,
+  extends: [require.resolve('@umijs/fabric/dist/eslint')],
   rules: {
-    ...fabric.default.rules,
-  },
-  globals: {
-    page: true,
+    'global-require': 0,
   },
 };

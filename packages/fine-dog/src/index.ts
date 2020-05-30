@@ -13,7 +13,7 @@ export default function main() {
 }
 function logger() {
   window.finddog = {
-    version: '1.0.4',
+    version: require('../package').version,
   };
 }
 function checkCode() {
