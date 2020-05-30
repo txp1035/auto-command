@@ -1,4 +1,6 @@
-// 清除对象里null值的键
-export { default as clearObjNull } from './clearObjNull';
+// 对象处理
+import * as handelObj from './handelObj';
 // js计算
-export { default as jsCalculation } from './jsCalculation';
+import * as jsCalculation from './jsCalculation';
+
+export { handelObj, jsCalculation };
