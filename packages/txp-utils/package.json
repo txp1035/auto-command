@@ -1,6 +1,6 @@
 {
   "name": "txp-utils",
-  "version": "0.1.10",
+  "version": "1.0.0-alpha.0",
   "description": "Common tools of JS",
   "main": "./lib/index.js",
   "files": [
