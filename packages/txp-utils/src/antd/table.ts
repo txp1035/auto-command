@@ -1,8 +1,29 @@
-export const common = (columns, dataSource) => {
-  const width = 100;
+
+import { useState } from 'react';
+
+export  function useExpanded(expandedRowRender: any) {
+  const [expandedRowKeys, setExpandedRowKeys]: any = useState([]);
+  const expanded = {
+    expandedRowKeys,
+    onExpandedRowsChange: (keys: any) => {
+      if (keys.length > 1) {
+        // 在其他展开情况下点击加号
+        setExpandedRowKeys([keys.pop()]);
+      } else {
+        // 点击减号、加号
+        setExpandedRowKeys(keys);
+      }
+    },
+    expandedRowRender,
+  };
+  return expanded;
+}
+
+export function common(columns){
+  const width = columns.map(item => item.width || 100).reduce((pre, next) => pre + next);
   return {
     scroll: {
-      x: true,
+      x: width,
     },
     bordered: true,
     rowKey: (record: any, index: any) => {

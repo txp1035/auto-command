@@ -2,9 +2,25 @@
   "name": "txp",
   "version": "0.1.5",
   "description": "This is my NPM package",
-  "main": "./lib/index.js",
+  "bin": {
+    "txp": "bin/txp.js"
+  },
+  "main": "index.js",
+  "module": "index.module.js",
+  "types": "types.d.ts",
   "files": [
-    "lib"
+    "antd",
+    "antd-mobile",
+    "prettier",
+    "react",
+    "react-dom",
+    "stylelint",
+    "util",
+    "lib",
+    "bin",
+    "index.js",
+    "index.module.js",
+    "types.d.ts"
   ],
   "repository": {
     "type": "git",
@@ -17,5 +33,10 @@
   "bugs": {
     "url": "https://github.com/ShawDanon/txp/issues"
   },
-  "license": "MIT"
+  "license": "MIT",
+    "dependencies": {
+    "antd": "^4.0.0",
+    "antd-mobile": "^2.3.1",
+    "umi": "~3.2.0"
+    }
 }

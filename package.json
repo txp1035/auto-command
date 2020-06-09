@@ -32,10 +32,7 @@
     "lerna": "^3.13.1",
     "lerna-changelog": "^0.8.2",
     "lint-staged": "^9.2.0",
+     "check-prettier": "^1.0.3",
     "prettier": "^1.18.2"
-  },
-  "dependencies": {
-    "check-prettier": "^1.0.3",
-    "umi": "^2.8.12"
   }
 }
