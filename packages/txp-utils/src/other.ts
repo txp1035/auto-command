@@ -1,7 +1,10 @@
 /**
- * 把数组里的除''和NaN的字符串和数字连接成字符串
- * @param list 一个数组
- * @param mark 连接符号默认为'_‘
+ * 描述:把数组里的除''和NaN的字符串和数字连接成字符串
+ * @author ShawDanon
+ * @date 2020-06-13
+ * @param {any} list:any[]=[]
+ * @param {any} mark:string='_'
+ * @returns {any}
  */
 export function join(list: any[] = [], mark: string = '_'): string {
   const arr = list.filter(item => {
