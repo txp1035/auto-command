@@ -1,3 +1,4 @@
-import * as utils from 'txp-utils';
+import utils from 'txp-utils';
 
-export = utils;
+export * from 'txp-utils';
+export default utils;
