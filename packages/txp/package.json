@@ -1,6 +1,6 @@
 {
   "name": "txp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This is my NPM package",
   "bin": {
     "txp": "bin/txp.js"
@@ -37,7 +37,7 @@
   "dependencies": {
     "antd": "^4.0.0",
     "antd-mobile": "^2.3.1",
-    "umi": "~3.2.0",
-    "txp-utils": "*1.0.0"
+    "txp-utils": "*1.0.0",
+    "umi": "~3.2.0"
   }
 }
