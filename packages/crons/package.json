@@ -1,6 +1,6 @@
 {
   "name": "crons",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "This is a collection of cron expressions",
   "main": "./lib/index.js",
   "files": [
@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "cronstrue": "^1.0.0",
-    "cron-parser": "^2.0.0"
+    "cron-parser": "^2.0.0",
+    "cronstrue": "^1.0.0"
   }
 }
