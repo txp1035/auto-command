@@ -1,0 +1,21 @@
+{
+  "name": "crons",
+  "version": "0.0.1",
+  "description": "This is a collection of cron expressions",
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShawDanon/txp/tree/master/packages/crons"
+  },
+  "homepage": "https://github.com/ShawDanon/txp/tree/master/packages/crons",
+  "authors": [
+    "tangxiaoping <shawdanon@foxmail.com> (https://github.com/ShawDanon)"
+  ],
+  "bugs": {
+    "url": "https://github.com/ShawDanon/txp/issues"
+  },
+  "license": "MIT"
+}
