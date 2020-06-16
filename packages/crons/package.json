@@ -4,7 +4,9 @@
   "description": "This is a collection of cron expressions",
   "main": "./lib/index.js",
   "files": [
-    "lib"
+    "lib",
+    "parser",
+    "translate"
   ],
   "repository": {
     "type": "git",
