@@ -17,5 +17,9 @@
   "bugs": {
     "url": "https://github.com/ShawDanon/txp/issues"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cronstrue": "^1.0.0",
+    "cron-parser": "^2.0.0"
+  }
 }
