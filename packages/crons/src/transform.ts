@@ -117,7 +117,7 @@ export interface year extends base {}
  * @param {any} params:字符串或者对象
  * @returns {any} 对象或者字符串
  */
-export function transformBase(params: string | base) {
+export function transformBase(params: string | base): string | base {
   // 如果是字符串，转换成可以用的对象；如果是对象，转换成可以用的字符串
   if (typeof params === 'string') {
     // 先根据,符号转换成数组

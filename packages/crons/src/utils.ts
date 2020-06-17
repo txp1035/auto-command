@@ -48,7 +48,6 @@ export function getType(params: string): cronType | '' {
 
 export function transformRange(params: (string | number | range)[], length: number = 2) {
   let arr = [];
-  console.log('刚进来', JSON.stringify(arr));
   // 转换为指定
   params.forEach(element => {
     if (typeof element === 'string' || typeof element === 'number') {
@@ -57,13 +56,10 @@ export function transformRange(params: (string | number | range)[], length: numb
       arr = arr.concat(lodash.range(Number(element.start), Number(element.end) + 1));
     }
   });
-  console.log('转换为指定', JSON.stringify(arr));
   // 去重
   arr = removal(arr);
-  console.log('去重', JSON.stringify(arr));
   // 排序
   arr = arr.sort((a, b) => Number(a) - Number(b));
-  console.log('排序', JSON.stringify(arr));
   // 分组[1,2,3,5,6]->[[1,2,3],[5,6]]
   arr = arr.reduce(
     (pre, cur) => {
@@ -77,7 +73,6 @@ export function transformRange(params: (string | number | range)[], length: numb
     },
     [[]],
   );
-  console.log('分组', JSON.stringify(arr));
   // 分组中元素大于2才转换成对象[1,2,3]->{start:1,end:3}
   const rangeArr = [];
   const appointArr = [];
@@ -88,11 +83,6 @@ export function transformRange(params: (string | number | range)[], length: numb
       appointArr.push(element);
     }
   });
-  console.log('单', JSON.stringify(appointArr.flat()));
-  console.log(
-    '对',
-    JSON.stringify(rangeArr.map(item => ({ start: item[0], end: item[item.length - 1] }))),
-  );
   const newArr = [
     ...appointArr.flat(),
     ...rangeArr.map(item => ({ start: item[0], end: item[item.length - 1] })),
