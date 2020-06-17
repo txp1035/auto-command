@@ -27,12 +27,13 @@
     "@commitlint/cli": "^8.2.0",
     "@types/jest": "^24.0.15",
     "@umijs/fabric": "^1.1.9",
+    "check-prettier": "^1.0.3",
+    "@umijs/test": "^3.2.3",
     "father-build": "^1.10.0",
     "husky": "^3.0.1",
     "lerna": "^3.13.1",
     "lerna-changelog": "^0.8.2",
     "lint-staged": "^9.2.0",
-    "check-prettier": "^1.0.3",
     "prettier": "^1.18.2"
   }
 }

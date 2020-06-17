@@ -1,3 +1,6 @@
+import lodash from 'txp/util/lodash';
+import { range } from './transform';
+
 export type cronType = 'linux' | 'spring' | 'quartz';
 
 /**
@@ -41,4 +44,71 @@ export function getType(params: string): cronType | '' {
     return 'quartz';
   }
   return '';
+}
+
+export function transformRange(params: (string | number | range)[], length: number = 2) {
+  let arr = [];
+  console.log('刚进来', JSON.stringify(arr));
+  // 转换为指定
+  params.forEach(element => {
+    if (typeof element === 'string' || typeof element === 'number') {
+      arr.push(Number(element));
+    } else {
+      arr = arr.concat(lodash.range(Number(element.start), Number(element.end) + 1));
+    }
+  });
+  console.log('转换为指定', JSON.stringify(arr));
+  // 去重
+  arr = removal(arr);
+  console.log('去重', JSON.stringify(arr));
+  // 排序
+  arr = arr.sort((a, b) => Number(a) - Number(b));
+  console.log('排序', JSON.stringify(arr));
+  // 分组[1,2,3,5,6]->[[1,2,3],[5,6]]
+  arr = arr.reduce(
+    (pre, cur) => {
+      const last = pre[pre.length - 1];
+      const lastStr = last[last.length - 1];
+      if (cur === lastStr + 1) {
+        pre.pop();
+        return [...pre, [...last, cur]];
+      }
+      return [...pre, [cur]];
+    },
+    [[]],
+  );
+  console.log('分组', JSON.stringify(arr));
+  // 分组中元素大于2才转换成对象[1,2,3]->{start:1,end:3}
+  const rangeArr = [];
+  const appointArr = [];
+  arr.forEach(element => {
+    if (element.length > length) {
+      rangeArr.push(element);
+    } else {
+      appointArr.push(element);
+    }
+  });
+  console.log('单', JSON.stringify(appointArr.flat()));
+  console.log(
+    '对',
+    JSON.stringify(rangeArr.map(item => ({ start: item[0], end: item[item.length - 1] }))),
+  );
+  const newArr = [
+    ...appointArr.flat(),
+    ...rangeArr.map(item => ({ start: item[0], end: item[item.length - 1] })),
+  ];
+  return newArr;
+}
+
+export function removal(list: (string | { key: string })[], key?: string) {
+  // 对象去重
+  if (key) {
+    return list.filter(
+      (item, index, arr) =>
+        typeof item === 'object' &&
+        arr.findIndex(childItem => childItem[key] === item.key) === index,
+    );
+  }
+  // 字符串去重
+  return [...new Set(list)];
 }
