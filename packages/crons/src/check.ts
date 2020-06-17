@@ -59,7 +59,7 @@ export function checkBase(
       }
     }
     // 是否是指定时间
-    const regValue = /^[0-9][1-9]*$/;
+    const regValue = /^[1-9][0-9]*$/;
     if (regValue.test(item)) {
       isOther = false;
       if (Number(item) > rangeEnd || Number(item) < rangeStart) {
