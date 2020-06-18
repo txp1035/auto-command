@@ -1,4 +1,5 @@
 import { transformFrequency, transformBase, base, range } from './transform';
+import check from './check';
 import { transformRange, join } from './utils';
 
 const translateEmum = {
@@ -123,7 +124,7 @@ export function translateYear(params: string) {
  */
 export default function translate(params: string, options: object = {}) {
   const obj = transformFrequency(params);
-  if (!obj) {
+  if (!obj && check(params) !== true) {
     return 'cron表达式不合法';
   }
   // 枚举匹配
