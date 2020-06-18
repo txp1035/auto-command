@@ -8,6 +8,10 @@
   "files": [
     "lib"
   ],
+  "dependencies": {
+    "txp": "^1.0.0",
+    "txp-utils":"^1.0.0"
+  } ,
   "repository": {
     "type": "git",
     "url": "https://github.com/ShawDanon/txp/tree/master/packages/txp-first"
