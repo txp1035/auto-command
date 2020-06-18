@@ -1,2 +1,85 @@
-export * from './object';
-export * from './other';
+/** 对象类 start */
+/**
+ * 描述：过滤对象，过滤掉值为null、undefined、NaN的键
+ * @author ShawDanon
+ * @date 2020-06-13
+ * @param {any} param:需要过滤的对象
+ * @param {any} fun:扩展过滤的方法
+ * @param {any} key?:string
+ * @param {any} obj?:object
+ * @returns {any}
+ */
+export function filterObj(
+  param: object,
+  fun?: (value: any, key?: string, obj?: object) => boolean,
+) {
+  const obj = {};
+  Object.entries(param).forEach(([key, value]) => {
+    // 默认过滤
+    if (value !== null && value !== undefined && !Number.isNaN(value)) {
+      obj[key] = value;
+    }
+    // 扩展过滤
+    if (fun && fun(value, key, param)) {
+      obj[key] = value;
+    }
+  });
+  return obj;
+}
+
+/**
+ * 描述
+ * @author ShawDanon
+ * @date 2020-06-13
+ * @param {any} obj:对象值,如：obj
+ * @param {any} str:链式字符串，如：obj.a.b.c
+ * @returns {any}
+ */
+export function getChainObj(obj: object, str: string) {
+  const arr = str.split('.');
+  let value: any = obj;
+  try {
+    arr.forEach((element, index) => {
+      if (index > 0) {
+        if (value[element] !== undefined) {
+          value = value[element];
+        } else {
+          throw new Error('访问的值为undefined');
+        }
+      }
+    });
+  } catch (error) {
+    value = '';
+    console.error(`访问对象:${str}错误`, `错误信息:${error}`);
+  }
+  return value;
+}
+/** 对象类 end */
+/** 其他类 start */
+/**
+ * 描述:把数组里的除''和NaN的字符串和数字连接成字符串
+ * @author ShawDanon
+ * @date 2020-06-13
+ * @param {any} list:any[]=[]
+ * @param {any} mark:string='_'
+ * @returns {any}
+ */
+export function join(list: any[] = [], mark: string = '_'): string {
+  const arr = list.filter(item => {
+    if (typeof item === 'string' || typeof item === 'number') {
+      if (item === '' || Number.isNaN(item)) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  });
+  const str = arr.join(mark);
+  return str;
+}
+/** 其他类 end */
+export default {
+  filterObj,
+  getChainObj,
+  join,
+};
