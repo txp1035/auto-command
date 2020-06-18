@@ -1,5 +1,5 @@
 import { transformFrequency, transformBase, base, range } from './transform';
-import { transformRange } from './utils';
+import { transformRange, join } from './utils';
 
 const translateEmum = {
   '0 0 0 * * ? *': '每天',
@@ -46,20 +46,23 @@ export function translateBase(params: string, unit: string = '') {
   });
   // 翻译
   const appointStr = newAppoints.reduce((pre, cur, index, arr) => {
-    if (typeof cur === 'string') {
-      return `${pre}、${cur}${unit}`;
-    }
+    let mark = '、';
     if (index === arr.length - 1) {
-      return `${pre}从${cur.start}到${cur.end}${unit};`;
+      mark = ';';
     }
-    return `${pre}从${cur.start}到${cur.end}${unit}、`;
+    if (typeof cur === 'string' || typeof cur === 'number') {
+      return `${pre}${cur}${unit}${mark}`;
+    }
+
+    return `${pre}从${cur.start}到${cur.end}${unit}${mark}`;
   }, '');
   const stepStr = Object.entries(newSteps).reduce((pre, [step, cur], index, arr) => {
     const str = cur.reduce((pres, curs, indexs, arrs) => {
+      let mark = '、';
       if (indexs === arrs.length - 1 && index === arr.length - 1) {
-        return `${pres}从${curs.start}到${curs.end}每${step}${unit};`;
+        mark = ';';
       }
-      return `${pres}从${curs.start}到${curs.end}每${step}${unit}、`;
+      return `${pres}从${curs.start}到${curs.end}每${step}${unit}${mark}`;
     }, '');
     return `${pre}${str}`;
   }, '');
@@ -118,7 +121,7 @@ export function translateYear(params: string) {
  * @param {any} options:语言配置
  * @returns {any}
  */
-export default function translate(params: string, options: object) {
+export default function translate(params: string, options: object = {}) {
   const obj = transformFrequency(params);
   if (!obj) {
     return 'cron表达式不合法';
@@ -129,7 +132,16 @@ export default function translate(params: string, options: object) {
   }
   // 通用匹配
   const { second, minute, hour, day, moth, week, year } = obj;
-  return `${translateSecond(second)} ${translateMinute(minute)} ${translateHour(
-    hour,
-  )} ${translateDay(day)} ${translateMoth(moth)} ${translateWeek(week)} ${translateYear(year)}`;
+  return join(
+    [
+      translateSecond(second),
+      translateMinute(minute),
+      translateHour(hour),
+      translateDay(day),
+      translateMoth(moth),
+      translateWeek(week),
+      translateYear(year),
+    ],
+    ' ',
+  );
 }
