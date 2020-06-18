@@ -31,7 +31,7 @@ export function checkBase(
   list.forEach(item => {
     let isOther = true;
     // 是否是段时间
-    const regRange = /^([1-9][0-9]*)-([1-9][0-9]*)(\/[1-9][0-9]*)?$/;
+    const regRange = /^(0|[1-9][0-9]*)-(0|[1-9][0-9]*)(\/[1-9][0-9]*)?$/;
     if (regRange.test(item)) {
       isOther = false;
       // 验证区间开始和结束
@@ -59,7 +59,7 @@ export function checkBase(
       }
     }
     // 是否是指定时间
-    const regValue = /^[1-9][0-9]*$/;
+    const regValue = /^(0|[1-9][0-9]*)$/;
     if (regValue.test(item)) {
       isOther = false;
       if (Number(item) > rangeEnd || Number(item) < rangeStart) {
@@ -225,7 +225,7 @@ export function checkWeek(params: string, type: cronType): boolean {
       return true;
     }
     // 第几周(1-5)的星期几(1-7)
-    const appointReg = /^(1-7)#(1-5)$/;
+    const appointReg = /^([1-7])#([1-5])$/;
     if (appointReg.test(params)) {
       return true;
     }
