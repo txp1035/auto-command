@@ -118,7 +118,7 @@ export function translateYear(params: string) {
  * @param {any} options:语言配置
  * @returns {any}
  */
-export function translate(params: string, options: object) {
+export default function translate(params: string, options: object) {
   const obj = transformFrequency(params);
   if (!obj) {
     return 'cron表达式不合法';
