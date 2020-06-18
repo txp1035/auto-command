@@ -124,7 +124,7 @@ export function translateYear(params: string) {
  */
 export default function translate(params: string, options: object = {}) {
   const obj = transformFrequency(params);
-  if (!obj && check(params) !== true) {
+  if (obj === undefined || check(params) !== true) {
     return 'cron表达式不合法';
   }
   // 枚举匹配
