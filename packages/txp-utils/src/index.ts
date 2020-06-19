@@ -55,6 +55,20 @@ export function getChainObj(obj: object, str: string) {
   return value;
 }
 /** 对象类 end */
+/** 数组类 start */
+export function removal(list: (string | { key: string })[], key?: string) {
+  // 对象去重
+  if (key) {
+    return list.filter(
+      (item, index, arr) =>
+        typeof item === 'object' &&
+        arr.findIndex(childItem => childItem[key] === item.key) === index,
+    );
+  }
+  // 字符串去重
+  return [...new Set(list)];
+}
+/** 数组类 start */
 /** 其他类 start */
 /**
  * 描述:把数组里的除''和NaN的字符串和数字连接成字符串
@@ -82,4 +96,5 @@ export default {
   filterObj,
   getChainObj,
   join,
+  removal,
 };
