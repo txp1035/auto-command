@@ -4,28 +4,6 @@ import { range } from './transform';
 export type cronType = 'linux' | 'spring' | 'quartz';
 
 /**
- * 描述:把数组里的除''和NaN的字符串和数字连接成字符串
- * @author ShawDanon
- * @date 2020-06-13
- * @param {any} list:any[]=[]
- * @param {any} mark:string='_'
- * @returns {any}
- */
-export function join(list: any[] = [], mark: string = '_'): string {
-  const arr = list.filter(item => {
-    if (typeof item === 'string' || typeof item === 'number') {
-      if (item === '' || Number.isNaN(item)) {
-        return false;
-      }
-      return true;
-    }
-    return false;
-  });
-  const str = arr.join(mark);
-  return str;
-}
-
-/**
  * 描述：输入字符正确的corn字符串得到类型
  * @author ShawDanon
  * @date 2020-06-14
@@ -88,17 +66,4 @@ export function transformRange(params: (string | number | range)[], length: numb
     ...rangeArr.map(item => ({ start: item[0], end: item[item.length - 1] })),
   ];
   return newArr;
-}
-
-export function removal(list: (string | { key: string })[], key?: string) {
-  // 对象去重
-  if (key) {
-    return list.filter(
-      (item, index, arr) =>
-        typeof item === 'object' &&
-        arr.findIndex(childItem => childItem[key] === item.key) === index,
-    );
-  }
-  // 字符串去重
-  return [...new Set(list)];
 }

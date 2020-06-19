@@ -1,5 +1,6 @@
 import lodash from 'lodash';
-import { join, getType } from './utils';
+import { join } from 'txp/util';
+import { getType } from './utils';
 
 const FREQUENCY_BASE = {
   minute: '分钟',
