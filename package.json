@@ -1,6 +1,9 @@
 {
   "private": true,
   "scripts": {
+    "init": "npm i &&npm run bootstrap",
+    "update": "npm update && npm run clean && npm run bootstrap",
+    "clean": "lerna clean",
     "bootstrap": "lerna bootstrap  --npm-client yarn",
     "build": "father-build",
     "publish": "npm run build && lerna publish",
