@@ -1,4 +1,4 @@
-import lodash from 'lodash';
+import lodash from 'txp/util/lodash';
 import { join } from 'txp/util';
 import { getType } from './utils';
 
