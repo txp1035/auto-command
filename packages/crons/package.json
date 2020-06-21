@@ -1,6 +1,6 @@
 {
   "name": "crons",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "This is a collection of cron expressions",
   "main": "./lib/index.js",
   "files": [
