@@ -91,6 +91,32 @@ export function join(list: any[] = [], mark: string = '_'): string {
   const str = arr.join(mark);
   return str;
 }
+export type jsType =
+  | 'Number' // 原始类型
+  | 'String' // 原始类型
+  | 'Boolean' // 原始类型
+  | 'Null' // 原始类型
+  | 'Undefined' // 原始类型
+  | 'Symbol' // 原始类型
+  | 'BigInt' // 原始类型
+  | 'Object'
+  | 'Function'
+  | 'Array'
+  | 'Date';
+
+/**
+ * 描述 获取数据类型
+ * @author ShawDanon
+ * @date 2020-06-24
+ * @param {any} params:any
+ * @returns {any}
+ */
+export function getType(params: any): jsType {
+  const str = Object.prototype.toString.call(params);
+  const reg = /\[object ([a-zA-Z]*)\]/;
+  const type = reg.exec(str)[1] as jsType;
+  return type;
+}
 /** 其他类 end */
 export default {
   filterObj,
