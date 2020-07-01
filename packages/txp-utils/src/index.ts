@@ -117,6 +117,18 @@ export function getType(params: any): jsType {
   const type = reg.exec(str)[1] as jsType;
   return type;
 }
+export function contrast([main, assistant]: [object, object], fun: (params: any) => any) {
+  const newMain = {};
+  const newAssistant = {};
+  Object.entries(main).map(([key, value]) => {
+    if (key in assistant) {
+      const [mainValue, assistantValue] = fun([value, assistant[key]]);
+      newMain[key] = mainValue;
+      newAssistant[key] = assistantValue;
+    }
+  });
+  return [newMain, newAssistant];
+}
 /** 其他类 end */
 export default {
   filterObj,
