@@ -3,14 +3,18 @@ import { transformRange } from './utils';
 import { transformFrequency, transformBase, base, range } from './transform';
 import check from './check';
 
-const translateEmum = {
+const defaultTranslateEmum = {
   '0 0 0 * * ? *': '每天',
   '0 0 * * * ? *': '每一小时',
   '0 * * * * ? *': '每一分钟',
   '* * * * * ? *': '每秒',
 };
 
-export function translateBase(params: string, unit: string = '') {
+export function translateBase(
+  params: string,
+  type: string,
+  { appointMode, stepMode }: { appointMode?; stepMode? } = {},
+) {
   const obj = transformBase(params) as base;
   const { isCommon, list } = obj;
   if (isCommon) {
@@ -48,23 +52,29 @@ export function translateBase(params: string, unit: string = '') {
   });
   // 翻译
   const appointStr = newAppoints.reduce((pre, cur, index, arr) => {
+    if (appointMode) {
+      appointMode({ pre, cur, index, arr, type });
+    }
     let mark = '、';
     if (index === arr.length - 1) {
       mark = ';';
     }
     if (typeof cur === 'string' || typeof cur === 'number') {
-      return `${pre}${cur}${unit}${mark}`;
+      return `${pre}${cur}${mark}`;
     }
 
-    return `${pre}从${cur.start}到${cur.end}${unit}${mark}`;
+    return `${pre}从${cur.start}到${cur.end}${mark}`;
   }, '');
   const stepStr = Object.entries(newSteps).reduce((pre, [step, cur], index, arr) => {
     const str = cur.reduce((pres, curs, indexs, arrs) => {
+      if (stepMode) {
+        stepMode({ pres, curs, indexs, arrs, type });
+      }
       let mark = '、';
       if (indexs === arrs.length - 1 && index === arr.length - 1) {
         mark = ';';
       }
-      return `${pres}从${curs.start}到${curs.end}每${step}${unit}${mark}`;
+      return `${pres}从${curs.start}到${curs.end}每${step}${mark}`;
     }, '');
     return `${pre}${str}`;
   }, '');
@@ -115,6 +125,9 @@ export function translateYear(params: string) {
   return translateBase(params, '年');
 }
 
+export interface options {
+  translateEmum: {};
+}
 /**
  * 描述
  * @author ShawDanon
@@ -123,14 +136,15 @@ export function translateYear(params: string) {
  * @param {any} options:语言配置
  * @returns {any}
  */
-export default function translate(params: string, options: object = {}) {
+export default function translate(params: string, { translateEmum = {} }: options) {
   const obj = transformFrequency(params);
   if (obj === undefined || check(params) !== true) {
     return 'cron表达式不合法';
   }
   // 枚举匹配
-  if (translateEmum[params]) {
-    return translateEmum[params];
+  const newTranslateEmum = { ...defaultTranslateEmum, ...translateEmum };
+  if (newTranslateEmum[params]) {
+    return newTranslateEmum[params];
   }
   // 通用匹配
   const { second, minute, hour, day, moth, week, year } = obj;
