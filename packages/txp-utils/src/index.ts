@@ -129,10 +129,19 @@ export function contrast([main, assistant]: [object, object], fun: (params: any)
   });
   return [newMain, newAssistant];
 }
+export function getValidValues(params: any, defaultValues: string = '') {
+  if (['', null, NaN, undefined].includes(params)) {
+    return defaultValues;
+  }
+  return params;
+}
+
 /** 其他类 end */
 export default {
   filterObj,
   getChainObj,
   join,
   removal,
+  contrast,
+  getValidValues,
 };
