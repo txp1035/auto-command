@@ -305,54 +305,60 @@ export function checkYear(params: string): boolean {
  * @param {any} params:string
  * @returns {any}
  */
-export function checkString(params: string): boolean | object {
+export function checkString(params: string): boolean {
   const reg = /^([0-9*/,-]+ )?([0-9*/,-]+) ([0-9*/,-]+) ([0-9*/,-?LW]+) ([A-Za-z0-9*/,-]+) ([A-Za-z0-6*/,-?L#]+)( [0-9*/,-]+)?$/;
   if (reg.test(params)) {
-    const list = params.split(' ');
-    const type = getType(params);
-    const obj: any = {};
-    if (type === 'linux') {
-      obj.minute = checkMinute(list[0]);
-      obj.hour = checkHour(list[1]);
-      obj.day = checkDay(list[2], type);
-      obj.moth = checkMoth(list[3]);
-      obj.week = checkWeek(list[4], type);
-    }
-    if (type === 'spring') {
-      obj.second = checkSecond(list[0]);
-      obj.minute = checkMinute(list[1]);
-      obj.hour = checkHour(list[2]);
-      obj.day = checkDay(list[3], type);
-      obj.moth = checkMoth(list[4]);
-      obj.week = checkWeek(list[5], type);
-    }
-    if (type === 'quartz') {
-      obj.second = checkSecond(list[0]);
-      obj.minute = checkMinute(list[1]);
-      obj.hour = checkHour(list[2]);
-      obj.day = checkDay(list[3], type);
-      obj.moth = checkMoth(list[4]);
-      obj.week = checkWeek(list[5], type);
-      obj.year = checkYear(list[6]);
-    }
-    if (type === '') {
-      return false;
-    }
-    let isOk = true;
-    Object.values(obj).forEach(item => {
-      if (!item) {
-        isOk = false;
-      }
-    });
-    if (isOk) {
-      return true;
-    }
-    return obj;
+    return true;
   }
   return false;
 }
 
+export function checkFrequency(params: string): object {
+  const list = params.split(' ');
+  const type = getType(params);
+  const obj: any = {};
+  if (type === 'linux') {
+    obj.minute = checkMinute(list[0]);
+    obj.hour = checkHour(list[1]);
+    obj.day = checkDay(list[2], type);
+    obj.moth = checkMoth(list[3]);
+    obj.week = checkWeek(list[4], type);
+  }
+  if (type === 'spring') {
+    obj.second = checkSecond(list[0]);
+    obj.minute = checkMinute(list[1]);
+    obj.hour = checkHour(list[2]);
+    obj.day = checkDay(list[3], type);
+    obj.moth = checkMoth(list[4]);
+    obj.week = checkWeek(list[5], type);
+  }
+  if (type === 'quartz') {
+    obj.second = checkSecond(list[0]);
+    obj.minute = checkMinute(list[1]);
+    obj.hour = checkHour(list[2]);
+    obj.day = checkDay(list[3], type);
+    obj.moth = checkMoth(list[4]);
+    obj.week = checkWeek(list[5], type);
+    obj.year = checkYear(list[6]);
+  }
+  return obj;
+}
+
+export function check(params: string): boolean | object {
+  const isCron = checkString(params);
+  if (isCron) {
+    const obj = checkFrequency(params);
+    let isRight = true;
+    Object.values(obj).forEach(item => {
+      if (!item) {
+        isRight = false;
+      }
+    });
+    return isRight;
+  }
+  return false;
+}
 // 用来value进入组件时检查，不正确就给默认值
 // 用来cron专业模式检查，不正确提示是哪儿个不正确
 // 3种模式，更具字符串自动判断
-export default checkString;
+export default check;
