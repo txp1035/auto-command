@@ -307,7 +307,7 @@ export function checkYear(params: string): boolean {
  */
 export function checkString(params: string): boolean {
   const reg = /^([0-9*/,-]+ )?([0-9*/,-]+) ([0-9*/,-]+) ([0-9*/,-?LW]+) ([A-Za-z0-9*/,-]+) ([A-Za-z0-6*/,-?L#]+)( [0-9*/,-]+)?$/;
-  if (reg.test(params)) {
+  if (typeof params === 'string' && reg.test(params)) {
     return true;
   }
   return false;
@@ -354,7 +354,10 @@ export function check(params: string): boolean | object {
         isRight = false;
       }
     });
-    return isRight;
+    if (isRight) {
+      return true;
+    }
+    return obj;
   }
   return false;
 }

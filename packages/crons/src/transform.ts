@@ -2,6 +2,15 @@ import lodash from 'txp/util/lodash';
 import { join } from 'txp/util';
 import { getType } from './utils';
 
+export type frequencyType =
+  | 'second'
+  | 'minute'
+  | 'hour'
+  | 'day'
+  | 'moth'
+  | 'week'
+  | 'year'
+  | 'frequency';
 const FREQUENCY_BASE = {
   minute: '分钟',
   hour: '小时',
@@ -73,14 +82,23 @@ export const constant = {
   },
 };
 
+export interface transform {
+  second: second;
+  minute: minute;
+  hour: hour;
+  day: day;
+  moth: moth;
+  week: week;
+  year: year;
+}
 export interface frequency {
-  second: string | second;
-  minute: string | minute;
-  hour: string | hour;
-  day: string | day;
-  moth: string | moth;
-  week: string | week;
-  year: string | year;
+  second: string;
+  minute: string;
+  hour: string;
+  day: string;
+  moth: string;
+  week: string;
+  year: string;
 }
 export interface range {
   start: string; // 开始
@@ -342,8 +360,7 @@ export function transformFrequency(params: string | frequency) {
   const { second, minute, hour, day, moth, week, year } = params;
   return join([second, minute, hour, day, moth, week, year], ' ');
 }
-
-export default {
+const all = {
   second: transformSecond,
   minute: transformMinute,
   hour: transformHour,
@@ -351,5 +368,29 @@ export default {
   moth: transformMoth,
   week: transformWeek,
   year: transformYear,
-  frequency: transformFrequency,
 };
+export function transform(params: string | transform) {
+  if (typeof params === 'string') {
+    const frequency = transformFrequency(params);
+    const obj = {};
+    Object.entries(frequency).forEach(([key, value]) => {
+      obj[key] = all[key](value);
+    });
+    return obj;
+  }
+  const obj: frequency = {
+    second: '',
+    minute: '',
+    hour: '',
+    day: '',
+    moth: '',
+    week: '',
+    year: '',
+  };
+  Object.entries(params).forEach(([key, value]) => {
+    obj[key] = all[key](value);
+  });
+  return transformFrequency(obj);
+}
+
+export default transform;
