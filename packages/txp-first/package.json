@@ -1,6 +1,6 @@
 {
   "name": "txp-first",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "This is my first NPM package, which was used for testing",
   "bin": {
     "txp": "./bin/txp.js"
@@ -9,8 +9,8 @@
     "lib"
   ],
   "dependencies": {
-    "txp": "^1.0.6",
-    "txp-utils": "^1.0.4"
+    "txp": "^1.0.7",
+    "txp-utils": "^1.1.1"
   },
   "repository": {
     "type": "git",
