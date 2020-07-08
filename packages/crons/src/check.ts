@@ -344,7 +344,10 @@ export function checkFrequency(params: string): object {
   return obj;
 }
 
-export function check(params: string): boolean | object {
+// 用来value进入组件时检查，不正确就给默认值
+// 用来cron专业模式检查，不正确提示是哪儿个不正确
+// 3种模式，更具字符串自动判断
+export default function check(params: string): boolean | object {
   const isCron = checkString(params);
   if (isCron) {
     const obj = checkFrequency(params);
@@ -361,7 +364,3 @@ export function check(params: string): boolean | object {
   }
   return false;
 }
-// 用来value进入组件时检查，不正确就给默认值
-// 用来cron专业模式检查，不正确提示是哪儿个不正确
-// 3种模式，更具字符串自动判断
-export default check;

@@ -13,7 +13,7 @@ const defaultTranslateEmum = {
 export function translateBase(
   params: string,
   type: string,
-  { appointMode, stepMode }: { appointMode?; stepMode? } = {},
+  { appointMode, stepMode, baseMode }: { appointMode; stepMode; baseMode },
 ) {
   const obj = transformBase(params) as base;
   const { isCommon, list } = obj;
@@ -64,34 +64,34 @@ export function translateBase(
     }, '');
     return `${pre}${str}`;
   }, '');
-  return appointStr + stepStr;
+  return baseMode({ appointStr, stepStr });
 }
 export function translateSecond(params: string, translateMode) {
-  return translateBase(params, '秒', translateMode);
+  return translateBase(params, 'second', translateMode);
 }
 export function translateMinute(params: string, translateMode) {
-  return translateBase(params, '分', translateMode);
+  return translateBase(params, 'minute', translateMode);
 }
 export function translateHour(params: string, translateMode) {
-  return translateBase(params, '小时', translateMode);
+  return translateBase(params, 'hour', translateMode);
 }
 export function translateDay(params: string, translateMode) {
   if (translateMode.day) {
     return translateMode.day(params);
   }
-  return translateBase(params, '天', translateMode);
+  return translateBase(params, 'day', translateMode);
 }
 export function translateMoth(params: string, translateMode) {
-  return translateBase(params, '月', translateMode);
+  return translateBase(params, 'moth', translateMode);
 }
 export function translateWeek(params: string, translateMode) {
   if (translateMode.week) {
     return translateMode.week(params);
   }
-  return translateBase(params, '周', translateMode);
+  return translateBase(params, 'week', translateMode);
 }
 export function translateYear(params: string, translateMode) {
-  return translateBase(params, '年', translateMode);
+  return translateBase(params, 'year', translateMode);
 }
 
 export interface options {
@@ -101,6 +101,8 @@ export interface options {
     day: any;
     appointMode: any;
     stepMode: any;
+    baseMode: any;
+    allMode: any;
   };
 }
 /**
@@ -113,9 +115,9 @@ export interface options {
  */
 export default function translate(
   params: string,
-  {
-    translateEmum = {},
-    translateMode = {
+  options: options = {
+    translateEmum: {},
+    translateMode: {
       week: (str: any) => {
         if (params === '?') {
           return '';
@@ -146,27 +148,63 @@ export default function translate(
         return '';
       },
       appointMode: ({ cur, index, arr, type }) => {
-        let mark = '、';
+        let mark = '，';
+        const appointUnit = {
+          second: '秒',
+          minute: '分',
+          hour: '点',
+          day: '日',
+          moth: '月',
+          week: '周',
+          year: '年',
+        };
         if (index === arr.length - 1) {
-          mark = ';';
+          mark = '';
         }
         if (typeof cur === 'string' || typeof cur === 'number') {
-          return `${cur}${mark}`;
+          return `${cur}${appointUnit[type]}${mark}`;
         }
-        const curStr = `从${cur.start}到${cur.end}${mark}`;
+        const curStr = `${cur.start}${appointUnit[type]}到${cur.end}${appointUnit[type]}${mark}`;
         return curStr;
       },
       stepMode: ({ curs, indexs, arrs, type, step, index, arr }) => {
-        let mark = '、';
+        let mark = '，';
         if (indexs === arrs.length - 1 && index === arr.length - 1) {
-          mark = ';';
+          mark = '';
         }
-        const curStr = `从${curs.start}到${curs.end}每${step}${mark}`;
+        const appointUnit = {
+          second: '秒',
+          minute: '分',
+          hour: '点',
+          day: '日',
+          moth: '月',
+          week: '周',
+          year: '年',
+        };
+        const stepUnit = {
+          second: '秒',
+          minute: '分钟',
+          hour: '小时',
+          day: '天',
+          moth: '月',
+          week: '周',
+          year: '年',
+        };
+        const curStr = `${curs.start}${appointUnit[type]}到${curs.end}${
+          appointUnit[type]
+        }每隔${step - 1}${stepUnit[type]}${mark}`;
         return curStr;
       },
+      baseMode: ({ appointStr, stepStr }) => {
+        return join([appointStr, stepStr], '，');
+      },
+      allMode: ({ second, minute, hour, day, moth, week, year }) => {
+        return join([year, moth, week, day, hour, minute, second], '的');
+      },
     },
-  }: options,
+  },
 ) {
+  const { translateEmum, translateMode } = options;
   const obj = transformFrequency(params);
   if (obj === undefined || check(params) !== true) {
     return 'cron表达式不合法';
@@ -178,16 +216,13 @@ export default function translate(
   }
   // 通用匹配
   const { second, minute, hour, day, moth, week, year } = obj;
-  return join(
-    [
-      translateSecond(second, translateMode),
-      translateMinute(minute, translateMode),
-      translateHour(hour, translateMode),
-      translateDay(day, translateMode),
-      translateMoth(moth, translateMode),
-      translateWeek(week, translateMode),
-      translateYear(year, translateMode),
-    ],
-    ' ',
-  );
+  return translateMode.allMode({
+    second: translateSecond(second, translateMode),
+    minute: translateMinute(minute, translateMode),
+    hour: translateHour(hour, translateMode),
+    day: translateDay(day, translateMode),
+    moth: translateMoth(moth, translateMode),
+    week: translateWeek(week, translateMode),
+    year: translateYear(year, translateMode),
+  });
 }

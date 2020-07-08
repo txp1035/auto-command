@@ -1,4 +1,4 @@
-import { check } from '../check';
+import check from '../check';
 
 test('check', () => {
   // not cron

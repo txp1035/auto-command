@@ -1,13 +1,8 @@
-import translate, { translateBase } from '../translate';
+import translate from '../translate';
 
-test('translateBase', () => {
-  expect(translateBase('1,2,3,4,5,6,7,8,2-5,3-8,10-26,1-10/3,2-15/3,22-25/2')).toBe(
-    '从1到8、从10到26;从22到25每2、从1到15每3;',
-  );
-});
-test('translateBase', () => {
-  expect(translateBase('0')).toBe('0;');
-});
 test('translate', () => {
-  expect(translate('0 0 18-24 * * ? *')).toBe('0秒; 0分; 从18到24小时;');
+  // 每天的18点到23点的0分的1到6秒，7到9秒每隔1秒执行。
+  expect(translate('1,2,3,4-6,7-9/2 0 18-23 * * ? *')).toBe(
+    '18点到23点的0分的1秒到6秒，7秒到9秒每隔1秒',
+  );
 });
