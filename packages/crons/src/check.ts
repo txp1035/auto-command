@@ -90,14 +90,14 @@ export function checkBase(
  * @returns {boolean} 正常、不正常
  */
 export function checkSecond(params: string): boolean {
-  const check = checkBase(params, {
+  const checkResult = checkBase(params, {
     rangeStart: 0,
     rangeEnd: 59,
     stepStart: 1,
     stepEnd: 59,
   });
   // 秒只需要基础验证成功，其他情况都是错误
-  if (check === true) {
+  if (checkResult === true) {
     return true;
   }
   return false;
@@ -123,14 +123,14 @@ export function checkMinute(params: string): boolean {
  * @returns {boolean} 正常、不正常
  */
 export function checkHour(params: string): boolean {
-  const check = checkBase(params, {
+  const checkResult = checkBase(params, {
     rangeStart: 0,
     rangeEnd: 23,
     stepStart: 1,
     stepEnd: 23,
   });
   // 小时只需要基础验证成功，其他情况都是错误
-  if (check === true) {
+  if (checkResult === true) {
     return true;
   }
   return false;
@@ -163,14 +163,14 @@ export function checkDay(params: string, type: cronType): boolean {
     }
   }
   // 基础验证
-  const check = checkBase(params, {
+  const checkResult = checkBase(params, {
     rangeStart: 1,
     rangeEnd: 31,
     stepStart: 1,
     stepEnd: 31,
   });
   // 日在特殊验证后只需要基础验证成功，其他情况都是错误
-  if (check === true) {
+  if (checkResult === true) {
     return true;
   }
   return false;
@@ -198,14 +198,14 @@ export function checkMoth(params: string): boolean {
     .replace(/OCT/gi, '10')
     .replace(/NOV/gi, '11')
     .replace(/DEC/gi, '12');
-  const check = checkBase(newParams, {
+  const checkResult = checkBase(newParams, {
     rangeStart: 1,
     rangeEnd: 12,
     stepStart: 1,
     stepEnd: 12,
   });
   // 月只需要基础验证成功，其他情况都是错误
-  if (check === true) {
+  if (checkResult === true) {
     return true;
   }
   return false;
@@ -244,13 +244,13 @@ export function checkWeek(params: string, type: cronType): boolean {
       .replace(/Fri/gi, '6')
       .replace(/Sat/gi, '7');
     // 基础验证
-    const check = checkBase(newParams, {
+    const checkResult = checkBase(newParams, {
       rangeStart: 1,
       rangeEnd: 7,
       stepStart: 1,
       stepEnd: 6,
     });
-    if (check === true) {
+    if (checkResult === true) {
       return true;
     }
   }
@@ -264,13 +264,13 @@ export function checkWeek(params: string, type: cronType): boolean {
       .replace(/Thu/gi, '4')
       .replace(/Fri/gi, '5')
       .replace(/Sat/gi, '6');
-    const check = checkBase(newParams, {
+    const checkResult = checkBase(newParams, {
       rangeStart: 0,
       rangeEnd: 6,
       stepStart: 1,
       stepEnd: 6,
     });
-    if (check === true) {
+    if (checkResult === true) {
       return true;
     }
   }
@@ -285,14 +285,14 @@ export function checkWeek(params: string, type: cronType): boolean {
  * @returns {boolean} 正常、不正常
  */
 export function checkYear(params: string): boolean {
-  const check = checkBase(params, {
+  const checkResult = checkBase(params, {
     rangeStart: 1970,
     rangeEnd: 2099,
     stepStart: 1,
     stepEnd: 10,
   });
   // 年只需要基础验证成功，其他情况都是错误
-  if (check === true) {
+  if (checkResult === true) {
     return true;
   }
   return false;
