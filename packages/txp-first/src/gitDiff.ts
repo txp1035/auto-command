@@ -7,7 +7,8 @@ export default () => {
   // console.log('123');
   shell.exec('git symbolic-ref --short -q HEAD', (err, sto) => {
     // console.log('123', sto);
-    const str = 'git diff master ' + sto + ' --stat-width=2000 --stat-graph-width=1';
+    const str = `git diff master ${sto.replace(/\n/g, '')} --stat-width=2000 --stat-graph-width=1`;
+    console.log('zf', str);
     shell.exec(str, (errs, stos) => {
       console.log('222', stos);
     });
