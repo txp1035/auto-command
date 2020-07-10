@@ -9,9 +9,10 @@
     "lib"
   ],
   "dependencies": {
+    "inquirer": "^7.3.0",
+    "shelljs": "^0.8.4",
     "txp": "^1.0.7",
-    "txp-utils": "^1.1.1",
-    "Inquirer.js":"^7.3.0"
+    "txp-utils": "^1.1.1"
   },
   "repository": {
     "type": "git",
