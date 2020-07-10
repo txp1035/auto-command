@@ -10,7 +10,8 @@
   ],
   "dependencies": {
     "txp": "^1.0.7",
-    "txp-utils": "^1.1.1"
+    "txp-utils": "^1.1.1",
+    "Inquirer.js":"^7.3.0"
   },
   "repository": {
     "type": "git",
