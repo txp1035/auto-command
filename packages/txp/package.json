@@ -37,6 +37,8 @@
   "dependencies": {
     "antd": "^4.0.0",
     "antd-mobile": "^2.3.1",
+    "fs-extra": "^9.0.1",
+    "inquirer": "^7.3.0",
     "txp-utils": "^1.1.1",
     "umi": "~3.2.0"
   }
