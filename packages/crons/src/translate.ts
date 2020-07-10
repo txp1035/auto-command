@@ -15,7 +15,6 @@ export function translateBase(
   type: string,
   { appointMode, stepMode, baseMode }: { appointMode; stepMode; baseMode },
 ) {
-  debugger;
   const obj = transformBase(params) as base;
   const { isCommon, list } = obj;
   if (isCommon) {
