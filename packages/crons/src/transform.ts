@@ -1,5 +1,5 @@
-import lodash from 'txp/util/lodash';
-import { join } from 'txp/util';
+import lodash from 'lodash';
+import { join } from 'txp-utils';
 import { getType } from './utils';
 
 export type frequencyType =

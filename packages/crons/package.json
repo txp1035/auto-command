@@ -22,7 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "cron-parser": "^2.0.0",
-    "cronstrue": "^1.0.0",
-    "txp": "^1.0.10"
+    "txp-utils": "^1.0.10",
+    "lodash":"^4.0.0"
   }
 }

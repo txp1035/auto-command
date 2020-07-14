@@ -52,3 +52,5 @@
   "year": ""
 }
 ```
+
+其他库： cron-parser、cronstrue

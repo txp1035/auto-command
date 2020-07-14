@@ -1,4 +1,4 @@
-import { join } from 'txp/util';
+import { join } from 'txp-utils';
 import { transformRange } from './utils';
 import { transformFrequency, transformBase, base, range } from './transform';
 import check from './check';

@@ -1,5 +1,5 @@
-import lodash from 'txp/util/lodash';
-import { removal } from 'txp/util';
+import lodash from 'lodash';
+import { removal } from 'txp-utils';
 import { range } from './transform';
 
 export type cronType = 'linux' | 'spring' | 'quartz';
