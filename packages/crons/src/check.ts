@@ -156,7 +156,7 @@ export function checkDay(params: string, type: cronType): boolean {
     const weekReg = /^([1-9][0-9]*)W$/;
     if (weekReg.test(params)) {
       const week = weekReg.exec(params);
-      if (Number(week) < 1 || Number(week) > 31) {
+      if (Number(week[1]) < 1 || Number(week[1]) > 31) {
         return false;
       }
       return true;

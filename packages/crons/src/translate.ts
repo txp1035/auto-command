@@ -172,7 +172,8 @@ const defaultOptions = {
       return curStr;
     },
     baseMode: ({ appointStr, stepStr }) => {
-      return join([appointStr, stepStr], '，');
+      const str = join([appointStr, stepStr], '，');
+      return str;
     },
     allMode: ({ second, minute, hour, day, moth, week, year }) => {
       const str = join([year, moth, week, day, hour, minute, second], '的');
