@@ -5,8 +5,7 @@
   "main": "./lib/index.js",
   "files": [
     "lib",
-    "parser",
-    "translate"
+    "parser"
   ],
   "repository": {
     "type": "git",
@@ -24,5 +23,8 @@
     "cron-parser": "^2.0.0",
     "lodash": "^4.0.0",
     "txp-utils": "^1.0.10"
+  },
+  "peerDependencies": {
+
   }
 }

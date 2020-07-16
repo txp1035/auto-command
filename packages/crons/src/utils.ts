@@ -54,7 +54,7 @@ export function transformRange(params: (string | number | range)[], length: numb
   );
   // 分组中元素大于2才转换成对象[1,2,3]->{start:1,end:3}
   const rangeArr = [];
-  const appointArr = [];
+  const appointArr: any = [];
   arr.forEach(element => {
     if (element.length > length) {
       rangeArr.push(element);

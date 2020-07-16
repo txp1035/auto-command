@@ -134,7 +134,7 @@ const defaultOptions = {
         mark = '';
       }
       if (typeof cur === 'string' || typeof cur === 'number') {
-        return `${getTimeValue(cur, appointUnit[type])}${mark}`;
+        return `${getTimeValue(String(cur), appointUnit[type])}${mark}`;
       }
       const curStr = `${getTimeValue(cur.start, appointUnit[type])}到${getTimeValue(
         cur.end,
@@ -165,8 +165,8 @@ const defaultOptions = {
         week: '周',
         year: '年',
       };
-      const curStr = `${getTimeValue(cur.start, appointUnit[type])}到${getTimeValue(
-        cur.end,
+      const curStr = `${getTimeValue(curs.start, appointUnit[type])}到${getTimeValue(
+        curs.end,
         appointUnit[type],
       )}每隔${step - 1}${stepUnit[type]}${mark}`;
       return curStr;
@@ -181,14 +181,14 @@ const defaultOptions = {
   },
 };
 export interface options {
-  translateEmum: {};
-  translateMode: {
-    week: any;
-    day: any;
-    appointMode: any;
-    stepMode: any;
-    baseMode: any;
-    allMode: any;
+  translateEmum?: {};
+  translateMode?: {
+    week?: any;
+    day?: any;
+    appointMode?: any;
+    stepMode?: any;
+    baseMode?: any;
+    allMode?: any;
   };
 }
 /**
