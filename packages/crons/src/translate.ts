@@ -95,7 +95,7 @@ export function translateWeek(params: string, translateMode) {
   if (params === '?') {
     return '';
   }
-  const appointReg = /^(1-7)#(1-5)$/;
+  const appointReg = /^([1-7])#([1-5])$/;
   if (appointReg.test(params)) {
     return `第${(appointReg.exec(params) as string[])[2]}周的周${
       (appointReg.exec(params) as string[])[1]
@@ -200,15 +200,15 @@ export interface options {
  * @param {any} options:语言配置
  * @returns {any}
  */
-export default function translate(params: string, options: options) {
+export default function translate(params: string, options: options = {}) {
   const {
     translateEmum = defaultOptions.translateEmum,
     translateMode = defaultOptions.translateMode,
   } = options;
-  const obj = transformFrequency(params);
-  if (obj === undefined || check(params) !== true) {
+  if (check(params) !== true) {
     return 'cron表达式不合法';
   }
+  const obj = transformFrequency(params);
   // 枚举匹配
   const newTranslateEmum = { ...defaultTranslateEmum, ...translateEmum };
   if (newTranslateEmum[params]) {

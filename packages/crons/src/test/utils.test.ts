@@ -1,4 +1,4 @@
-import { transformRange } from '../utils';
+import { transformRange, getType } from '../utils';
 
 test('transformRange', () => {
   expect(
@@ -25,4 +25,10 @@ test('transformRange', () => {
     { start: 1, end: 15 },
     { start: 25, end: 29 },
   ]);
+});
+test('getType', () => {
+  const fn = () => {
+    getType('123');
+  };
+  expect(fn).toThrow('not find crons type');
 });

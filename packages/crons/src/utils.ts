@@ -22,7 +22,7 @@ export function getType(params: string): cronType | '' {
   if (length === 7) {
     return 'quartz';
   }
-  return '';
+  throw new Error('not find crons type');
 }
 
 export function transformRange(params: (string | number | range)[], length: number = 2) {

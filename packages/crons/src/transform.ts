@@ -1,6 +1,6 @@
 import lodash from 'lodash';
-import { join } from 'txp-utils';
-import { getType } from './utils';
+import { join, getType } from 'txp-utils';
+import { getType as getCronType } from './utils';
 
 export type frequencyType =
   | 'second'
@@ -82,14 +82,14 @@ export const constant = {
   },
 };
 
-export interface transform {
-  second: second;
-  minute: minute;
-  hour: hour;
-  day: day;
-  moth: moth;
-  week: week;
-  year: year;
+export interface transformParams {
+  second?: second;
+  minute?: minute;
+  hour?: hour;
+  day?: day;
+  moth?: moth;
+  week?: week;
+  year?: year;
 }
 export interface frequency {
   second: string;
@@ -103,11 +103,11 @@ export interface frequency {
 export interface range {
   start: string; // 开始
   end: string; // 结束
-  step: string; // 步长
+  step?: string; // 步长
 }
 export interface base {
   isCommon: boolean; // 通配符，例：*
-  list: (string | range)[]; // 指定的单值或者区间值，例：[1,1-10/2]
+  list?: (string | range)[]; // 指定的单值或者区间值，例：[1,1-10/2]
 }
 export interface second extends base {}
 export interface minute extends base {}
@@ -225,25 +225,32 @@ export function transformHour(params: string | hour) {
  * @returns {any}
  */
 export function transformDay(params: string | day) {
-  const base = transformBase(params);
   if (typeof params === 'string') {
     if (params === '?') {
-      return { ...(base as object), isAppoint: true };
+      return { isCommon: false, isAppoint: true };
     }
     if (params === 'L') {
-      return { ...(base as object), isLastDay: true };
+      return { isCommon: false, isLastDay: true };
     }
     const weekReg = /^([1-9][0-9]*)W$/;
     if (weekReg.test(params)) {
-      return { ...(base as object), workingDays: (weekReg.exec(params) as string[])[1] };
+      return { isCommon: false, workingDays: (weekReg.exec(params) as string[])[1] };
     }
+    const base = transformBase(params);
     return base;
   }
   const { isAppoint, workingDays, isLastDay } = params;
-  const isAppointStr = isAppoint ? '?' : '';
-  const isLastDayStr = isLastDay ? 'L' : '';
-  const workingDaysStr = `${workingDays}W`;
-  return join([base, isLastDayStr, workingDaysStr, isAppointStr], ',');
+  if (isAppoint) {
+    return '?';
+  }
+  if (isLastDay) {
+    return 'L';
+  }
+  if (workingDays) {
+    return `${workingDays}W`;
+  }
+  const base = transformBase(params);
+  return base;
 }
 
 /**
@@ -265,15 +272,14 @@ export function transformMoth(params: string | moth) {
  * @returns {any}
  */
 export function transformWeek(params: string | week) {
-  const base = transformBase(params);
   if (typeof params === 'string') {
     if (params === '?') {
-      return { ...(base as object), isAppoint: true };
+      return { isCommon: false, isAppoint: true };
     }
-    const appointReg = /^(1-7)#(1-5)$/;
+    const appointReg = /^([1-7])#([1-5])$/;
     if (appointReg.test(params)) {
       return {
-        ...(base as object),
+        isCommon: false,
         appointValue: {
           ranking: (appointReg.exec(params) as string[])[2],
           week: (appointReg.exec(params) as string[])[1],
@@ -283,17 +289,25 @@ export function transformWeek(params: string | week) {
     const lastReg = /^([1-7])L$/;
     if (lastReg.test(params)) {
       return {
-        ...(base as object),
+        isCommon: false,
         Last: (lastReg.exec(params) as string[])[1],
       };
     }
+    const base = transformBase(params);
     return base;
   }
   const { isAppoint, appointValue, Last } = params;
-  const isAppointStr = isAppoint ? '?' : '';
-  const appointValueStr = appointValue ? `${appointValue.week}#${appointValue.ranking}` : '';
-  const LastStr = `${Last}L`;
-  return join([base, isAppointStr, appointValueStr, LastStr], ',');
+  if (isAppoint) {
+    return '?';
+  }
+  if (appointValue) {
+    return `${appointValue.week}#${appointValue.ranking}`;
+  }
+  if (Last) {
+    return `${Last}L`;
+  }
+  const base = transformBase(params);
+  return base;
 }
 
 /**
@@ -324,7 +338,7 @@ export function transformFrequency(params: string | frequency) {
   if (typeof params === 'string') {
     const frequencyArr = params.split(' ');
     let frequency;
-    const type = getType(params);
+    const type = getCronType(params);
     if (type === 'linux') {
       frequency = {
         minute: frequencyArr[0],
@@ -369,7 +383,10 @@ const all = {
   week: transformWeek,
   year: transformYear,
 };
-export function transform(params: string | transform) {
+export default function transform(params: string | transformParams) {
+  if (getType(params) !== 'String' && getType(params) !== 'Object') {
+    throw new Error('转换cron表达式错误');
+  }
   if (typeof params === 'string') {
     const frequency = transformFrequency(params);
     const obj = {};
@@ -392,5 +409,3 @@ export function transform(params: string | transform) {
   });
   return transformFrequency(obj);
 }
-
-export default transform;
