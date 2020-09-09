@@ -1,5 +1,5 @@
 {
-  "name": "auto-cmd",
+  "name": "auto-command",
   "version": "1.0.0",
   "description": "Automatic command",
   "bin": {
