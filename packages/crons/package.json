@@ -1,6 +1,6 @@
 {
   "name": "crons",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "This is a collection of cron expressions",
   "main": "./lib/index.js",
   "files": [
@@ -23,8 +23,5 @@
     "cron-parser": "^2.0.0",
     "lodash": "^4.0.0",
     "txp-utils": "^1.0.10"
-  },
-  "peerDependencies": {
-
   }
 }
