@@ -6,6 +6,7 @@
     "ac": "./bin/autocmd.js"
   },
   "files": [
+    "bin",
     "lib"
   ],
   "dependencies": {
@@ -14,9 +15,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ShawDanon/txp/tree/master/packages/auto-cmd"
+    "url": "https://github.com/ShawDanon/txp/tree/master/packages/auto-command"
   },
-  "homepage": "https://github.com/ShawDanon/txp/tree/master/packages/auto-cmd",
+  "homepage": "https://github.com/ShawDanon/txp/tree/master/packages/auto-command",
   "authors": [
     "tangxiaoping <shawdanon@foxmail.com> (https://github.com/ShawDanon)"
   ],
