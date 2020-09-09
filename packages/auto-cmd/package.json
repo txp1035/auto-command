@@ -1,0 +1,27 @@
+{
+  "name": "auto-cmd",
+  "version": "1.0.0",
+  "description": "Automatic command",
+  "bin": {
+    "ac": "./bin/autocmd.js"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "fs-extra": "^9.0.1",
+    "inquirer": "^7.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShawDanon/txp/tree/master/packages/auto-cmd"
+  },
+  "homepage": "https://github.com/ShawDanon/txp/tree/master/packages/auto-cmd",
+  "authors": [
+    "tangxiaoping <shawdanon@foxmail.com> (https://github.com/ShawDanon)"
+  ],
+  "bugs": {
+    "url": "https://github.com/ShawDanon/txp/issues"
+  },
+  "license": "MIT"
+}
