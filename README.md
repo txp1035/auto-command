@@ -11,3 +11,8 @@
 [travis-badge-url]: https://travis-ci.org/ShawDanon/txp
 
 my accumulation
+
+## 使用说明
+
+npm run init ：初始化装包
+npm run bootstrap 包名：进入单独目录运行这个装包
