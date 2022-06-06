@@ -8,14 +8,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ShawDanon/txp/tree/master/packages/fine-dog"
+    "url": "https://github.com/txp1035/txp/tree/master/packages/fine-dog"
   },
-  "homepage": "https://github.com/ShawDanon/txp/tree/master/packages/fine-dog",
+  "homepage": "https://github.com/txp1035/txp/tree/master/packages/fine-dog",
   "authors": [
-    "tangxiaoping <shawdanon@foxmail.com> (https://github.com/ShawDanon)"
+    "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
   ],
   "bugs": {
-    "url": "https://github.com/ShawDanon/txp/issues"
+    "url": "https://github.com/txp1035/txp/issues"
   },
   "license": "MIT"
 }
