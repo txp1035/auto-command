@@ -1,7 +1,7 @@
 import { getType, cronType } from './utils';
 /**
  * 描述 验证指定值和区间是否在指定范围内
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:频率字符串
  * @param {any} options:区间范围和步长区间范围
@@ -84,7 +84,7 @@ export function checkBase(
 
 /**
  * 描述：只有基础验证
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:频率字符串
  * @returns {boolean} 正常、不正常
@@ -105,7 +105,7 @@ export function checkSecond(params: string): boolean {
 
 /**
  * 描述：只有基础验证
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:频率字符串
  * @returns {boolean} 正常、不正常
@@ -117,7 +117,7 @@ export function checkMinute(params: string): boolean {
 
 /**
  * 描述：只有基础验证
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:频率字符串
  * @returns {boolean} 正常、不正常
@@ -138,7 +138,7 @@ export function checkHour(params: string): boolean {
 
 /**
  * 描述：(quartz和spring验证?LW)+基础验证
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:频率字符串
  * @param {any} type:cron表达式解析器类型
@@ -178,7 +178,7 @@ export function checkDay(params: string, type: cronType): boolean {
 
 /**
  * 描述 替换JAN–DEC为数字，进行基础校验
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:频率字符串
  * @returns {boolean} 正常、不正常
@@ -213,7 +213,7 @@ export function checkMoth(params: string): boolean {
 
 /**
  * 描述 (quartz和spring验证?L#)+基础验证(两种类型)
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:频率字符串
  * @returns {boolean} 正常、不正常
@@ -279,7 +279,7 @@ export function checkWeek(params: string, type: cronType): boolean {
 
 /**
  * 描述：只有基础验证
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:频率字符串
  * @returns {boolean} 正常、不正常
@@ -300,7 +300,7 @@ export function checkYear(params: string): boolean {
 
 /**
  * 描述：接受cron字符串返回false为不通过，true为通过，对象为部分不通过
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:string
  * @returns {any}

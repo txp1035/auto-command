@@ -194,7 +194,7 @@ export interface options {
 }
 /**
  * 描述
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-18
  * @param {any} params:string
  * @param {any} options:语言配置

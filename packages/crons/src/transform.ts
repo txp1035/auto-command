@@ -131,7 +131,7 @@ export interface year extends base {}
 
 /**
  * 描述：基于UI的转换器，时间只接受数字
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:字符串或者对象
  * @returns {any} 对象或者字符串
@@ -186,7 +186,7 @@ export function transformBase(params: string | base): string | base {
 
 /**
  * 描述：基于基本转换
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:string|second
  * @returns {any}
@@ -197,7 +197,7 @@ export function transformSecond(params: string | second) {
 
 /**
  * 描述：基于基本转换
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:string|second
  * @returns {any}
@@ -208,7 +208,7 @@ export function transformMinute(params: string | minute) {
 
 /**
  * 描述：基于基本转换
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:string|second
  * @returns {any}
@@ -219,7 +219,7 @@ export function transformHour(params: string | hour) {
 
 /**
  * 描述 (quartz和spring?LW)+基础
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:string|day
  * @returns {any}
@@ -255,7 +255,7 @@ export function transformDay(params: string | day) {
 
 /**
  * 描述：基于基本转换
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:string|second
  * @returns {any}
@@ -266,7 +266,7 @@ export function transformMoth(params: string | moth) {
 
 /**
  * 描述：(quartz和spring?L#)+基础
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-15
  * @param {any} params:string|week
  * @returns {any}
@@ -312,7 +312,7 @@ export function transformWeek(params: string | week) {
 
 /**
  * 描述：基于基本转换
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:string|second
  * @returns {any}
@@ -323,7 +323,7 @@ export function transformYear(params: string | year) {
 
 /**
  * 描述
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:string|frequency
  * @returns {any}

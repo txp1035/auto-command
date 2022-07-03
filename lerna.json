@@ -7,7 +7,7 @@
       "pr(dependency)": ":deciduous_tree: Dependency",
       "pr(chore)": ":turtle: Chore"
     },
-    "repo": "ShawDanon/txp",
+    "repo": "txp1035/txp",
     "cacheDir": ".changelog"
   },
   "packages": ["packages/*"],

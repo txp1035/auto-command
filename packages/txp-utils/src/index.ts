@@ -1,7 +1,7 @@
 /** 对象类 start */
 /**
  * 描述：过滤对象，过滤掉值为null、undefined、NaN的键
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-13
  * @param {any} param:需要过滤的对象
  * @param {any} fun:扩展过滤的方法
@@ -29,7 +29,7 @@ export function filterObj(
 
 /**
  * 描述
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-13
  * @param {any} obj:对象值,如：obj
  * @param {any} str:链式字符串，如：obj.a.b.c
@@ -72,7 +72,7 @@ export function removal(list: (string | { key: string })[], key?: string) {
 /** 其他类 start */
 /**
  * 描述:把数组里的除''和NaN的字符串和数字连接成字符串
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-13
  * @param {any} list:any[]=[]
  * @param {any} mark:string='_'
@@ -106,7 +106,7 @@ export type jsType =
 
 /**
  * 描述 获取数据类型
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-24
  * @param {any} params:any
  * @returns {any}

@@ -6,7 +6,7 @@ export type cronType = 'linux' | 'spring' | 'quartz';
 
 /**
  * 描述：输入字符正确的corn字符串得到类型
- * @author ShawDanon
+ * @author DaoYuan
  * @date 2020-06-14
  * @param {any} params:string
  * @returns {any}
