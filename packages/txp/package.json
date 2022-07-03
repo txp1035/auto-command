@@ -1,6 +1,6 @@
 {
   "name": "txp",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "This is my NPM package",
   "bin": {
     "txp": "bin/txp.js"
@@ -39,7 +39,7 @@
     "antd-mobile": "^2.3.1",
     "fs-extra": "^9.0.1",
     "inquirer": "^7.3.0",
-    "txp-utils": "^1.1.1",
+    "txp-utils": "^1.1.2",
     "umi": "~3.2.0"
   }
 }
