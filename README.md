@@ -39,6 +39,8 @@ lerna add <包名 1> --scope = <包名 2>：给包名 2 中添加包名 1，包�
 
 ## 贡献说明
 
-运行 npm run init 初始化项目（装包）
-
-发版前 nrm 检查源是否是 npm
+1. 运行 npm run init 初始化项目（装包）
+2. 发版前 nrm 检查源是否是 npm
+3. 运行 npm run publish 进行发布
+4. 发布失败通过 lerna publish from-git 重新发布，这个要保证上一个提交是 learn 生成的才可以
+5. npm 登录通过 npm login，用户名和密码和网页上登录的一样，邮箱随意。确认后需要再输入验证码
