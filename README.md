@@ -32,6 +32,7 @@ lerna add <模块名>：所有子包都添加这个依赖
 lerna add <模块名> --scope = <包名>：给 scope 后的包添加依赖
 
 lerna add <包名 1> --scope = <包名 2>：给包名 2 中添加包名 1，包内的互相引用，会复制 p 包名 1 到 p 包名 2 中
+lerna create <包名>：新增子包
 
 ## 方案
 
