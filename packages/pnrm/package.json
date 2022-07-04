@@ -1,0 +1,32 @@
+{
+  "name": "pnrm",
+  "version": "0.1.0",
+  "description": "pnrm",
+  "keywords": [
+    "pnrm"
+  ],
+  "author": "DaoYuan <txp1035@gmail.com>",
+  "homepage": "https://github.com/txp1035/txp/tree/master/packages/pnrm",
+  "license": "MIT",
+  "main": "lib/pnrm.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/txp1035/txp.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/txp1035/txp/issues"
+  }
+}
