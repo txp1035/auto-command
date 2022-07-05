@@ -16,13 +16,27 @@
 
 ### 国际化自动翻译
 
+自动翻译工具功能
+
+1. 支持一对多语种翻译
+2. 自定义输出目录
+3. 支持已有翻译不进行修改
+4. 支持在已有翻译不修改情况下，只修改部分
+
+约定
+
+1. type: dir ,file（支持 locales 里面的文件是目录或者文件）,文件名是 ts
+2. type: file ,确保 dir 里面有对应语言的文件或者目录文件（名字得和 from 匹配）
+
 需要在执行命令的目录增加配置文件`.autocmd.js`，配置内容如下：
 
 ```js
 exports.default = {
   translate: {
+    // 可以是文件也可以是文件夹，但是必须符合规范的文件
+    type: 'dir',
     // locales文件路径
-    outDir: '/Users/shawdanon/GitHub/mine/aTimeLogger-visualization/src/locales',
+    dir: '/Users/shawdanon/GitHub/mine/aTimeLogger-visualization/src/locales',
     language: {
       // 来源，需要保证locales里面zh-CN.ts文件和zh-CN文件夹，
       from: 'zh-CN',
