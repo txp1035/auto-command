@@ -23,6 +23,8 @@ npm run build： 打包
 
 npm link：进入单个包目录执行，在全局注册这个包。每次打包后需要再次执行进行更新（相当于执行 npm i -g，使用 npm ls -g --depth=0 可以查看）
 
+npm unlink <包名> -g：删除全局连接，包名不用加版本号
+
 npm rm ｜ uninstall --global packageName：卸载软连接
 
 npx 对应命令：执行相关命令
@@ -31,8 +33,7 @@ lerna add <模块名>：所有子包都添加这个依赖
 
 lerna add <模块名> --scope = <包名>：给 scope 后的包添加依赖
 
-lerna add <包名 1> --scope = <包名 2>：给包名 2 中添加包名 1，包内的互相引用，会复制 p 包名 1 到 p 包名 2 中
-lerna create <包名>：新增子包
+lerna add <包名 1> --scope = <包名 2>：给包名 2 中添加包名 1，包内的互相引用，会复制 p 包名 1 到 p 包名 2 中 lerna create <包名>：新增子包
 
 ## 方案
 
