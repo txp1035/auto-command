@@ -1,6 +1,6 @@
 {
   "name": "auto-command",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Automatic command",
   "bin": {
     "ac": "./bin/autocmd.js"
@@ -18,7 +18,7 @@
     "inquirer": "^7.3.0",
     "md5": "^2.3.0",
     "signale": "^1.4.0",
-    "txp-utils": "^1.1.2",
+    "txp-utils": "^1.2.0",
     "yargs-parser": "^21.0.1"
   },
   "publishConfig": {
