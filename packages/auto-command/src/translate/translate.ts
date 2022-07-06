@@ -384,7 +384,18 @@ import axios from 'axios';
  };
   */
 
-async function translate(word, options = {}) {
+function handelOptions(options, separator) {
+  if (separator) {
+    return {
+      ...options,
+      from: options.from.replace(separator, '-'),
+      to: options.to.replace(separator, '-'),
+    };
+  }
+  return options;
+}
+
+async function translate(word, options = {}, separator) {
   // 和umi库的SelectLang对标 import {SelectLang} from 'umi';
   const defaultLangUConfigMap = {
     'zh-CN': { memo: '中文', keyYouDao: 'zh-CHS' },
@@ -512,7 +523,7 @@ async function translate(word, options = {}) {
     // 参数
     from = 'zh-CHS',
     to = 'EN',
-  } = options;
+  } = handelOptions(options, separator);
   // 随机数
   const salt = Math.random();
   // 生成签名
