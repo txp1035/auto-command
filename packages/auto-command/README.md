@@ -33,6 +33,8 @@
 ```js
 exports.default = {
   translate: {
+    // 文件的分隔符号，默认是'-'，如果你的文件命名不是这样请加上这个选项，例如你的文件是en_US.tsx，separator应该是_
+    separator: '-',
     // 可以是文件也可以是文件夹，但是必须符合规范的文件
     type: 'dir',
     // locales文件路径

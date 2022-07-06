@@ -1,5 +1,5 @@
-const md5 = require('md5');
-const axios = require('axios');
+import md5 from 'md5';
+import axios from 'axios';
 
 /*
  const umiSelectLang = {
@@ -384,7 +384,18 @@ const axios = require('axios');
  };
   */
 
-async function translate(word, options = {}) {
+function handelOptions(options, separator) {
+  if (separator) {
+    return {
+      ...options,
+      from: options.from.replace(separator, '-'),
+      to: options.to.replace(separator, '-'),
+    };
+  }
+  return options;
+}
+
+async function translate(word, options = {}, separator) {
   // 和umi库的SelectLang对标 import {SelectLang} from 'umi';
   const defaultLangUConfigMap = {
     'zh-CN': { memo: '中文', keyYouDao: 'zh-CHS' },
@@ -512,7 +523,7 @@ async function translate(word, options = {}) {
     // 参数
     from = 'zh-CHS',
     to = 'EN',
-  } = options;
+  } = handelOptions(options, separator);
   // 随机数
   const salt = Math.random();
   // 生成签名
@@ -532,4 +543,5 @@ async function translate(word, options = {}) {
   const result = res?.data?.translation[0];
   return result;
 }
-module.exports = translate;
+
+export default translate;

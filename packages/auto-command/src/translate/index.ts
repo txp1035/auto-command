@@ -1,17 +1,18 @@
-const fs = require('fs-extra');
-const path = require('path');
-const signale = require('signale');
-const babel = require('@babel/core');
-const traverse = require('@babel/traverse').default;
-const generate = require('@babel/generator').default;
-const translate = require('./translate');
+import fs from 'fs-extra';
+import path from 'path';
+import signale from 'signale';
+import * as babel from '@babel/core';
+import traverse from '@babel/traverse';
+import generate from '@babel/generator';
+import utils from 'txp-utils';
+
+import translate from './translate';
 
 function getter(obj, arr) {
   return arr.length === 0
     ? obj
     : getter(typeof obj === 'undefined' ? undefined : obj[arr[0]], arr.slice(1));
 }
-
 function contrastDir(before, after) {
   const arr = after.map(element => {
     const { dirName, dirContent } = element;
@@ -51,8 +52,7 @@ function contrastDir(before, after) {
 function contrastFile(before, after) {
   const arr = after.map(element => {
     const { fileName, fileContent } = element;
-    const beforeContent = before.find(item => new RegExp(fileName).test(item.fileName))
-      ?.fileContent;
+    const beforeContent = before.find(item => fileName === item.fileName)?.fileContent;
     if (!beforeContent) {
       return { fileName, fileContent };
     }
@@ -73,7 +73,6 @@ function contrastFile(before, after) {
   });
   return arr;
 }
-
 // 递归对象
 function recursiveObj(obj, fc, nodeStrs) {
   const curNode = JSON.parse(JSON.stringify(nodeStrs || []));
@@ -83,12 +82,10 @@ function recursiveObj(obj, fc, nodeStrs) {
       Object.prototype.toString.call(obj[item]) === '[object Object]' ||
       Object.prototype.toString.call(obj[item]) === '[object Array]'
     ) {
-      curNode.push(item);
-      recursiveObj(obj[item], fc, curNode);
+      recursiveObj(obj[item], fc, [...curNode, item]);
     }
   }
 }
-
 function writeFile(path, text) {
   try {
     fs.outputFileSync(path, text);
@@ -123,13 +120,20 @@ function getObj(str) {
     },
   });
   // 生成可序列号的字符串
-  const ret = generate(ast).code;
+  const ret = generate(ast, { jsescOption: { minimal: true } }).code;
+
   // 拿到想要的对象
-  const obj = JSON.parse(ret);
+  let obj;
+  try {
+    obj = JSON.parse(ret);
+  } catch (error) {
+    utils.node.logger.error(ret);
+    throw error;
+  }
   return obj;
 }
 // 传入一个对象，替换里面的value值
-async function replaceValue(params, { from, to }) {
+async function replaceValue(params, { from, to }, separator) {
   // 遍历对象value值成扁平数组
   const newParams = JSON.parse(JSON.stringify(params));
   let isLog = false;
@@ -152,7 +156,7 @@ async function replaceValue(params, { from, to }) {
 
   // 数组转换成字符串，翻译，再转换成数组
   const str = arr.join('\n');
-  const newStr = await translate(str, { from, to });
+  const newStr = await translate(str, { from, to }, separator);
   const newArr = newStr.split('\n');
   // 新数组重新赋值给对象
   let index = 0;
@@ -179,13 +183,13 @@ async function replaceValue(params, { from, to }) {
   );
   return newParams;
 }
-
 // 核心翻译流程
 async function core({
   keep = true,
   type = 'dir',
   outDir,
   language = { from: 'zh-CN', to: ['en-US'] },
+  separator,
 }) {
   signale.time('translate');
   // 判断input是路径还是文件
@@ -215,13 +219,16 @@ async function core({
       .filter(item => item);
     // 拿到输入文件数据
     const inputFileData = outFileArr.find(item => item.dirName === language.from);
-
     // 翻译
     const allRequst = language.to.map(item =>
-      replaceValue(inputFileData.dirContent, {
-        from: language.from,
-        to: item,
-      }),
+      replaceValue(
+        inputFileData.dirContent,
+        {
+          from: language.from,
+          to: item,
+        },
+        separator,
+      ),
     );
     const resData = await Promise.all(allRequst);
     const transData = language.to.map((item, index) => ({
@@ -258,16 +265,21 @@ async function core({
     });
     // 拿到输入文件数据
     const inputFileData = outFileArr.find(item => new RegExp(language.from).test(item.fileName));
+    const suffix = path.extname(inputFileData.fileName);
     // 翻译
     const allRequst = language.to.map(item =>
-      replaceValue(inputFileData.fileContent, {
-        from: language.from,
-        to: item,
-      }),
+      replaceValue(
+        inputFileData.fileContent,
+        {
+          from: language.from,
+          to: item,
+        },
+        separator,
+      ),
     );
     const resData = await Promise.all(allRequst);
     const transData = language.to.map((item, index) => ({
-      fileName: item,
+      fileName: item + suffix,
       fileContent: resData[index],
     }));
     let lastData;
@@ -279,12 +291,11 @@ async function core({
     lastData.forEach(element => {
       const { fileName, fileContent } = element;
       writeFile(
-        path.join(outDir, `/${fileName}.ts`),
+        path.join(outDir, `/${fileName}`),
         `export default ${JSON.stringify(fileContent)};`,
       );
     });
   }
   signale.timeEnd('translate');
 }
-
-module.exports = core;
+export default core;

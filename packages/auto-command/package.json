@@ -18,7 +18,11 @@
     "inquirer": "^7.3.0",
     "md5": "^2.3.0",
     "signale": "^1.4.0",
+    "txp-utils": "^1.1.2",
     "yargs-parser": "^21.0.1"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   },
   "repository": {
     "type": "git",
