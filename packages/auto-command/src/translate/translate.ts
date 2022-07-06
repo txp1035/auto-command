@@ -1,5 +1,5 @@
-const md5 = require('md5');
-const axios = require('axios');
+import md5 from 'md5';
+import axios from 'axios';
 
 /*
  const umiSelectLang = {
@@ -532,4 +532,5 @@ async function translate(word, options = {}) {
   const result = res?.data?.translation[0];
   return result;
 }
-module.exports = translate;
+
+export default translate;

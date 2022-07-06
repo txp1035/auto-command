@@ -1,10 +1,11 @@
-const fs = require('fs-extra');
-const path = require('path');
-const signale = require('signale');
-const babel = require('@babel/core');
-const traverse = require('@babel/traverse').default;
-const generate = require('@babel/generator').default;
-const translate = require('./translate');
+import fs from 'fs-extra';
+import path from 'path';
+import signale from 'signale';
+import * as babel from '@babel/core';
+import traverse from '@babel/traverse';
+import generate from '@babel/generator';
+import utils from 'txp-utils';
+import translate from './translate';
 
 function getter(obj, arr) {
   return arr.length === 0
@@ -123,9 +124,16 @@ function getObj(str) {
     },
   });
   // 生成可序列号的字符串
-  const ret = generate(ast).code;
+  const ret = generate(ast, { jsescOption: { minimal: true } }).code;
+
   // 拿到想要的对象
-  const obj = JSON.parse(ret);
+  let obj;
+  try {
+    obj = JSON.parse(ret);
+  } catch (error) {
+    utils.node.logger.error(ret);
+    throw error;
+  }
   return obj;
 }
 // 传入一个对象，替换里面的value值
@@ -188,6 +196,7 @@ async function core({
   language = { from: 'zh-CN', to: ['en-US'] },
 }) {
   signale.time('translate');
+
   // 判断input是路径还是文件
   if (type === 'dir') {
     // 把输出目录中的文件转换成数组
@@ -247,17 +256,22 @@ async function core({
   }
   if (type === 'file') {
     // 把输出目录中的文件转换成数组
+
     const outDirArr = fs.readdirSync(path.join(outDir));
+
     const outFileArr = outDirArr.map(item => {
       const str = path.join(outDir, `/${item}`);
       const file = fs.readFileSync(str, 'utf8');
+      console.log(item);
       return {
         fileName: item,
         fileContent: getObj(file),
       };
     });
+
     // 拿到输入文件数据
     const inputFileData = outFileArr.find(item => new RegExp(language.from).test(item.fileName));
+
     // 翻译
     const allRequst = language.to.map(item =>
       replaceValue(inputFileData.fileContent, {
@@ -287,4 +301,4 @@ async function core({
   signale.timeEnd('translate');
 }
 
-module.exports = core;
+export default core;
