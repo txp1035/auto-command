@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/txp1035/txp/issues"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "fs-extra": "^10.1.0",
+    "pino": "^8.1.0"
+  }
 }

@@ -1,3 +1,5 @@
+import * as logger from './node/logger';
+
 /** 对象类 start */
 /**
  * 描述：过滤对象，过滤掉值为null、undefined、NaN的键
@@ -144,4 +146,7 @@ export default {
   removal,
   contrast,
   getValidValues,
+  node: {
+    logger,
+  },
 };
