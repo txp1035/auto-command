@@ -33,10 +33,10 @@
     "esno": "^0.16.3",
     "father-build": "^1.10.0",
     "husky": "^8.0.0",
-    "lerna": "^3.13.1",
-    "lerna-changelog": "^0.8.2",
+    "lerna": "^5.1.7",
     "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "zx": "^7.0.7"
   },
   "packageManager": "pnpm@7.3.0",
   "engines": {
