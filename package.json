@@ -36,6 +36,7 @@
     "lerna": "^5.1.7",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
+    "txp-utils": "workspace:^1.2.0",
     "zx": "^7.0.7"
   },
   "packageManager": "pnpm@7.3.0",
