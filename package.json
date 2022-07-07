@@ -37,5 +37,20 @@
     "lerna-changelog": "^0.8.2",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1"
+  },
+  "packageManager": "pnpm@7.3.0",
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=7"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "postcss",
+        "webpack",
+        "eslint",
+        "stylelint"
+      ]
+    }
   }
 }
