@@ -1,6 +1,6 @@
 {
   "name": "@shawdanon/first",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "> TODO: description",
   "author": "DaoYuan <txp1035@gmail.com>",
   "homepage": "https://github.com/txp1035/txp#readme",
@@ -21,7 +21,8 @@
     "url": "git+https://github.com/txp1035/txp.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "preinstall": "npx node ./lib/index.js"
   },
   "bugs": {
     "url": "https://github.com/txp1035/txp/issues"
