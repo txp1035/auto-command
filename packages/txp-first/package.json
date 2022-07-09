@@ -5,6 +5,9 @@
   "bin": {
     "txp": "./bin/txp.js"
   },
+  "scripts": {
+     "build": "pnpm tsc"
+  },
   "files": [
     "lib"
   ],

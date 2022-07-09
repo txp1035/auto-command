@@ -383,7 +383,7 @@ import axios from 'axios';
    },
  };
   */
-
+// @ts-ignore
 function handelOptions(options, separator) {
   if (separator) {
     return {
@@ -394,7 +394,7 @@ function handelOptions(options, separator) {
   }
   return options;
 }
-
+// @ts-ignore
 async function translate(word, options = {}, separator) {
   // 和umi库的SelectLang对标 import {SelectLang} from 'umi';
   const defaultLangUConfigMap = {
@@ -529,7 +529,9 @@ async function translate(word, options = {}, separator) {
   // 生成签名
   const sign = md5(Key + word + salt + Secret);
   const params = {
+    // @ts-ignore
     from: defaultLangUConfigMap[from].keyYouDao,
+    // @ts-ignore
     to: defaultLangUConfigMap[to].keyYouDao,
     appKey: Key,
     salt,

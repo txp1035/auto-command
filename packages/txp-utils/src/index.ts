@@ -1,3 +1,4 @@
+// @ts-ignore
 import * as logger from './node/logger';
 
 /** 对象类 start */
@@ -19,10 +20,12 @@ export function filterObj(
   Object.entries(param).forEach(([key, value]) => {
     // 默认过滤
     if (value !== null && value !== undefined && !Number.isNaN(value)) {
+      // @ts-ignore
       obj[key] = value;
     }
     // 扩展过滤
     if (fun && fun(value, key, param)) {
+      // @ts-ignore
       obj[key] = value;
     }
   });
@@ -64,7 +67,8 @@ export function removal(list: (string | { key: string })[], key?: string) {
     return list.filter(
       (item, index, arr) =>
         typeof item === 'object' &&
-        arr.findIndex(childItem => childItem[key] === item.key) === index,
+        // @ts-ignore
+        arr.findIndex((childItem) => childItem[key] === item.key) === index,
     );
   }
   // 字符串去重
@@ -81,7 +85,7 @@ export function removal(list: (string | { key: string })[], key?: string) {
  * @returns {any}
  */
 export function join(list: any[] = [], mark: string = '_'): string {
-  const arr = list.filter(item => {
+  const arr = list.filter((item) => {
     if (typeof item === 'string' || typeof item === 'number') {
       if (item === '' || Number.isNaN(item)) {
         return false;
@@ -116,6 +120,7 @@ export type jsType =
 export function getType(params: any): jsType {
   const str = Object.prototype.toString.call(params);
   const reg = /\[object ([a-zA-Z]*)\]/;
+  // @ts-ignore
   const type = reg.exec(str)[1] as jsType;
   return type;
 }
@@ -124,8 +129,11 @@ export function contrast([main, assistant]: [object, object], fun: (params: any)
   const newAssistant = {};
   Object.entries(main).map(([key, value]) => {
     if (key in assistant) {
+      // @ts-ignore
       const [mainValue, assistantValue] = fun([value, assistant[key]]);
+      // @ts-ignore
       newMain[key] = mainValue;
+      // @ts-ignore
       newAssistant[key] = assistantValue;
     }
   });

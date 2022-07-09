@@ -1,4 +1,5 @@
 import lodash from 'lodash';
+// @ts-ignore
 import { removal } from 'txp-utils';
 import { range } from './transform';
 
@@ -26,21 +27,26 @@ export function getType(params: string): cronType | '' {
 }
 
 export function transformRange(params: (string | number | range)[], length: number = 2) {
+  // @ts-ignore
   let arr = [];
   // 转换为指定
-  params.forEach(element => {
+  params.forEach((element) => {
     if (typeof element === 'string' || typeof element === 'number') {
       arr.push(Number(element));
     } else {
+      // @ts-ignore
       arr = arr.concat(lodash.range(Number(element.start), Number(element.end) + 1));
     }
   });
   // 去重
+  // @ts-ignore
   arr = removal(arr);
   // 排序
+  // @ts-ignore
   arr = arr.sort((a, b) => Number(a) - Number(b));
   // 分组[1,2,3,5,6]->[[1,2,3],[5,6]]
   arr = arr.reduce(
+    // @ts-ignore
     (pre, cur) => {
       const last = pre[pre.length - 1];
       const lastStr = last[last.length - 1];
@@ -53,9 +59,11 @@ export function transformRange(params: (string | number | range)[], length: numb
     [[]],
   );
   // 分组中元素大于2才转换成对象[1,2,3]->{start:1,end:3}
+  // @ts-ignore
   const rangeArr = [];
   const appointArr: any = [];
-  arr.forEach(element => {
+  // @ts-ignore
+  arr.forEach((element) => {
     if (element.length > length) {
       rangeArr.push(element);
     } else {
@@ -64,7 +72,8 @@ export function transformRange(params: (string | number | range)[], length: numb
   });
   const newArr = [
     ...appointArr.flat(),
-    ...rangeArr.map(item => ({ start: item[0], end: item[item.length - 1] })),
+    // @ts-ignore
+    ...rangeArr.map((item) => ({ start: item[0], end: item[item.length - 1] })),
   ];
   return newArr;
 }

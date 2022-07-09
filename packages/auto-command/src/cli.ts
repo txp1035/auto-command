@@ -28,6 +28,7 @@ function checkVersion() {
   const versions = nodeVersion.split('.');
   const major = versions[0];
   const minor = versions[1];
+  // @ts-ignore
   if (major * 10 + minor * 1 < 65) {
     // eslint-disable-next-line no-console
     console.log(`Node version must >= 6.5, but got ${major}.${minor}`);
@@ -47,11 +48,13 @@ inquirer
       choices: ['分支自动对比', '自动翻译'],
     },
   ])
-  .then(answer => {
+  // @ts-ignore
+  .then((answer) => {
     if (answer.auto === '分支自动对比') {
       gitDiff();
     }
     if (answer.auto === '自动翻译') {
+      // @ts-ignore
       translate(getParams().translate);
     }
   });
