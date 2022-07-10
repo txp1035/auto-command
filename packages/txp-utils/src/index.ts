@@ -1,4 +1,3 @@
-// @ts-ignore
 import * as logger from './node/logger';
 
 /** 对象类 start */
@@ -16,16 +15,14 @@ export function filterObj(
   param: object,
   fun?: (value: any, key?: string, obj?: object) => boolean,
 ) {
-  const obj = {};
+  const obj: { [key: string]: any } = {};
   Object.entries(param).forEach(([key, value]) => {
     // 默认过滤
     if (value !== null && value !== undefined && !Number.isNaN(value)) {
-      // @ts-ignore
       obj[key] = value;
     }
     // 扩展过滤
     if (fun && fun(value, key, param)) {
-      // @ts-ignore
       obj[key] = value;
     }
   });
@@ -61,14 +58,16 @@ export function getChainObj(obj: object, str: string) {
 }
 /** 对象类 end */
 /** 数组类 start */
-export function removal(list: (string | { key: string })[], key?: string) {
+export function removal(
+  list: (string | { [key: string]: string | number | boolean })[],
+  key?: string,
+) {
   // 对象去重
   if (key) {
     return list.filter(
       (item, index, arr) =>
         typeof item === 'object' &&
-        // @ts-ignore
-        arr.findIndex((childItem) => childItem[key] === item.key) === index,
+        arr.findIndex((childItem: any) => childItem[key] === item.key) === index,
     );
   }
   // 字符串去重
@@ -124,16 +123,16 @@ export function getType(params: any): jsType {
   const type = reg.exec(str)[1] as jsType;
   return type;
 }
-export function contrast([main, assistant]: [object, object], fun: (params: any) => any) {
-  const newMain = {};
-  const newAssistant = {};
+export function contrast(
+  [main, assistant]: [{ [key: string]: any }, { [key: string]: any }],
+  fun: (params: any) => any,
+) {
+  const newMain: { [key: string]: any } = {};
+  const newAssistant: { [key: string]: any } = {};
   Object.entries(main).map(([key, value]) => {
     if (key in assistant) {
-      // @ts-ignore
       const [mainValue, assistantValue] = fun([value, assistant[key]]);
-      // @ts-ignore
       newMain[key] = mainValue;
-      // @ts-ignore
       newAssistant[key] = assistantValue;
     }
   });
