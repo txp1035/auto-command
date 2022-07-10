@@ -7,8 +7,8 @@
     "lib",
     "parser"
   ],
-    "scripts": {
-     "build": "pnpm tsc"
+  "scripts": {
+    "build": "pnpm tsc"
   },
   "repository": {
     "type": "git",

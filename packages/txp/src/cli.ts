@@ -14,7 +14,7 @@ inquirer
       choices: ['分支自动对比', '待开发', '待开发'],
     },
   ])
-  .then(answer => {
+  .then((answer) => {
     if (answer.auto === '分支自动对比') {
       gitDiff();
     }

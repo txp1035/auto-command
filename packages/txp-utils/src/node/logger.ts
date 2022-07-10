@@ -6,7 +6,6 @@ import fsExtra from 'fs-extra';
 const loggerDir = join(process.cwd(), 'node_modules/.cache/logger');
 const loggerPath = join(loggerDir, 'txp.log');
 
-
 const customLevels = {
   ready: 31,
   event: 32,

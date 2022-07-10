@@ -9,8 +9,8 @@
     "bin",
     "lib"
   ],
-    "scripts": {
-     "build": "pnpm tsc"
+  "scripts": {
+    "build": "pnpm tsc"
   },
   "dependencies": {
     "@babel/core": "^7.18.6",

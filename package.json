@@ -1,22 +1,22 @@
 {
   "private": true,
   "scripts": {
-    "init": "yarn && npm run clean &&npm run bootstrap",
-    "update": "yarn upgrade && npm run clean && npm run bootstrap",
-    "clean": "lerna clean",
     "bootstrap": "lerna bootstrap  --npm-client yarn",
     "build": "turbo run build",
-    "publish": "npm run build && lerna publish",
     "changelog": "lerna-changelog",
+    "clean": "lerna clean",
+    "init": "yarn && npm run clean &&npm run bootstrap",
     "lint": "npm run lint:js && npm run lint:prettier",
     "lint-staged": "lint-staged",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
     "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
     "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./",
     "lint:prettier": "check-prettier lint",
+    "prepare": "husky install",
     "prettier": "prettier -c --write **/*",
+    "publish": "npm run build && lerna publish",
     "test": "umi-test",
-    "prepare": "husky install"
+    "update": "yarn upgrade && npm run clean && npm run bootstrap"
   },
   "lint-staged": {
     "*.{jsx,less,md,json}": [

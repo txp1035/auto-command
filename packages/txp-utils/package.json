@@ -6,9 +6,8 @@
   "files": [
     "lib"
   ],
-
-     "scripts": {
-     "build": "pnpm tsc"
+  "scripts": {
+    "build": "pnpm tsc"
   },
   "repository": {
     "type": "git",
