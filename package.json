@@ -1,23 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap  --npm-client yarn",
     "build": "turbo run build",
-    "changelog": "lerna-changelog",
-    "clean": "lerna clean",
-    "init": "yarn && npm run clean &&npm run bootstrap",
-    "lint": "npm run lint:js && npm run lint:prettier",
-    "lint-staged": "lint-staged",
-    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
-    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
-    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./",
-    "lint:prettier": "check-prettier lint",
     "prepare": "husky install",
-    "prettier": "prettier -c --write **/*",
-    "publish": "npm run build && lerna publish",
-    "sort": "npx sort-package-json",
-    "test": "umi-test",
-    "update": "yarn upgrade && npm run clean && npm run bootstrap"
+    "prettier": "prettier --write .",
+    "sort": "npx sort-package-json"
   },
   "lint-staged": {
     "*.{jsx,less,md,json}": [
@@ -36,7 +23,6 @@
     "@types/md5": "^2.3.2",
     "@types/signale": "^1.4.4",
     "@umijs/fabric": "^1.1.9",
-    "@umijs/test": "^3.2.3",
     "esno": "^0.16.3",
     "husky": "^8.0.0",
     "lerna": "^5.1.7",
