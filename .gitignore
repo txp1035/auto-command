@@ -1,13 +1,6 @@
 .DS_Store
-lerna-debug.log
-/node_modules
-package-lock.json
-/packages/*/node_modules
-/packages/*/dist
-/packages/*/lib
-yarn.lock
-.eslintcache
-.changelog
-mine
-temp
 *.log
+node_modules
+dist
+lib
+temp
