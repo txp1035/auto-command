@@ -1,16 +1,4 @@
 {
-  "changelog": {
-    "labels": {
-      "pr(enhancement)": ":rocket: Enhancement",
-      "pr(bug)": ":bug: Bug Fix",
-      "pr(documentation)": ":book: Documentation",
-      "pr(dependency)": ":deciduous_tree: Dependency",
-      "pr(chore)": ":turtle: Chore"
-    },
-    "repo": "txp1035/txp",
-    "cacheDir": ".changelog"
-  },
-  "packages": ["packages/*"],
-  "npmClient": "yarn",
-  "version": "independent"
+  "version": "independent",
+  "workspaces": ["packages/*"]
 }

@@ -383,8 +383,7 @@ import axios from 'axios';
    },
  };
   */
-// @ts-ignore
-function handelOptions(options, separator) {
+function handelOptions(options: { from: string; to: string }, separator: string): any {
   if (separator) {
     return {
       ...options,
@@ -394,10 +393,9 @@ function handelOptions(options, separator) {
   }
   return options;
 }
-// @ts-ignore
-async function translate(word, options = {}, separator) {
+async function translate(word: string, options: { from: string; to: string }, separator: string) {
   // 和umi库的SelectLang对标 import {SelectLang} from 'umi';
-  const defaultLangUConfigMap = {
+  const defaultLangUConfigMap: { [key: string]: any } = {
     'zh-CN': { memo: '中文', keyYouDao: 'zh-CHS' },
     'zh-TW': { memo: '中文繁体', keyYouDao: 'zh-CHT' },
     'en-GB': { memo: '英文', keyYouDao: 'en' },
@@ -529,19 +527,15 @@ async function translate(word, options = {}, separator) {
   // 生成签名
   const sign = md5(Key + word + salt + Secret);
   const params = {
-    // @ts-ignore
-    from: defaultLangUConfigMap[from].keyYouDao,
-    // @ts-ignore
-    to: defaultLangUConfigMap[to].keyYouDao,
+    from: defaultLangUConfigMap[from]?.keyYouDao,
+    to: defaultLangUConfigMap[to]?.keyYouDao,
     appKey: Key,
     salt,
     sign,
     q: word,
   };
-
   // 发送http GET请求
   const res = await axios.get(baseUrl, { params });
-
   const result = res?.data?.translation[0];
   return result;
 }
