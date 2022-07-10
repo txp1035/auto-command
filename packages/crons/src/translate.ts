@@ -1,3 +1,4 @@
+// @ts-ignore
 import { join } from 'txp-utils';
 import { transformRange } from './utils';
 import { transformFrequency, transformBase, base, range } from './transform';
@@ -13,6 +14,7 @@ const defaultTranslateEmum = {
 export function translateBase(
   params: string,
   type: string,
+  // @ts-ignore
   { appointMode, stepMode, baseMode }: { appointMode; stepMode; baseMode },
 ) {
   const obj = transformBase(params) as base;
@@ -21,10 +23,14 @@ export function translateBase(
     return '';
   }
   // 分类list：指定类、段时间类、步长类
+  // @ts-ignore
   const appoints = [];
+  // @ts-ignore
   const ranges = [];
+  // @ts-ignore
   const steps = [];
-  list.forEach(element => {
+  // @ts-ignore
+  list.forEach((element) => {
     if (typeof element === 'string') {
       appoints.push(element);
     }
@@ -36,10 +42,12 @@ export function translateBase(
     }
   });
   // 获得不带步长的值
+  // @ts-ignore
   const newAppoints = transformRange([...appoints, ...ranges]);
   const newSteps: { [key: string]: range[] } = {};
   // 分类步长[{step:2},{step:2},{step:3}]->{2:[{},{}],3:[{}]}
-  steps.forEach(element => {
+  // @ts-ignore
+  steps.forEach((element) => {
     if (element.step in newSteps) {
       newSteps[element.step].push(element);
     } else {
@@ -66,15 +74,19 @@ export function translateBase(
   }, '');
   return baseMode({ appointStr, stepStr });
 }
+// @ts-ignore
 export function translateSecond(params: string, translateMode) {
   return translateBase(params, 'second', translateMode);
 }
+// @ts-ignore
 export function translateMinute(params: string, translateMode) {
   return translateBase(params, 'minute', translateMode);
 }
+// @ts-ignore
 export function translateHour(params: string, translateMode) {
   return translateBase(params, 'hour', translateMode);
 }
+// @ts-ignore
 export function translateDay(params: string, translateMode) {
   if (params === '?') {
     return '';
@@ -88,9 +100,11 @@ export function translateDay(params: string, translateMode) {
   }
   return translateBase(params, 'day', translateMode);
 }
+// @ts-ignore
 export function translateMoth(params: string, translateMode) {
   return translateBase(params, 'moth', translateMode);
 }
+// @ts-ignore
 export function translateWeek(params: string, translateMode) {
   if (params === '?') {
     return '';
@@ -107,6 +121,7 @@ export function translateWeek(params: string, translateMode) {
   }
   return translateBase(params, 'week', translateMode);
 }
+// @ts-ignore
 export function translateYear(params: string, translateMode) {
   return translateBase(params, 'year', translateMode);
 }
@@ -119,6 +134,7 @@ const getTimeValue = (value: string, unit: string) => {
 const defaultOptions = {
   translateEmum: {},
   translateMode: {
+    // @ts-ignore
     appointMode: ({ cur, index, arr, type }) => {
       let mark = '，';
       const appointUnit = {
@@ -134,14 +150,18 @@ const defaultOptions = {
         mark = '';
       }
       if (typeof cur === 'string' || typeof cur === 'number') {
+        // @ts-ignore
         return `${getTimeValue(String(cur), appointUnit[type])}${mark}`;
       }
+      // @ts-ignore
       const curStr = `${getTimeValue(cur.start, appointUnit[type])}到${getTimeValue(
         cur.end,
+        // @ts-ignore
         appointUnit[type],
       )}${mark}`;
       return curStr;
     },
+    // @ts-ignore
     stepMode: ({ curs, indexs, arrs, type, step, index, arr }) => {
       let mark = '，';
       if (indexs === arrs.length - 1 && index === arr.length - 1) {
@@ -165,16 +185,21 @@ const defaultOptions = {
         week: '周',
         year: '年',
       };
+      // @ts-ignore
       const curStr = `${getTimeValue(curs.start, appointUnit[type])}到${getTimeValue(
         curs.end,
+        // @ts-ignore
         appointUnit[type],
+        // @ts-ignore
       )}每隔${step - 1}${stepUnit[type]}${mark}`;
       return curStr;
     },
+    // @ts-ignore
     baseMode: ({ appointStr, stepStr }) => {
       const str = join([appointStr, stepStr], '，');
       return str;
     },
+    // @ts-ignore
     allMode: ({ second, minute, hour, day, moth, week, year }) => {
       const str = join([year, moth, week, day, hour, minute, second], '的');
       return `${str}执行`;
@@ -211,10 +236,13 @@ export default function translate(params: string, options: options = {}) {
   const obj = transformFrequency(params);
   // 枚举匹配
   const newTranslateEmum = { ...defaultTranslateEmum, ...translateEmum };
+  // @ts-ignore
   if (newTranslateEmum[params]) {
+    // @ts-ignore
     return newTranslateEmum[params];
   }
   // 通用匹配
+  // @ts-ignore
   const { second, minute, hour, day, moth, week, year } = obj;
   return translateMode.allMode({
     second: second && translateSecond(second, translateMode),

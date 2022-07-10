@@ -2,12 +2,21 @@
   "name": "txp",
   "version": "1.0.12",
   "description": "This is my NPM package",
-  "bin": {
-    "txp": "bin/txp.js"
+  "homepage": "https://github.com/txp1035/txp/tree/master/packages/txp",
+  "bugs": {
+    "url": "https://github.com/txp1035/txp/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/txp1035/txp/tree/master/packages/txp"
+  },
+  "license": "MIT",
   "main": "index.js",
   "module": "index.module.js",
   "types": "types.d.ts",
+  "bin": {
+    "txp": "bin/txp.js"
+  },
   "files": [
     "antd",
     "antd-mobile",
@@ -22,18 +31,9 @@
     "index.module.js",
     "types.d.ts"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/txp1035/txp/tree/master/packages/txp"
+  "scripts": {
+    "sort": "npx sort-package-json"
   },
-  "homepage": "https://github.com/txp1035/txp/tree/master/packages/txp",
-  "authors": [
-    "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
-  ],
-  "bugs": {
-    "url": "https://github.com/txp1035/txp/issues"
-  },
-  "license": "MIT",
   "dependencies": {
     "antd": "^4.0.0",
     "antd-mobile": "^2.3.1",
@@ -41,5 +41,8 @@
     "inquirer": "^7.3.0",
     "txp-utils": "^1.2.0",
     "umi": "~3.2.0"
-  }
+  },
+  "authors": [
+    "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
+  ]
 }

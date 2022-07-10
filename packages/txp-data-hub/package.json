@@ -2,20 +2,24 @@
   "name": "txp-data-hub",
   "version": "0.1.6",
   "description": "This is a service that processes end-end data.",
-  "main": "./lib/index.js",
-  "files": [
-    "lib"
-  ],
+  "homepage": "https://github.com/txp1035/txp/tree/master/packages/txp-data-hub",
+  "bugs": {
+    "url": "https://github.com/txp1035/txp/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/txp1035/txp/tree/master/packages/txp-data-hub"
   },
-  "homepage": "https://github.com/txp1035/txp/tree/master/packages/txp-data-hub",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "pnpm tsc",
+    "sort": "npx sort-package-json"
+  },
   "authors": [
     "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
-  ],
-  "bugs": {
-    "url": "https://github.com/txp1035/txp/issues"
-  },
-  "license": "MIT"
+  ]
 }

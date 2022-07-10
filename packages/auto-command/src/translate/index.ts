@@ -2,29 +2,36 @@ import fs from 'fs-extra';
 import path from 'path';
 import signale from 'signale';
 import * as babel from '@babel/core';
+// @ts-ignore
 import traverse from '@babel/traverse';
 import generate from '@babel/generator';
+// @ts-ignore
 import utils from 'txp-utils';
 
 import translate from './translate';
-
+// @ts-ignore
 function getter(obj, arr) {
   return arr.length === 0
     ? obj
     : getter(typeof obj === 'undefined' ? undefined : obj[arr[0]], arr.slice(1));
 }
+// @ts-ignore
 function contrastDir(before, after) {
-  const arr = after.map(element => {
+  // @ts-ignore
+  const arr = after.map((element) => {
     const { dirName, dirContent } = element;
-    const beforeDirContent = before.find(item => item.dirName === dirName);
+    // @ts-ignore
+    const beforeDirContent = before.find((item) => item.dirName === dirName);
     if (!beforeDirContent) {
       return { dirName, dirContent };
     }
     return {
       dirName,
-      dirContent: dirContent.map(elements => {
+      // @ts-ignore
+      dirContent: dirContent.map((elements) => {
         const { fileName, fileContent } = elements;
-        const beforeFileContent = beforeDirContent?.dirContent?.find(item => {
+        // @ts-ignore
+        const beforeFileContent = beforeDirContent?.dirContent?.find((item) => {
           return fileName === item.fileName;
         })?.fileContent;
         if (!beforeFileContent) {
@@ -32,6 +39,7 @@ function contrastDir(before, after) {
         }
         recursiveObj(
           fileContent,
+          // @ts-ignore
           (obj, key, nodeStr) => {
             // 根节点赋值
             if (typeof obj[key] !== 'object') {
@@ -49,15 +57,19 @@ function contrastDir(before, after) {
   });
   return arr;
 }
+// @ts-ignore
 function contrastFile(before, after) {
-  const arr = after.map(element => {
+  // @ts-ignore
+  const arr = after.map((element) => {
     const { fileName, fileContent } = element;
-    const beforeContent = before.find(item => fileName === item.fileName)?.fileContent;
+    // @ts-ignore
+    const beforeContent = before.find((item) => fileName === item.fileName)?.fileContent;
     if (!beforeContent) {
       return { fileName, fileContent };
     }
     recursiveObj(
       fileContent,
+      // @ts-ignore
       (obj, key, nodeStr) => {
         // 根节点赋值
         if (typeof obj[key] !== 'object') {
@@ -74,9 +86,12 @@ function contrastFile(before, after) {
   return arr;
 }
 // 递归对象
+// @ts-ignore
 function recursiveObj(obj, fc, nodeStrs) {
   const curNode = JSON.parse(JSON.stringify(nodeStrs || []));
-  for (const item in obj) {
+  // @ts-ignore
+  Object.keys(obj).forEach((item) => {
+    // @ts-ignore
     fc.apply(this, [obj, item, [...curNode, item]]);
     if (
       Object.prototype.toString.call(obj[item]) === '[object Object]' ||
@@ -84,35 +99,39 @@ function recursiveObj(obj, fc, nodeStrs) {
     ) {
       recursiveObj(obj[item], fc, [...curNode, item]);
     }
-  }
+  });
 }
-function writeFile(path, text) {
+// @ts-ignore
+function writeFile(paths, text) {
   try {
-    fs.outputFileSync(path, text);
+    fs.outputFileSync(paths, text);
   } catch (err) {
     console.error(err);
   }
 }
+// @ts-ignore
 function getObj(str) {
   // ast处理成需要的对象
+  // @ts-ignore
   const { ast } = babel.transform(str, { ast: true });
   const m = ast.program.body[0].declaration;
   ast.program.body = [m];
   let isObjectProperty = false;
   // 保证对象的key是字符串才能json化成功
   traverse(ast, {
-    enter(path) {
+    // @ts-ignore
+    enter(paths) {
       // 单引号换成双引号
-      path.node.extra = {};
+      paths.node.extra = {};
       // isObjectProperty之后的第一个节点为key
       if (isObjectProperty) {
         // 所有key应该是字符串
-        path.node.type = 'StringLiteral';
-        path.node.value = path.node.name || path.node.value;
-        path.node.name = path.node.value || path.node.name;
+        paths.node.type = 'StringLiteral';
+        paths.node.value = paths.node.name || paths.node.value;
+        paths.node.name = paths.node.value || paths.node.name;
       }
-      // 这个path会找到所有的node
-      if (path.node.type === 'ObjectProperty') {
+      // 这个paths会找到所有的node
+      if (paths.node.type === 'ObjectProperty') {
         isObjectProperty = true;
       } else {
         isObjectProperty = false;
@@ -133,11 +152,14 @@ function getObj(str) {
   return obj;
 }
 // 传入一个对象，替换里面的value值
+// @ts-ignore
 async function replaceValue(params, { from, to }, separator) {
   // 遍历对象value值成扁平数组
   const newParams = JSON.parse(JSON.stringify(params));
   let isLog = false;
+  // @ts-ignore
   const arr = [];
+  // @ts-ignore
   recursiveObj(newParams, (obj, key) => {
     if (Object.prototype.toString.call(params) === '[object Object]') {
       isLog = true;
@@ -155,6 +177,7 @@ async function replaceValue(params, { from, to }, separator) {
   });
 
   // 数组转换成字符串，翻译，再转换成数组
+  // @ts-ignore
   const str = arr.join('\n');
   const newStr = await translate(str, { from, to }, separator);
   const newArr = newStr.split('\n');
@@ -163,6 +186,7 @@ async function replaceValue(params, { from, to }, separator) {
   isLog = false;
   recursiveObj(
     newParams,
+    // @ts-ignore
     (obj, key) => {
       if (Object.prototype.toString.call(params) === '[object Object]') {
         isLog = true;
@@ -187,8 +211,10 @@ async function replaceValue(params, { from, to }, separator) {
 async function core({
   keep = true,
   type = 'dir',
+  // @ts-ignore
   outDir,
   language = { from: 'zh-CN', to: ['en-US'] },
+  // @ts-ignore
   separator,
 }) {
   signale.time('translate');
@@ -197,12 +223,12 @@ async function core({
     // 把输出目录中的文件转换成数组
     const outDirArr = fs.readdirSync(path.join(outDir));
     const outFileArr = outDirArr
-      .map(langItem => {
+      .map((langItem) => {
         // 输入目录里的文件内容转成数组
         try {
           fs.ensureDirSync(path.join(outDir, `/${langItem}`));
           const langDirArr = fs.readdirSync(path.join(outDir, `/${langItem}`));
-          const langFileArr = langDirArr.map(item => {
+          const langFileArr = langDirArr.map((item) => {
             const str = path.join(outDir, `/${langItem}`, item);
             const file = fs.readFileSync(str, 'utf8');
             return {
@@ -211,17 +237,24 @@ async function core({
             };
           });
           return { dirName: langItem, dirContent: langFileArr };
-        } catch (error) {}
-        try {
-          fs.ensureFileSync(path.join(outDir, `/${item}`));
-        } catch (error) {}
+        } catch (error1) {
+          try {
+            fs.ensureFileSync(path.join(outDir, `/${langItem}`));
+          } catch (error2) {
+            // @ts-ignore
+            throw new Error(error2);
+          }
+        }
+
+        return {};
       })
-      .filter(item => item);
+      .filter((item) => item);
     // 拿到输入文件数据
-    const inputFileData = outFileArr.find(item => item.dirName === language.from);
+    const inputFileData = outFileArr.find((item) => item.dirName === language.from);
     // 翻译
-    const allRequst = language.to.map(item =>
+    const allRequst = language.to.map((item) =>
       replaceValue(
+        // @ts-ignore
         inputFileData.dirContent,
         {
           from: language.from,
@@ -241,9 +274,11 @@ async function core({
     } else {
       lastData = transData;
     }
-    lastData.forEach(element => {
+    // @ts-ignore
+    lastData.forEach((element) => {
       const { dirName, dirContent } = element;
-      dirContent.forEach(item => {
+      // @ts-ignore
+      dirContent.forEach((item) => {
         const { fileName, fileContent } = item;
         writeFile(
           path.join(outDir, `/${dirName}/`, fileName),
@@ -255,7 +290,7 @@ async function core({
   if (type === 'file') {
     // 把输出目录中的文件转换成数组
     const outDirArr = fs.readdirSync(path.join(outDir));
-    const outFileArr = outDirArr.map(item => {
+    const outFileArr = outDirArr.map((item) => {
       const str = path.join(outDir, `/${item}`);
       const file = fs.readFileSync(str, 'utf8');
       return {
@@ -264,11 +299,13 @@ async function core({
       };
     });
     // 拿到输入文件数据
-    const inputFileData = outFileArr.find(item => new RegExp(language.from).test(item.fileName));
+    const inputFileData = outFileArr.find((item) => new RegExp(language.from).test(item.fileName));
+    // @ts-ignore
     const suffix = path.extname(inputFileData.fileName);
     // 翻译
-    const allRequst = language.to.map(item =>
+    const allRequst = language.to.map((item) =>
       replaceValue(
+        // @ts-ignore
         inputFileData.fileContent,
         {
           from: language.from,
@@ -288,7 +325,8 @@ async function core({
     } else {
       lastData = transData;
     }
-    lastData.forEach(element => {
+    // @ts-ignore
+    lastData.forEach((element) => {
       const { fileName, fileContent } = element;
       writeFile(
         path.join(outDir, `/${fileName}`),

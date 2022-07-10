@@ -2,20 +2,24 @@
   "name": "fine-dog",
   "version": "1.0.6",
   "description": "This is a fine dog",
-  "main": "./lib/index.js",
-  "files": [
-    "lib"
-  ],
+  "homepage": "https://github.com/txp1035/txp/tree/master/packages/fine-dog",
+  "bugs": {
+    "url": "https://github.com/txp1035/txp/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/txp1035/txp/tree/master/packages/fine-dog"
   },
-  "homepage": "https://github.com/txp1035/txp/tree/master/packages/fine-dog",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "pnpm tsc",
+    "sort": "npx sort-package-json"
+  },
   "authors": [
     "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
-  ],
-  "bugs": {
-    "url": "https://github.com/txp1035/txp/issues"
-  },
-  "license": "MIT"
+  ]
 }

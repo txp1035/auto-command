@@ -2,6 +2,15 @@
   "name": "auto-command",
   "version": "1.2.0",
   "description": "Automatic command",
+  "homepage": "https://github.com/txp1035/txp/tree/master/packages/auto-command",
+  "bugs": {
+    "url": "https://github.com/txp1035/txp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/txp1035/txp/tree/master/packages/auto-command"
+  },
+  "license": "MIT",
   "bin": {
     "ac": "./bin/autocmd.js"
   },
@@ -9,6 +18,10 @@
     "bin",
     "lib"
   ],
+  "scripts": {
+    "build": "pnpm tsc",
+    "sort": "npx sort-package-json"
+  },
   "dependencies": {
     "@babel/core": "^7.18.6",
     "@babel/generator": "^7.18.7",
@@ -18,22 +31,13 @@
     "inquirer": "^7.3.0",
     "md5": "^2.3.0",
     "signale": "^1.4.0",
-    "txp-utils": "^1.2.0",
+    "txp-utils": "workspace:^1.2.0",
     "yargs-parser": "^21.0.1"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/txp1035/txp/tree/master/packages/auto-command"
-  },
-  "homepage": "https://github.com/txp1035/txp/tree/master/packages/auto-command",
   "authors": [
     "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
-  ],
-  "bugs": {
-    "url": "https://github.com/txp1035/txp/issues"
-  },
-  "license": "MIT"
+  ]
 }

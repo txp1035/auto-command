@@ -28,7 +28,7 @@ export function checkBase(
   const otherList: string[] = [];
   const { rangeStart, rangeEnd, stepStart, stepEnd } = options;
   let isRight = true;
-  list.forEach(item => {
+  list.forEach((item) => {
     let isOther = true;
     // 是否是段时间
     const regRange = /^(0|[1-9][0-9]*)-(0|[1-9][0-9]*)(\/[1-9][0-9]*)?$/;
@@ -156,6 +156,7 @@ export function checkDay(params: string, type: cronType): boolean {
     const weekReg = /^([1-9][0-9]*)W$/;
     if (weekReg.test(params)) {
       const week = weekReg.exec(params);
+      // @ts-ignore
       if (Number(week[1]) < 1 || Number(week[1]) > 31) {
         return false;
       }
@@ -306,7 +307,8 @@ export function checkYear(params: string): boolean {
  * @returns {any}
  */
 export function checkString(params: string): boolean {
-  const reg = /^([0-9*/,-]+ )?([0-9*/,-]+) ([0-9*/,-]+) ([0-9*/,-?LW]+) ([A-Za-z0-9*/,-]+) ([A-Za-z0-6*/,-?L#]+)( [0-9*/,-]+)?$/;
+  const reg =
+    /^([0-9*/,-]+ )?([0-9*/,-]+) ([0-9*/,-]+) ([0-9*/,-?LW]+) ([A-Za-z0-9*/,-]+) ([A-Za-z0-6*/,-?L#]+)( [0-9*/,-]+)?$/;
   if (typeof params === 'string' && reg.test(params)) {
     return true;
   }
@@ -352,7 +354,7 @@ export default function check(params: string): boolean | object {
   if (isCron) {
     const obj = checkFrequency(params);
     let isRight = true;
-    Object.values(obj).forEach(item => {
+    Object.values(obj).forEach((item) => {
       if (!item) {
         isRight = false;
       }

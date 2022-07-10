@@ -10,6 +10,9 @@ function getParams() {
     translate: {
       outDir: '',
       language: { from: 'zh-CN', to: ['en-US'] },
+      separator: '-',
+      type: 'dir',
+      dir: '',
     },
   };
   const path = join(process.cwd(), '.autocmd.js');
@@ -18,7 +21,7 @@ function getParams() {
       // eslint-disable-next-line  global-require,import/no-dynamic-require
       config = require(path).default;
     } catch (error) {
-      console.log(error);
+      throw new Error(String(error));
     }
   }
   return config;
@@ -26,8 +29,9 @@ function getParams() {
 function checkVersion() {
   const nodeVersion = process.versions.node;
   const versions = nodeVersion.split('.');
-  const major = versions[0];
-  const minor = versions[1];
+  const major = Number(versions[0]);
+  const minor = Number(versions[1]);
+
   if (major * 10 + minor * 1 < 65) {
     // eslint-disable-next-line no-console
     console.log(`Node version must >= 6.5, but got ${major}.${minor}`);
@@ -47,7 +51,8 @@ inquirer
       choices: ['分支自动对比', '自动翻译'],
     },
   ])
-  .then(answer => {
+
+  .then((answer: any) => {
     if (answer.auto === '分支自动对比') {
       gitDiff();
     }

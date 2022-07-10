@@ -15,7 +15,7 @@ export function filterObj(
   param: object,
   fun?: (value: any, key?: string, obj?: object) => boolean,
 ) {
-  const obj = {};
+  const obj: { [key: string]: any } = {};
   Object.entries(param).forEach(([key, value]) => {
     // 默认过滤
     if (value !== null && value !== undefined && !Number.isNaN(value)) {
@@ -58,13 +58,16 @@ export function getChainObj(obj: object, str: string) {
 }
 /** 对象类 end */
 /** 数组类 start */
-export function removal(list: (string | { key: string })[], key?: string) {
+export function removal(
+  list: (string | { [key: string]: string | number | boolean })[],
+  key?: string,
+) {
   // 对象去重
   if (key) {
     return list.filter(
       (item, index, arr) =>
         typeof item === 'object' &&
-        arr.findIndex(childItem => childItem[key] === item.key) === index,
+        arr.findIndex((childItem: any) => childItem[key] === item.key) === index,
     );
   }
   // 字符串去重
@@ -81,7 +84,7 @@ export function removal(list: (string | { key: string })[], key?: string) {
  * @returns {any}
  */
 export function join(list: any[] = [], mark: string = '_'): string {
-  const arr = list.filter(item => {
+  const arr = list.filter((item) => {
     if (typeof item === 'string' || typeof item === 'number') {
       if (item === '' || Number.isNaN(item)) {
         return false;
@@ -116,12 +119,16 @@ export type jsType =
 export function getType(params: any): jsType {
   const str = Object.prototype.toString.call(params);
   const reg = /\[object ([a-zA-Z]*)\]/;
+  // @ts-ignore
   const type = reg.exec(str)[1] as jsType;
   return type;
 }
-export function contrast([main, assistant]: [object, object], fun: (params: any) => any) {
-  const newMain = {};
-  const newAssistant = {};
+export function contrast(
+  [main, assistant]: [{ [key: string]: any }, { [key: string]: any }],
+  fun: (params: any) => any,
+) {
+  const newMain: { [key: string]: any } = {};
+  const newAssistant: { [key: string]: any } = {};
   Object.entries(main).map(([key, value]) => {
     if (key in assistant) {
       const [mainValue, assistantValue] = fun([value, assistant[key]]);

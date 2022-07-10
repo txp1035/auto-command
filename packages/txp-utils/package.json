@@ -2,25 +2,29 @@
   "name": "txp-utils",
   "version": "1.2.0",
   "description": "Common tools of JS",
-  "main": "./lib/index.js",
-  "files": [
-    "lib"
-  ],
+  "homepage": "https://github.com/txp1035/txp/tree/master/packages/txp-utils",
+  "bugs": {
+    "url": "https://github.com/txp1035/txp/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/txp1035/txp/tree/master/packages/txp-utils"
   },
-  "homepage": "https://github.com/txp1035/txp/tree/master/packages/txp-utils",
-  "authors": [
-    "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
-  ],
-  "bugs": {
-    "url": "https://github.com/txp1035/txp/issues"
-  },
   "license": "MIT",
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "pnpm tsc",
+    "sort": "npx sort-package-json"
+  },
   "dependencies": {
     "chalk": "^5.0.1",
     "fs-extra": "^10.1.0",
     "pino": "^8.1.0"
-  }
+  },
+  "authors": [
+    "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
+  ]
 }

@@ -1,4 +1,5 @@
 import lodash from 'lodash';
+// @ts-ignore
 import { join, getType } from 'txp-utils';
 import { getType as getCronType } from './utils';
 
@@ -150,8 +151,8 @@ export function transformBase(params: string | base): string | base {
     const regNumber = /[0-9]+/;
     const list = params
       .split(',')
-      .filter(item => reg.test(item) || regNumber.test(item)) // 过滤掉不是指定字符串，例：L
-      .map(item => {
+      .filter((item) => reg.test(item) || regNumber.test(item)) // 过滤掉不是指定字符串，例：L
+      .map((item) => {
         if (Number.isNaN(Number(item))) {
           // 有特殊符号的子项
           // 特殊项例子：1-2/3 1-2
@@ -167,6 +168,7 @@ export function transformBase(params: string | base): string | base {
       });
     return {
       isCommon: false,
+      // @ts-ignore
       list,
     };
   }
@@ -174,7 +176,8 @@ export function transformBase(params: string | base): string | base {
   if (isCommon) {
     return '*';
   }
-  const newList = list.map(item => {
+  // @ts-ignore
+  const newList = list.map((item) => {
     if (typeof item === 'string') {
       return item;
     }
@@ -390,7 +393,9 @@ export default function transform(params: string | transformParams) {
   if (typeof params === 'string') {
     const frequency = transformFrequency(params);
     const obj = {};
+    // @ts-ignore
     Object.entries(frequency).forEach(([key, value]) => {
+      // @ts-ignore
       obj[key] = all[key](value);
     });
     return obj;
@@ -405,6 +410,7 @@ export default function transform(params: string | transformParams) {
     year: '',
   };
   Object.entries(params).forEach(([key, value]) => {
+    // @ts-ignore
     obj[key] = all[key](value);
   });
   return transformFrequency(obj);
