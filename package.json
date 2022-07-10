@@ -4,7 +4,7 @@
     "build": "turbo run build",
     "prepare": "husky install",
     "prettier": "prettier --write .",
-    "sort": "npx sort-package-json"
+    "sort": "turbo run sort"
   },
   "lint-staged": {
     "*.{jsx,less,md,json}": [
