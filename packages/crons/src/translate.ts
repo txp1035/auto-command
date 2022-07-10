@@ -242,6 +242,7 @@ export default function translate(params: string, options: options = {}) {
     return newTranslateEmum[params];
   }
   // 通用匹配
+  // @ts-ignore
   const { second, minute, hour, day, moth, week, year } = obj;
   return translateMode.allMode({
     second: second && translateSecond(second, translateMode),

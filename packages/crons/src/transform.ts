@@ -393,6 +393,7 @@ export default function transform(params: string | transformParams) {
   if (typeof params === 'string') {
     const frequency = transformFrequency(params);
     const obj = {};
+    // @ts-ignore
     Object.entries(frequency).forEach(([key, value]) => {
       // @ts-ignore
       obj[key] = all[key](value);

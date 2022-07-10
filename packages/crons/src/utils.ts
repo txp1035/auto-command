@@ -45,11 +45,13 @@ export function transformRange(params: (string | number | range)[], length: numb
   // @ts-ignore
   arr = arr.sort((a, b) => Number(a) - Number(b));
   // 分组[1,2,3,5,6]->[[1,2,3],[5,6]]
+  // @ts-ignore
   arr = arr.reduce(
     // @ts-ignore
     (pre, cur) => {
       const last = pre[pre.length - 1];
       const lastStr = last[last.length - 1];
+      // @ts-ignore
       if (cur === lastStr + 1) {
         pre.pop();
         return [...pre, [...last, cur]];
