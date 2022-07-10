@@ -15,6 +15,7 @@
     "prepare": "husky install",
     "prettier": "prettier -c --write **/*",
     "publish": "npm run build && lerna publish",
+    "sort": "npx sort-package-json",
     "test": "umi-test",
     "update": "yarn upgrade && npm run clean && npm run bootstrap"
   },

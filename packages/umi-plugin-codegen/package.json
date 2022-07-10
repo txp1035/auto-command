@@ -2,32 +2,33 @@
   "name": "umi-plugin-codegen",
   "version": "0.0.11",
   "description": "Generate the front-end code by parsing the interface document",
-  "main": "./lib/index.js",
-  "files": [
-    "lib"
-  ],
-  "scripts": {
-    "build": "pnpm tsc"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/txp1035/txp/tree/master/packages/umi-plugin-codegen"
-  },
-  "homepage": "https://github.com/txp1035/txp/tree/master/packages/umi-plugin-codegen",
-  "authors": [
-    "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
-  ],
-  "bugs": {
-    "url": "https://github.com/txp1035/txp/issues"
-  },
   "keywords": [
     "umi-plugin",
     "umi-plugin-codegen",
     "milady",
     "alitajs"
   ],
+  "homepage": "https://github.com/txp1035/txp/tree/master/packages/umi-plugin-codegen",
+  "bugs": {
+    "url": "https://github.com/txp1035/txp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/txp1035/txp/tree/master/packages/umi-plugin-codegen"
+  },
   "license": "MIT",
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "pnpm tsc",
+    "sort": "npx sort-package-json"
+  },
   "dependencies": {
     "milady": "^0.0.4"
-  }
+  },
+  "authors": [
+    "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
+  ]
 }

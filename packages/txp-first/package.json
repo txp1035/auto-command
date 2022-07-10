@@ -2,22 +2,23 @@
   "name": "txp-first",
   "version": "1.1.6",
   "description": "This is my first NPM package, which was used for testing",
-  "scripts": {
-    "build": "pnpm tsc"
+  "homepage": "https://github.com/txp1035/txp/tree/master/packages/txp-first",
+  "bugs": {
+    "url": "https://github.com/txp1035/txp/issues"
   },
-  "files": [
-    "lib"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/txp1035/txp/tree/master/packages/txp-first"
   },
-  "homepage": "https://github.com/txp1035/txp/tree/master/packages/txp-first",
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "pnpm tsc",
+    "sort": "npx sort-package-json"
+  },
   "authors": [
     "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
-  ],
-  "bugs": {
-    "url": "https://github.com/txp1035/txp/issues"
-  },
-  "license": "MIT"
+  ]
 }
