@@ -1,65 +1,74 @@
-# auto-cmd
+# auto-command
 
-自动化命令
+An efficiency tool to reduce copy and paste operations
 
-## 作用
+## Function
 
-处理常用操作
+- Support both command line interface and command usage
+- Automatic translation
+  - Supports automatic generation of ant-design/pro-components (single file layer) internationalization files
+  - Supports automatic generation of ant-design/ant-design-pro (directory level) internationalization files
+  - Supports automatic generation of internationalization files for React Intl projects
+- Branch diff comparison and export diff file | git diff
 
-## 功能
+## automatic translation
 
-执行 ac 命令，出现功能列表
+### Instructions
 
-### 分支自动对比功能
-
-能够把两个分支进行对比，默认把当前分支和 master 分支做对比
-
-### 国际化自动翻译
-
-自动翻译工具功能
-
-1. 支持一对多语种翻译
-2. 自定义输出目录
-3. 支持已有翻译不进行修改
-4. 支持在已有翻译不修改情况下，只修改部分
-
-约定
-
-1. type: dir ,file（支持 locales 里面的文件是目录或者文件）,文件名是 ts
-2. type: file ,确保 dir 里面有对应语言的文件或者目录文件（名字得和 from 匹配）
-
-需要在执行命令的目录增加配置文件`.autocmd.js`，配置内容如下：
+You have to configure the .autocmd.ts file
 
 ```js
-exports.default = {
+import { defineConfig } from 'auto-command';
+
+export default defineConfig({
   translate: {
-    // 文件的分隔符号，默认是'-'，如果你的文件命名不是这样请加上这个选项，例如你的文件是en_US.tsx，separator应该是_
+    // Separator (optional): The default is -, if your file name is not separated by -, you need to configure
     separator: '-',
-    // 可以是文件也可以是文件夹，但是必须符合规范的文件
+    // Whether to keep the previous translation unchanged (optional), off by default
+    keep: false,
+    // type (optional): defaults to directory
     type: 'dir',
-    // locales文件路径
-    dir: '/Users/shawdanon/GitHub/mine/aTimeLogger-visualization/src/locales',
+    // path (required): absolute path to the locales file
+    outDir: '/xxx/xxx/xxx/src/locales',
+    // Language conversion (optional): default from Chinese to English
     language: {
-      // 来源，需要保证locales里面zh-CN.ts文件和zh-CN文件夹，
       from: 'zh-CN',
-      to: [
-        'ca-ES', //葡萄牙语
-        'en-GB', //英语
-        'en-US', //英语
-        'es-ES', //西班牙语
-        'fr-BE', //法语
-        'fr-FR', //法语
-        'ja-JP', //日本语
-        'ko-KR', //韩语
-        'pt-BR', //葡萄牙语
-        'pt-PT', //葡萄牙语
-        'vi-VN', //越南语
-      ],
+      to: ['en-US'],
     },
   },
-};
+});
 ```
 
-TODO
+```bash
+$ npm i auto-command
+$ npx ac
+**** Please select the task to be performed **** (Use arrow keys)
+  git diff
+❯ translate
+or
+$ npx ac -t=translate
+```
 
-- 选择分支自动对比，填写比较分支名称，填写被比较分支。
+### achievement
+
+- 500 pieces of data translation in 4 seconds
+- 54 languages supported
+- Support configuration file prompts
+- Support for supplementary translations on already translated projects
+- Support custom delimiter
+
+## Branch diff comparison and export diff file
+
+### Instructions
+
+```bash
+$ npm i auto-command
+$ npx ac
+**** Please select the task to be performed **** (Use arrow keys)
+❯ git diff
+  translate
+or
+$ npx ac -t=diff
+```
+
+In this way, you can compare two branches (by default, the current branch is compared with the master branch) and export the comparison result file
