@@ -6,7 +6,7 @@ import traverse from '@babel/traverse';
 import generate from '@babel/generator';
 import utils from 'txp-utils';
 import prettier from 'prettier';
-
+import type { TLanguage } from './translate';
 import translate from './translate';
 
 interface generalObj {
@@ -211,13 +211,20 @@ async function replaceValue(
   return newParams;
 }
 // 核心翻译流程
+export interface ITranslateConfig {
+  keep?: boolean;
+  type?: 'dir' | 'file';
+  outDir: string;
+  language?: { from: TLanguage; to: TLanguage[] };
+  separator?: string;
+}
 async function core({
   keep = true,
   type = 'dir',
-  outDir = '',
+  outDir,
   language = { from: 'zh-CN', to: ['en-US'] },
   separator = '-',
-}) {
+}: ITranslateConfig) {
   signale.time('translate');
   // 判断input是路径还是文件
   if (type === 'dir') {

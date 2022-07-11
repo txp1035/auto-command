@@ -2,24 +2,19 @@ import { join } from 'path';
 import { existsSync } from 'fs';
 import gitDiff from './gitDiff';
 import translate from './translate';
+import * as readEsmAndCjs from './readEsmAndCjs';
+import { ConfigType } from './defineConfig';
 
 const inquirer = require('inquirer');
 
-function getParams() {
-  let config = {
-    translate: {
-      outDir: '',
-      language: { from: 'zh-CN', to: ['en-US'] },
-      separator: '-',
-      type: 'dir',
-      dir: '',
-    },
-  };
-  const path = join(process.cwd(), '.autocmd.js');
+function getParams(): ConfigType {
+  let config;
+  const path = join(process.cwd(), '.autocmd.ts');
   if (existsSync(path)) {
     try {
-      // eslint-disable-next-line  global-require,import/no-dynamic-require
+      readEsmAndCjs.start();
       config = require(path).default;
+      readEsmAndCjs.end();
     } catch (error) {
       throw new Error(String(error));
     }
