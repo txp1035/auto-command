@@ -11,6 +11,7 @@ importers:
       '@types/lodash': ^4.14.182
       '@types/md5': ^2.3.2
       '@types/signale': ^1.4.4
+      '@types/yargs-parser': ^21.0.0
       '@umijs/fabric': ^1.1.9
       esno: ^0.16.3
       husky: ^8.0.0
@@ -28,6 +29,7 @@ importers:
       '@types/lodash': 4.14.182
       '@types/md5': 2.3.2
       '@types/signale': 1.4.4
+      '@types/yargs-parser': 21.0.0
       '@umijs/fabric': 1.2.14_typescript@4.7.4
       esno: 0.16.3
       husky: 8.0.1
