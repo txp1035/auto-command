@@ -5,6 +5,7 @@ import * as babel from '@babel/core';
 import traverse from '@babel/traverse';
 import generate from '@babel/generator';
 import utils from 'txp-utils';
+import prettier from 'prettier';
 
 import translate from './translate';
 
@@ -106,7 +107,11 @@ function writeFile(paths: string, text: string) {
     console.error(err);
   }
 }
-
+function formatting(params: object): string {
+  const text = `export default ${JSON.stringify(params)};`;
+  const newText = prettier.format(text, { semi: false, parser: 'babel' });
+  return newText;
+}
 // 基于文件字符串拿到对象
 function getObj(str: string) {
   // ast处理成需要的对象
@@ -222,6 +227,7 @@ async function core({
       .map((langItem) => {
         // 输入目录里的文件内容转成数组
         try {
+          // 如果是目录
           fs.ensureDirSync(path.join(outDir, `/${langItem}`));
           const langDirArr = fs.readdirSync(path.join(outDir, `/${langItem}`));
           const langFileArr = langDirArr.map((item) => {
@@ -234,10 +240,17 @@ async function core({
           });
           return { dirName: langItem, dirContent: langFileArr };
         } catch (error) {
-          throw new Error(String(error));
+          try {
+            // 如果是文件
+            fs.ensureFileSync(path.join(outDir, `/${langItem}`));
+            return undefined;
+          } catch (errors) {
+            // 两者都不是
+            throw new Error(String(errors));
+          }
         }
       })
-      .filter((item) => !!item);
+      .filter((item) => !!item) as dirDataType[];
     // 拿到输入文件数据
     const inputFileData = outFileArr.find((item) => item.dirName === language.from);
     // 翻译
@@ -266,10 +279,8 @@ async function core({
       const { dirName, dirContent } = element;
       dirContent.forEach((item: fileDataType) => {
         const { fileName, fileContent } = item;
-        writeFile(
-          path.join(outDir, `/${dirName}/`, fileName),
-          `export default ${JSON.stringify(fileContent)};`,
-        );
+        const text = formatting(fileContent);
+        writeFile(path.join(outDir, `/${dirName}/`, fileName), text);
       });
     });
   }
@@ -315,10 +326,8 @@ async function core({
 
     lastData.forEach((element) => {
       const { fileName, fileContent } = element;
-      writeFile(
-        path.join(outDir, `/${fileName}`),
-        `export default ${JSON.stringify(fileContent)};`,
-      );
+      const text = formatting(fileContent);
+      writeFile(path.join(outDir, `/${fileName}`), text);
     });
   }
   signale.timeEnd('translate');
