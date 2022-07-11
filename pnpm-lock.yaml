@@ -47,6 +47,7 @@ importers:
       fs-extra: ^9.0.1
       inquirer: ^7.3.0
       md5: ^2.3.0
+      prettier: ^2.7.1
       signale: ^1.4.0
       txp-utils: ^1.2.0
       yargs-parser: ^21.0.1
@@ -58,6 +59,7 @@ importers:
       fs-extra: 9.1.0
       inquirer: 7.3.3
       md5: 2.3.0
+      prettier: 2.7.1
       signale: 1.4.0
       txp-utils: link:../txp-utils
       yargs-parser: 21.0.1
@@ -13551,7 +13553,6 @@ packages:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
     engines: {node: '>=10.13.0'}
     hasBin: true
-    dev: true
 
   /pretty-format/24.9.0:
     resolution: {integrity: sha512-00ZMZUiHaJrNfk33guavqgvfJS30sLYf0f8+Srklv0AMPodGGHcoHgksZ3OThYnIvOd+8yMCn0YiEOogjlgsnA==}
