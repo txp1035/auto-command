@@ -55,24 +55,27 @@ if (args.version && !args._[0]) {
   if (args.type === 'translate') {
     translate(getParams().translate);
   }
+  if (args.type === 'diff') {
+    gitDiff();
+  }
 } else {
   inquirer
     .prompt([
       {
         type: 'list',
-        message: '请选择需要执行的任务',
+        message: 'Please select the task to be performed',
         name: 'auto',
-        default: '分支自动对比',
+        default: 'git diff',
         prefix: '****',
         suffix: ' ****',
-        choices: ['分支自动对比', '自动翻译'],
+        choices: ['git diff', 'translate'],
       },
     ])
     .then((answer: any) => {
-      if (answer.auto === '分支自动对比') {
+      if (answer.auto === 'git diff') {
         gitDiff();
       }
-      if (answer.auto === '自动翻译') {
+      if (answer.auto === 'translate') {
         translate(getParams().translate);
       }
     });

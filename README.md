@@ -13,5 +13,9 @@ my accumulation
 
 ## lib
 
-1. auto-command
+1. [auto-command](./packages/auto-command/README.md)
 2. crons
+
+## LICENSE
+
+[MIT](./LICENSE)
