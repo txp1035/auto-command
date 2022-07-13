@@ -4,3 +4,5 @@ node_modules
 dist
 lib
 temp
+example/auto-command/localesDir
+example/auto-command/localesFile

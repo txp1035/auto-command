@@ -22,18 +22,32 @@ import { defineConfig } from 'auto-command';
 
 export default defineConfig({
   translate: {
-    // Separator (optional): The default is -, if your file name is not separated by -, you need to configure
-    separator: '-',
-    // Whether to keep the previous translation unchanged (optional), off by default
-    keep: false,
-    // type (optional): defaults to directory
-    type: 'dir',
     // path (required): absolute path to the locales file
     outDir: '/xxx/xxx/xxx/src/locales',
-    // Language conversion (optional): default from Chinese to English
+    // Whether to keep the previous translation unchanged (optional), enabled by default
+    keep: true,
+    // type (optional): defaults to directory (antd-pro mode)
+    type: 'dir',
+    // Language conversion (optional): Convert from Chinese to English by default, the output file name is related to this configuration
     language: {
       from: 'zh-CN',
       to: ['en-US'],
+    },
+    // Separator (optional): The default is -, if your file name is not separated by -, you need to configure
+    separator: '-',
+    // Translator type (optional): default youdao
+    translatorType: 'youdao',
+    // google translator configuration (optional): empty by default
+    google: {
+      proxy: {
+        host: '127.0.0.1',
+        port: 7890,
+      },
+    },
+    // youdao translator configuration (optional): there is a value by default, if the translation fails, the balance may be insufficient, please configure
+    youdao: {
+      key: 'xxx',
+      secret: 'xxx',
     },
   },
 });
@@ -56,6 +70,7 @@ $ npx ac -t=translate
 - Support configuration file prompts
 - Support for supplementary translations on already translated projects
 - Support custom delimiter
+- Support multiple translators: Google Translate (recommended abroad), Youdao Translator (recommended in China)
 
 ## Branch diff comparison and export diff file
 

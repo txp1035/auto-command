@@ -6,8 +6,9 @@ import traverse from '@babel/traverse';
 import generate from '@babel/generator';
 import utils from 'txp-utils';
 import prettier from 'prettier';
-import type { TLanguage } from './translate';
-import translate from './translate';
+import type { Code, I18nPartOptions, I18nOptions } from './translate-i18n/types';
+import type { ApiPartOptions } from './translate-api/types';
+import translate from './translate-i18n';
 
 interface generalObj {
   [key: string]: generalObj;
@@ -153,11 +154,7 @@ function getObj(str: string) {
 }
 
 // 传入一个对象，翻译fileContent里面的value值
-async function replaceValue(
-  params: { [key: string]: any },
-  { from, to }: { from: string; to: string },
-  separator: string,
-) {
+async function replaceValue(params: { [key: string]: any }, options: I18nOptions) {
   // 遍历对象value值成扁平数组
   const newParams = JSON.parse(JSON.stringify(params));
   let isLog = false;
@@ -183,7 +180,8 @@ async function replaceValue(
   );
   // 数组转换成字符串，翻译，再转换成数组
   const str = arr.join('\n');
-  const newStr = await translate(str, { from, to }, separator);
+  // @ts-ignore 这里设置默认值，options有值就覆盖
+  const newStr = await translate(str, { separator: '-', translatorType: 'youdao', ...options });
   const newArr = newStr.split('\n');
   // 新数组重新赋值给对象
   let index = 0;
@@ -211,20 +209,20 @@ async function replaceValue(
   return newParams;
 }
 // 核心翻译流程
-export interface ITranslateConfig {
+export interface TranslateConfig extends ApiPartOptions, I18nPartOptions {
+  outDir: string;
   keep?: boolean;
   type?: 'dir' | 'file';
-  outDir: string;
-  language?: { from: TLanguage; to: TLanguage[] };
-  separator?: string;
+  language?: { from: Code; to: Code[] };
 }
+
 async function core({
+  outDir,
   keep = true,
   type = 'dir',
-  outDir,
   language = { from: 'zh-CN', to: ['en-US'] },
-  separator = '-',
-}: ITranslateConfig) {
+  ...rest
+}: TranslateConfig) {
   signale.time('translate');
   // 判断input是路径还是文件
   if (type === 'dir') {
@@ -262,14 +260,13 @@ async function core({
     const inputFileData = outFileArr.find((item) => item.dirName === language.from);
     // 翻译
     const allRequst = language.to.map((item) =>
-      replaceValue(
-        inputFileData?.dirContent || {},
-        {
+      replaceValue(inputFileData?.dirContent || {}, {
+        language: {
           from: language.from,
           to: item,
         },
-        separator,
-      ),
+        ...rest,
+      }),
     );
     const resData = await Promise.all(allRequst);
     const transData = language.to.map((item, index) => ({
@@ -310,14 +307,13 @@ async function core({
     const suffix = path.extname(inputFileData.fileName);
     // 翻译
     const allRequst = language.to.map((item) =>
-      replaceValue(
-        inputFileData.fileContent,
-        {
+      replaceValue(inputFileData.fileContent, {
+        language: {
           from: language.from,
           to: item,
         },
-        separator,
-      ),
+        ...rest,
+      }),
     );
     const resData = await Promise.all(allRequst);
     const transData = language.to.map((item, index) => ({

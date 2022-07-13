@@ -1,6 +1,6 @@
-import type { ITranslateConfig } from './translate/index';
+import { TranslateConfig } from './translate/index';
 
-export type ConfigType = { translate: ITranslateConfig };
+export type ConfigType = { translate: TranslateConfig };
 
 export function defineConfig(config: ConfigType): ConfigType {
   return config;
