@@ -1,17 +1,14 @@
 import md5 from 'md5';
 import axios from 'axios';
-import type { Ilanguage } from './index';
+import type { Language, YouDaoConfig } from './types';
 import { checkCode } from './languages';
 
-interface ITranslateOptions {
-  language?: Ilanguage;
-  config?: IYouDaoConfig;
+interface Options {
+  language?: Language;
+  config?: YouDaoConfig;
 }
-export interface IYouDaoConfig {
-  key: string;
-  secret: string;
-}
-async function translate(content: string, options: ITranslateOptions) {
+
+async function translate(content: string, options: Options) {
   if (options?.language?.from) {
     checkCode(options?.language?.from, 'youdao');
   }

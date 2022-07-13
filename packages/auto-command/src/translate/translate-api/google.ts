@@ -1,7 +1,7 @@
 import querystring from 'querystring';
 import got from 'got';
 import tunnel from 'tunnel';
-import type { Ilanguage } from './index';
+import type { Language, GoogleConfig } from './types';
 import { checkCode } from './languages';
 
 function extract(key: any, res: any) {
@@ -12,16 +12,11 @@ function extract(key: any, res: any) {
   }
   return '';
 }
-interface ITranslateOptions {
-  language?: Ilanguage;
-  config?: IGoogleConfig;
+interface Options {
+  language?: Language;
+  config?: GoogleConfig;
 }
-export interface IGoogleConfig {
-  proxy: {
-    host: string;
-    port: number;
-  };
-}
+
 function translate(text: any, opts: any, gotopts: any) {
   if (opts.from) {
     checkCode(opts.from, 'google');
@@ -151,7 +146,7 @@ function translate(text: any, opts: any, gotopts: any) {
     });
 }
 
-export default async (content: string, options: ITranslateOptions) => {
+export default async (content: string, options: Options) => {
   let gotopts;
   if (options.config?.proxy) {
     gotopts = {

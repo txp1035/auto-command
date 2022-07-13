@@ -1,24 +1,11 @@
 import googleTranslate from './google';
 import youdaoTranslate from './youdao';
-import type { IGoogleConfig } from './google';
-import type { IYouDaoConfig } from './youdao';
+import type { ApiOptions } from './types';
 
-export type TTranslator = 'google' | 'youdao';
-export interface Ilanguage {
-  from: string;
-  to: string;
-}
-export interface ITranslateOptions {
-  language: Ilanguage;
-  translatorType: TTranslator;
-  google?: IGoogleConfig;
-  youdao?: IYouDaoConfig;
-}
-
-export default async (
+export default async function api(
   content: string,
-  { translatorType, language, youdao, google }: ITranslateOptions,
-) => {
+  { translatorType, language, youdao, google }: ApiOptions,
+) {
   let res;
   if (translatorType === 'google') {
     res = await googleTranslate(content, { language, config: google });
@@ -27,4 +14,4 @@ export default async (
     res = await youdaoTranslate(content, { language, config: youdao });
   }
   return res;
-};
+}
