@@ -1,7 +1,7 @@
 import { defineConfig } from '@/packages/auto-command/src';
 import translate from '@/packages/auto-command/src/translate';
 
-const config = defineConfig({
+const config1 = defineConfig({
   translate: {
     translatorType: 'youdao',
     // 分隔符号（可选）：默认为-，如果你的文件名不是以-分割的话需要配置
@@ -19,5 +19,18 @@ const config = defineConfig({
     },
   },
 });
-// 主程序测试;
-translate(config.translate);
+const config2 = defineConfig({
+  translate: {
+    translatorType: 'youdao',
+    language: {
+      from: 'zh-CN',
+      to: ['en-US'],
+    },
+    type: 'file',
+    outDir: '/Users/shawdanon/GitHub/minehttp/txp/example/auto-command/localesFile',
+  },
+});
+// 测试目录情况
+// translate(config1.translate);
+// 测试文件情况
+translate(config2.translate);
