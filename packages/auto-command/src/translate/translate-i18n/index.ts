@@ -33,12 +33,16 @@ export default async function i18n(content: string, options: I18nOptions) {
   if (options.language.from) {
     obj.language.from = handelCode(
       options.language.from,
-      options.translatorType,
+      options.translatorType || 'youdao',
       options.separator,
     );
   }
   if (options.language.to) {
-    obj.language.to = handelCode(options.language.to, options.translatorType, options.separator);
+    obj.language.to = handelCode(
+      options.language.to,
+      options.translatorType || 'youdao',
+      options.separator,
+    );
   }
   const res = await translate(content, obj);
   return res;
