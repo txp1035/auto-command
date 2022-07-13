@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "esno ./test.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
