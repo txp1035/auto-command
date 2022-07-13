@@ -22,18 +22,32 @@ import { defineConfig } from 'auto-command';
 
 export default defineConfig({
   translate: {
-    // 分隔符号（可选）：默认为-，如果你的文件名不是以-分割的话需要配置
-    separator: '-',
-    // 是否保持以前的翻译不变（可选），默认关闭
-    keep: false,
-    // 类型（可选）：默认为目录
-    type: 'dir',
     // 路径（必填）：locales文件的绝对路径
     outDir: '/xxx/xxx/xxx/src/locales',
-    // 语言转换（可选）：默认从中文转英文
+    // 是否保持以前的翻译不变（可选），默认开启
+    keep: true,
+    // 类型（可选）：默认为目录（antd-pro模式）
+    type: 'dir',
+    // 语言转换（可选）：默认从中文转英文,输出的文件名和这个配置有关
     language: {
       from: 'zh-CN',
       to: ['en-US'],
+    },
+    // 分隔符号（可选）：默认为-，如果你的文件名不是以-分割的话需要配置
+    separator: '-',
+    // 翻译器类型（可选）：默认youdao
+    translatorType: 'youdao',
+    // google翻译器配置（可选）：默认空
+    google: {
+      proxy: {
+        host: '127.0.0.1',
+        port: 7890,
+      },
+    },
+    // youdao翻译器配置（可选）：默认有值，如果翻译失败可能余额不足，请配置
+    youdao: {
+      key: 'xxx',
+      secret: 'xxx',
     },
   },
 });
@@ -56,6 +70,7 @@ $ npx ac -t=translate
 - 支持配置文件提示
 - 支持已经在已经翻译过的项目上进行补充翻译
 - 支持自定义分隔符
+- 支持多类型翻译器：谷歌翻译（国外建议）、有道翻译（国内建议）
 
 ## 分支差异比较并导出差异文件
 

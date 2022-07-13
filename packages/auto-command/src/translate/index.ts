@@ -180,7 +180,8 @@ async function replaceValue(params: { [key: string]: any }, options: I18nOptions
   );
   // 数组转换成字符串，翻译，再转换成数组
   const str = arr.join('\n');
-  const newStr = await translate(str, options);
+  // @ts-ignore 这里设置默认值，options有值就覆盖
+  const newStr = await translate(str, { separator: '-', translatorType: 'youdao', ...options });
   const newArr = newStr.split('\n');
   // 新数组重新赋值给对象
   let index = 0;
@@ -209,16 +210,16 @@ async function replaceValue(params: { [key: string]: any }, options: I18nOptions
 }
 // 核心翻译流程
 export interface TranslateConfig extends ApiPartOptions, I18nPartOptions {
+  outDir: string;
   keep?: boolean;
   type?: 'dir' | 'file';
-  outDir: string;
-  language: { from: Code; to: Code[] };
+  language?: { from: Code; to: Code[] };
 }
 
 async function core({
+  outDir,
   keep = true,
   type = 'dir',
-  outDir,
   language = { from: 'zh-CN', to: ['en-US'] },
   ...rest
 }: TranslateConfig) {

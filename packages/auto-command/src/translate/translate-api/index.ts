@@ -4,7 +4,7 @@ import type { ApiOptions } from './types';
 
 export default async function api(
   content: string,
-  { translatorType, language, youdao, google }: ApiOptions,
+  { translatorType = 'youdao', language, youdao, google }: ApiOptions,
 ) {
   let res;
   if (translatorType === 'google') {
