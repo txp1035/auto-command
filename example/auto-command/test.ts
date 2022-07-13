@@ -1,8 +1,9 @@
-import { defineConfig } from 'umi';
-import translate from '../../packages/auto-command/src/translate/index';
+import { defineConfig } from '@/packages/auto-command/src';
+import translate from '@/packages/auto-command/src/translate';
 
 const config = defineConfig({
   translate: {
+    translatorType: 'youdao',
     // 分隔符号（可选）：默认为-，如果你的文件名不是以-分割的话需要配置
     separator: '-',
     // 是否保持以前的翻译不变（可选），默认关闭
