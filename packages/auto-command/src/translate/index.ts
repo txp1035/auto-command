@@ -1,6 +1,5 @@
-import fs, { write } from 'fs-extra';
+import fs from 'fs-extra';
 import path from 'path';
-import signale from 'signale';
 import * as babel from '@babel/core';
 import traverse from '@babel/traverse';
 import generate from '@babel/generator';
@@ -11,7 +10,7 @@ import type { ApiPartOptions } from './translate-api/types';
 import translate from './translate-i18n';
 
 interface generalObj {
-  [key: string]: generalObj;
+  [key: string]: generalObj | string;
 }
 
 // 基于字符串数组拿到对象深层的值
@@ -30,41 +29,33 @@ function getter<T>(obj: T | undefined, arr: string[]): T | undefined {
     throw new Error(String(error));
   }
 }
-interface fileDataType {
-  fileName: string;
-  fileContent: object;
-}
-interface dirDataType {
-  dirName: string;
-  dirContent: fileDataType[];
-}
 // 二维数组对比
-function contrastDir(before: dirDataType[], after: dirDataType[]) {
+function contrastDir(before: FileNode[], after: FileNode[]): FileNode[] {
   const arr = after.map((element) => {
-    const { dirName, dirContent } = element;
-    const beforeDirContent = before.find((item) => item.dirName === dirName);
+    const { name, content, ...rest } = element;
+    const beforeDirContent = before.find((item) => item.name === name);
     if (typeof beforeDirContent === 'undefined') {
-      return { dirName, dirContent };
+      return { name, content, ...rest };
     }
     return {
-      dirName,
-      dirContent: contrastFile(beforeDirContent?.dirContent, dirContent),
+      name,
+      content: contrastFile(beforeDirContent?.content as FileNode[], content as FileNode[]),
+      ...rest,
     };
   });
   return arr;
 }
 // 数组对比
-function contrastFile(before: fileDataType[], after: fileDataType[]) {
+function contrastFile(before: FileNode[], after: FileNode[]): FileNode[] {
   const arr = after.map((element) => {
-    const { fileName, fileContent } = element;
-    const beforeContent = before.find((item) => fileName === item.fileName)?.fileContent;
+    const { name, content, ...rest } = element;
+    const beforeContent = before.find((item) => name === item.name)?.content;
     if (!beforeContent) {
-      return { fileName, fileContent };
+      return { name, content, ...rest };
     }
     // 深度遍历处理内容节点
     recursiveObj(
-      // @ts-ignore
-      fileContent,
+      content as generalObj,
       (obj: { [key: string]: any }, key: string, nodeStr: string[]) => {
         // 根节点赋值
         if (typeof obj[key] !== 'object') {
@@ -76,7 +67,7 @@ function contrastFile(before: fileDataType[], after: fileDataType[]) {
       },
       [],
     );
-    return { fileName, fileContent };
+    return { name, content, ...rest };
   });
   return arr;
 }
@@ -95,7 +86,7 @@ function recursiveObj(
       Object.prototype.toString.call(obj[item]) === '[object Object]' ||
       Object.prototype.toString.call(obj[item]) === '[object Array]'
     ) {
-      recursiveObj(obj[item], fc, [...curNode, item]);
+      recursiveObj(obj[item] as generalObj, fc, [...curNode, item]);
     }
   });
 }
@@ -153,27 +144,40 @@ function getObj(str: string) {
   return obj;
 }
 
-// 传入一个对象，翻译fileContent里面的value值
-async function replaceValue(params: { [key: string]: any }, options: I18nOptions) {
+function isFile(obj: FileNode | generalObj): boolean {
+  let isFile = true;
+  const arr = Object.keys(obj).map((item) => {
+    if (item !== 'name') {
+      isFile = false;
+    }
+    if (item !== 'type') {
+      isFile = false;
+    }
+    if (item !== 'path') {
+      isFile = false;
+    }
+    if (item !== 'content') {
+      isFile = false;
+    }
+  });
+  if (arr.length !== 4) {
+    isFile = false;
+  }
+  return isFile;
+}
+
+// params可以是对象也可以是数组
+async function replaceValue<T>(params: T, options: I18nOptions): Promise<Awaited<T>> {
   // 遍历对象value值成扁平数组
   const newParams = JSON.parse(JSON.stringify(params));
-  let isLog = false;
   const arr: string[] = [];
   recursiveObj(
     newParams,
     (obj, key) => {
-      if (Object.prototype.toString.call(params) === '[object Object]') {
-        isLog = true;
-      }
       const curNodeType = Object.prototype.toString.call(obj[key]);
-      if (key === 'fileName') {
-        isLog = false;
-      }
-      if (isLog && curNodeType !== '[object Object]' && curNodeType !== '[object Array]') {
+      // 这里每次判断可能有性能问题
+      if (!isFile(obj) && curNodeType !== '[object Object]' && curNodeType !== '[object Array]') {
         arr.push(obj[key]);
-      }
-      if (key === 'fileContent') {
-        isLog = true;
       }
     },
     [],
@@ -181,27 +185,18 @@ async function replaceValue(params: { [key: string]: any }, options: I18nOptions
   // 数组转换成字符串，翻译，再转换成数组
   const str = arr.join('\n');
   // @ts-ignore 这里设置默认值，options有值就覆盖
+  // utils.node.logger.error(str);
   const newStr = await translate(str, { separator: '-', translatorType: 'youdao', ...options });
   const newArr = newStr.split('\n');
   // 新数组重新赋值给对象
   let index = 0;
-  isLog = false;
   recursiveObj(
     newParams,
     (obj, key) => {
-      if (Object.prototype.toString.call(params) === '[object Object]') {
-        isLog = true;
-      }
       const curNodeType = Object.prototype.toString.call(obj[key]);
-      if (key === 'fileName') {
-        isLog = false;
-      }
-      if (isLog && curNodeType !== '[object Object]' && curNodeType !== '[object Array]') {
+      if (!isFile(obj) && curNodeType !== '[object Object]' && curNodeType !== '[object Array]') {
         obj[key] = newArr[index];
         index += 1;
-      }
-      if (key === 'fileContent') {
-        isLog = true;
       }
     },
     [],
@@ -220,9 +215,9 @@ interface FileNode {
   name: string;
   type: 'dir' | 'file' | 'ignore' | undefined;
   path: string;
-  content: string | FileNode[];
+  content: string | FileNode[] | generalObj;
 }
-function traverseDocument(dir: string, hook: Hook): FileNode[] {
+function traverseDocument(dir: string, hook: Hook | undefined, level = 1): FileNode[] {
   const dirArr = fs.readdirSync(dir);
   return dirArr
     .map((item): FileNode => {
@@ -242,7 +237,7 @@ function traverseDocument(dir: string, hook: Hook): FileNode[] {
           name: item,
           type: 'dir',
           path: itemPath,
-          content: traverseDocument(itemPath, hook),
+          content: traverseDocument(itemPath, hook, level + 1),
         };
       } catch (error) {
         try {
@@ -256,7 +251,10 @@ function traverseDocument(dir: string, hook: Hook): FileNode[] {
               content: 'ignore',
             };
           }
-          const file = fs.readFileSync(itemPath, 'utf8');
+          let file: string | generalObj = fs.readFileSync(itemPath, 'utf8');
+          if (hook?.convertContent) {
+            file = hook?.convertContent.input(file, level);
+          }
           return {
             name: item,
             type: 'file',
@@ -265,19 +263,26 @@ function traverseDocument(dir: string, hook: Hook): FileNode[] {
           };
         } catch (error) {
           // 正常来说不可能进到这里
-          return { name: 'name', type: undefined, path: itemPath, content: '既不是文件也不是目录' };
+          return { name: item, type: undefined, path: itemPath, content: '既不是文件也不是目录' };
         }
       }
     })
     .filter((item) => item.type !== 'ignore');
 }
-function traverseWriteFile(array: FileNode[]) {
+function traverseWriteFile(array: FileNode[], hook: Hook | undefined, level = 1) {
   array.forEach((element) => {
     if (element.type === 'dir') {
-      traverseWriteFile(element.content as FileNode[]);
+      traverseWriteFile(element.content as FileNode[], hook, level + 1);
     }
     if (element.type === 'file') {
-      writeFile(element.path, element.content as string);
+      let newContent = element.content;
+      if (hook?.convertContent) {
+        newContent = hook?.convertContent.out(element.content as generalObj, level);
+      }
+      if (typeof newContent !== 'string') {
+        throw new Error('类型异常');
+      }
+      writeFile(element.path, newContent);
     }
     if (element.type === undefined) {
       utils.node.logger.error('输出文件出现类型错误！');
@@ -285,33 +290,138 @@ function traverseWriteFile(array: FileNode[]) {
   });
 }
 const hookDir: Hook = {
-  getBaseArr: (arr, from) => {
-    return arr.filter((item) => new RegExp(from).test(item.name));
+  convertContent: {
+    input: (params: string, level: number) => (level !== 1 ? getObj(params) : params),
+    out: (params: object | string, level: number) =>
+      level !== 1 && typeof params === 'object' ? formatting(params) : (params as string),
   },
-  getOtherArr: () => {},
+  handleData: async (arr, options) => {
+    const {
+      outDir,
+      keep = true,
+      type = 'dir',
+      language = { from: 'zh-CN', to: ['en-US'] },
+      hook,
+      ...rest
+    } = options;
+    const baseDir = arr.find((item) => item.name === language.from && item.type === 'dir');
+    const baseFile = arr.find(
+      (item) => new RegExp(language.from).test(item.name) && item.type === 'file',
+    );
+    if (!baseDir) {
+      utils.node.logger.error('基础目录为空');
+      throw new Error('基础目录为空');
+    }
+    if (!baseFile) {
+      utils.node.logger.error('基础文件为空');
+      throw new Error('基础文件为空');
+    }
+    const suffix = path.extname(baseFile.name);
+    const newBaseFile = language.to.map((item) => ({
+      name: `${item}${suffix}`,
+      type: 'file',
+      path: `${outDir}/${item}${suffix}`,
+      content: (baseFile.content as string).replace(language.from, item),
+    }));
+    const allRequst = language.to.map((item) =>
+      replaceValue(baseDir?.content as FileNode[], {
+        language: {
+          from: language.from,
+          to: item,
+        },
+        ...rest,
+      }),
+    );
+    const resData = await Promise.all(allRequst);
+    const transData = language.to.map(
+      (item, index): FileNode => ({
+        name: item,
+        type: 'dir',
+        path: `${outDir}/${item}`,
+        content: resData[index].map(
+          (items): FileNode => ({
+            ...items,
+            path: `${outDir}/${item}/${items.name}`,
+          }),
+        ),
+      }),
+    );
+    let lastData;
+    if (keep) {
+      lastData = contrastDir(arr, transData);
+    } else {
+      lastData = transData;
+    }
+
+    return [...lastData, ...newBaseFile] as FileNode[];
+  },
 };
 const hookFile: Hook = {
-  getBaseArr: (arr, from) => {
-    return arr.filter((item) => new RegExp(from).test(item.name));
+  convertContent: {
+    input: (params: string) => getObj(params),
+    out: (params) => formatting(params as object),
   },
-  getOtherArr: () => {},
+  handleData: async (arr, options) => {
+    const {
+      outDir,
+      keep = true,
+      type = 'dir',
+      language = { from: 'zh-CN', to: ['en-US'] },
+      hook,
+      ...rest
+    } = options;
+    const baseFile = arr.find(
+      (item) => new RegExp(language.from).test(item.name) && item.type === 'file',
+    );
+    if (!baseFile) {
+      utils.node.logger.error('基础文件为空');
+      throw new Error('基础文件为空');
+    }
+    const suffix = path.extname(baseFile.name);
+    const allRequst = language.to.map((item) =>
+      replaceValue(baseFile?.content as FileNode[], {
+        language: {
+          from: language.from,
+          to: item,
+        },
+        ...rest,
+      }),
+    );
+    const resData = await Promise.all(allRequst);
+    const transData = language.to.map(
+      (item, index): FileNode => ({
+        name: `${item}${suffix}`,
+        type: 'file',
+        path: `${outDir}/${item}${suffix}`,
+        content: resData[index],
+      }),
+    );
+    let lastData;
+    if (keep) {
+      lastData = contrastFile(arr, transData);
+    } else {
+      lastData = transData;
+    }
+
+    return [...lastData] as FileNode[];
+  },
 };
+
 interface Hook {
+  // 开始阶段钩子
   // 基于文件或者目录名字忽略掉,返回false就忽略掉
   filter?: (name: string) => boolean;
-  getBaseArr: (arr: FileNode[], from: string) => FileNode[];
-  getOtherArr: (arr: FileNode[]) => FileNode[];
+  convertContent?: {
+    input: (params: string, level: number) => generalObj;
+    out: (params: object | string, level: number) => string;
+  };
+  // 数据梳理阶段钩子
+  handleData?: (arr: FileNode[], options: TranslateConfig) => Promise<FileNode[]>;
 }
 
-export function main({
-  outDir,
-  keep = true,
-  type = 'dir',
-  language = { from: 'zh-CN', to: ['en-US'] },
-  hook,
-  ...rest
-}: TranslateConfig) {
-  let newHook = hook || hookDir;
+export async function main(options: TranslateConfig) {
+  const { outDir, type = 'dir', hook } = options;
+  let newHook = hook;
   if (type === 'dir') {
     newHook = hookDir;
   }
@@ -319,143 +429,22 @@ export function main({
     newHook = hookFile;
   }
   let documentArr;
-  // 拿目录下文件;
+  utils.node.logger.info('开始阶段');
   documentArr = traverseDocument(outDir, newHook);
-  // writeFile(`${outDir}/log.json`, JSON.stringify(documentArr));
-  // console.log('test', documentArr);
-  // return;
-  // 选择基础组;
-  const baseArr = newHook.getBaseArr(documentArr, language.from);
-  // 基于基础组输出其他语言的组
-  const newArr = newHook.getOtherArr(baseArr);
-  // 输出文件;
-  traverseWriteFile(newArr);
-}
-
-async function core({
-  outDir,
-  keep = true,
-  type = 'dir',
-  language = { from: 'zh-CN', to: ['en-US'] },
-  ...rest
-}: TranslateConfig) {
-  signale.time('translate');
-  // 判断input是路径还是文件
-  if (type === 'dir') {
-    // 把输出目录中的文件转换成数组
-    const outDirArr = fs.readdirSync(path.join(outDir));
-    const outFileArr = outDirArr
-      .map((langItem) => {
-        // 输入目录里的文件内容转成数组
-        try {
-          // 如果是目录
-          fs.ensureDirSync(path.join(outDir, `/${langItem}`));
-          const langDirArr = fs.readdirSync(path.join(outDir, `/${langItem}`));
-          const langFileArr = langDirArr.map((item) => {
-            const str = path.join(outDir, `/${langItem}`, item);
-            const file = fs.readFileSync(str, 'utf8');
-            return {
-              fileName: item,
-              fileContent: getObj(file),
-            };
-          });
-          return { dirName: langItem, dirContent: langFileArr };
-        } catch (error) {
-          try {
-            // 如果是文件
-            fs.ensureFileSync(path.join(outDir, `/${langItem}`));
-            return undefined;
-          } catch (errors) {
-            // 两者都不是
-            throw new Error(String(errors));
-          }
-        }
-      })
-      .filter((item) => !!item) as dirDataType[];
-    // 拿到输入文件数据
-    const inputFileData = outFileArr.find((item) => item.dirName === language.from);
-    // 翻译
-    const allRequst = language.to.map((item) =>
-      replaceValue(inputFileData?.dirContent || {}, {
-        language: {
-          from: language.from,
-          to: item,
-        },
-        ...rest,
-      }),
-    );
-    const resData = await Promise.all(allRequst);
-    const transData = language.to.map((item, index) => ({
-      dirName: item,
-      dirContent: resData[index],
-    }));
-    let lastData;
-    if (keep) {
-      lastData = contrastDir(outFileArr, transData);
-    } else {
-      lastData = transData;
-    }
-    lastData.forEach((element) => {
-      const { dirName, dirContent } = element;
-      dirContent.forEach((item: fileDataType) => {
-        const { fileName, fileContent } = item;
-        const text = formatting(fileContent);
-        writeFile(path.join(outDir, `/${dirName}/`, fileName), text);
-      });
-    });
+  utils.node.logger.info('数据处理阶段');
+  let newDocumentArr = documentArr;
+  if (newHook?.handleData) {
+    newDocumentArr = await newHook.handleData(newDocumentArr, options);
   }
-  if (type === 'file') {
-    // 把输出目录中的文件转换成数组
-    const outDirArr = fs.readdirSync(path.join(outDir));
-    const outFileArr = outDirArr.map((item) => {
-      const str = path.join(outDir, `/${item}`);
-      const file = fs.readFileSync(str, 'utf8');
-      return {
-        fileName: item,
-        fileContent: getObj(file),
-      };
-    });
-    // 拿到输入文件数据
-    const inputFileData = outFileArr.find((item) => new RegExp(language.from).test(item.fileName));
-    if (!inputFileData) {
-      throw new Error('inputFileData not find');
-    }
-    const suffix = path.extname(inputFileData.fileName);
-    // 翻译
-    const allRequst = language.to.map((item) =>
-      replaceValue(inputFileData.fileContent, {
-        language: {
-          from: language.from,
-          to: item,
-        },
-        ...rest,
-      }),
-    );
-    const resData = await Promise.all(allRequst);
-    const transData = language.to.map((item, index) => ({
-      fileName: item + suffix,
-      fileContent: resData[index],
-    }));
-    let lastData;
-    if (keep) {
-      lastData = contrastFile(outFileArr, transData);
-    } else {
-      lastData = transData;
-    }
-
-    lastData.forEach((element) => {
-      const { fileName, fileContent } = element;
-      const text = formatting(fileContent);
-      writeFile(path.join(outDir, `/${fileName}`), text);
-    });
-  }
-  signale.timeEnd('translate');
+  utils.node.logger.info('输出文件阶段');
+  traverseWriteFile(newDocumentArr, newHook);
 }
 
 export default async (options: TranslateConfig) => {
   try {
-    await core(options);
+    await main(options);
   } catch (error) {
     utils.node.logger.error(error);
+    throw new Error(String(error));
   }
 };
