@@ -2,6 +2,17 @@
 
 ## 包说明
 
+- [积极维护]auto-command
+- [保持不变]crons
+- [保持不变]fine-dog
+- [废弃不用]@shawdanon/first
+- [废弃不用]pnrm
+- [暂时不用]txp-data-hub
+- [废弃不用]txp-first
+- [积极维护]txp-utils
+- [暂时不用]txp
+- [暂时不用]umi-plugin-codegen
+
 ## 使用说明
 
 ### 一些常用命令
