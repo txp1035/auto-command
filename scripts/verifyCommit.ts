@@ -30,7 +30,7 @@ Merge
 */
 const msg = removeComment(fs.readFileSync(msgPath, 'utf-8').trim());
 const commitRE =
-  /^(revert: )?(feat|fix|docs|style|build|refactor|test|perf|ci|chore)(\(.+\))?: .{1,50}/;
+  /^(revert: )?(feat|fix|docs|style|build|refactor|test|perf|ci|chore|Merge)(\(.+\))?: .{1,50}/;
 const zh_CN = /[\u4e00-\u9fa5]/;
 if (!commitRE.test(msg)) {
   console.error(
