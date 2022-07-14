@@ -1,6 +1,5 @@
 packages:
-  - 'packages/*'
+  - 'packages/auto-command'
+  - 'packages/txp-utils'
   - 'examples/*'
   - 'scripts'
-  - '!packages/umi-plugin-codegen'
-  - '!packages/txp'
