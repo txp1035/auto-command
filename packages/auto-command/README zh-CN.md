@@ -28,6 +28,12 @@ export default defineConfig({
     keep: true,
     // 类型（可选）：默认为目录（antd-pro模式）
     type: 'dir',
+    // 钩子函数（可选）：自定义输出
+    hook: {
+      filter: () => {},
+      convertContent: { input: () => {}, out: () => {} },
+      handleData: () => {},
+    },
     // 语言转换（可选）：默认从中文转英文,输出的文件名和这个配置有关
     language: {
       from: 'zh-CN',
