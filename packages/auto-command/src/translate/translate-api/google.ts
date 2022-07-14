@@ -1,4 +1,4 @@
-import querystring from 'querystring';
+import querystring from 'query-string';
 import got from 'got';
 import tunnel from 'tunnel';
 import type { Language, GoogleConfig } from './types';
