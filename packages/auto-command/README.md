@@ -28,6 +28,12 @@ export default defineConfig({
     keep: true,
     // type (optional): defaults to directory (antd-pro mode)
     type: 'dir',
+    // Hook function (optional): custom output
+    hook: {
+      filter: () => {},
+      convertContent: { input: () => {}, out: () => {} },
+      handleData: () => {},
+    },
     // Language conversion (optional): Convert from Chinese to English by default, the output file name is related to this configuration
     language: {
       from: 'zh-CN',

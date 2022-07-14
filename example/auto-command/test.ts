@@ -11,7 +11,7 @@ const config1 = defineConfig({
     // 类型（可选）：默认为目录
     type: 'dir',
     // 路径（必填）：locales文件的绝对路径
-    outDir: '/Users/shawdanon/GitHub/minehttp/txp/example/auto-command/localesDir',
+    outDir: '/Users/shawdanon/GitHub/mine/txp/example/auto-command/localesDir',
     // 语言转换（可选）：默认从中文转英文
     language: {
       from: 'zh-CN',
@@ -21,23 +21,16 @@ const config1 = defineConfig({
 });
 const config2 = defineConfig({
   translate: {
-    google: { proxy: { host: '1', port: 123 } },
-    youdao: { key: '12', secret: '123' },
     translatorType: 'youdao',
     language: {
       from: 'zh-CN',
-      to: ['en-US'],
+      to: ['zh-TW'],
     },
     type: 'file',
-    outDir: '/Users/shawdanon/GitHub/minehttp/txp/example/auto-command/localesFile',
-  },
-});
-const config3 = defineConfig({
-  translate: {
-    outDir: '/Users/shawdanon/GitHub/minehttp/txp/example/auto-command/localesDir',
+    outDir: '/Users/shawdanon/GitHub/mine/txp/example/auto-command/localesFile',
   },
 });
 // 测试目录情况
-// translate(config1.translate);
+translate(config1.translate);
 // 测试文件情况
-translate(config3.translate);
+// translate(config2.translate);
