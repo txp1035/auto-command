@@ -3,3 +3,4 @@ packages:
   - 'examples/*'
   - 'scripts'
   - '!packages/umi-plugin-codegen'
+  - '!packages/txp'

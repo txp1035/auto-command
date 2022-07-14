@@ -25,7 +25,7 @@
     "@types/signale": "^1.4.4",
     "@types/tunnel": "^0.0.3",
     "@types/yargs-parser": "^21.0.0",
-    "@umijs/fabric": "^1.1.9",
+    "@umijs/fabric": "^2.12.2",
     "esno": "^0.16.3",
     "husky": "^8.0.0",
     "lerna": "^5.1.7",
@@ -39,15 +39,5 @@
   "engines": {
     "node": ">=16",
     "pnpm": ">=7"
-  },
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "postcss",
-        "webpack",
-        "eslint",
-        "stylelint"
-      ]
-    }
   }
 }
