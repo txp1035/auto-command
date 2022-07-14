@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import fs, { write } from 'fs-extra';
 import path from 'path';
 import signale from 'signale';
 import * as babel from '@babel/core';
@@ -214,6 +214,122 @@ export interface TranslateConfig extends ApiPartOptions, I18nPartOptions {
   keep?: boolean;
   type?: 'dir' | 'file';
   language?: { from: Code; to: Code[] };
+  hook?: Hook;
+}
+interface FileNode {
+  name: string;
+  type: 'dir' | 'file' | 'ignore' | undefined;
+  path: string;
+  content: string | FileNode[];
+}
+function traverseDocument(dir: string, hook: Hook): FileNode[] {
+  const dirArr = fs.readdirSync(dir);
+  return dirArr
+    .map((item): FileNode => {
+      const itemPath = path.join(dir, `/${item}`);
+      try {
+        // 如果是目录
+        fs.ensureDirSync(itemPath);
+        if (hook?.filter && !hook?.filter(item)) {
+          return {
+            name: item,
+            type: 'ignore',
+            path: itemPath,
+            content: 'ignore',
+          };
+        }
+        return {
+          name: item,
+          type: 'dir',
+          path: itemPath,
+          content: traverseDocument(itemPath, hook),
+        };
+      } catch (error) {
+        try {
+          // 如果是文件
+          fs.ensureFileSync(itemPath);
+          if (hook?.filter && !hook?.filter(item)) {
+            return {
+              name: item,
+              type: 'ignore',
+              path: itemPath,
+              content: 'ignore',
+            };
+          }
+          const file = fs.readFileSync(itemPath, 'utf8');
+          return {
+            name: item,
+            type: 'file',
+            path: itemPath,
+            content: file,
+          };
+        } catch (error) {
+          // 正常来说不可能进到这里
+          return { name: 'name', type: undefined, path: itemPath, content: '既不是文件也不是目录' };
+        }
+      }
+    })
+    .filter((item) => item.type !== 'ignore');
+}
+function traverseWriteFile(array: FileNode[]) {
+  array.forEach((element) => {
+    if (element.type === 'dir') {
+      traverseWriteFile(element.content as FileNode[]);
+    }
+    if (element.type === 'file') {
+      writeFile(element.path, element.content as string);
+    }
+    if (element.type === undefined) {
+      utils.node.logger.error('输出文件出现类型错误！');
+    }
+  });
+}
+const hookDir: Hook = {
+  getBaseArr: (arr, from) => {
+    return arr.filter((item) => new RegExp(from).test(item.name));
+  },
+  getOtherArr: () => {},
+};
+const hookFile: Hook = {
+  getBaseArr: (arr, from) => {
+    return arr.filter((item) => new RegExp(from).test(item.name));
+  },
+  getOtherArr: () => {},
+};
+interface Hook {
+  // 基于文件或者目录名字忽略掉,返回false就忽略掉
+  filter?: (name: string) => boolean;
+  getBaseArr: (arr: FileNode[], from: string) => FileNode[];
+  getOtherArr: (arr: FileNode[]) => FileNode[];
+}
+
+export function main({
+  outDir,
+  keep = true,
+  type = 'dir',
+  language = { from: 'zh-CN', to: ['en-US'] },
+  hook,
+  ...rest
+}: TranslateConfig) {
+  let newHook = hook || hookDir;
+  if (type === 'dir') {
+    newHook = hookDir;
+  }
+  if (type === 'file') {
+    newHook = hookFile;
+  }
+  let documentArr;
+  // 拿目录下文件;
+  documentArr = traverseDocument(outDir, newHook);
+  // writeFile(`${outDir}/log.json`, JSON.stringify(documentArr));
+  // console.log('test', documentArr);
+  // return;
+  // 选择基础组;
+  const baseArr = newHook.getBaseArr(documentArr, language.from);
+  // 基于基础组输出其他语言的组
+  const newArr = newHook.getOtherArr(baseArr);
+  // 输出文件;
+  traverseWriteFile(newArr);
 }
 
 async function core({
@@ -335,6 +451,7 @@ async function core({
   }
   signale.timeEnd('translate');
 }
+
 export default async (options: TranslateConfig) => {
   try {
     await core(options);

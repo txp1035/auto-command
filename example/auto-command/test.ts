@@ -1,5 +1,5 @@
 import { defineConfig } from '@/packages/auto-command/src';
-import translate from '@/packages/auto-command/src/translate';
+import translate, { main, testout } from '@/packages/auto-command/src/translate';
 
 const config1 = defineConfig({
   translate: {
@@ -40,4 +40,5 @@ const config3 = defineConfig({
 // 测试目录情况
 // translate(config1.translate);
 // 测试文件情况
-translate(config3.translate);
+testout(config3.translate);
+// main(config3.translate);
