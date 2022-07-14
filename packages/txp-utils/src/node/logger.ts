@@ -10,9 +10,6 @@ const customLevels = {
   ready: 31,
   event: 32,
   wait: 55,
-  // 虽然这里设置了 debug 为 30，但日志中还是 20，符合预期
-  // 这里不加会不生成到 txp.log，transport 的 level 配置没有生效，原因不明
-  debug: 30,
 };
 
 let logger: Logger<{ customLevels: typeof customLevels }>;
@@ -23,13 +20,17 @@ function init() {
     logger = pino(
       {
         customLevels,
+        level: 'debug',
       },
       pino.transport({
         targets: [
           {
-            target: require.resolve('pino/file'),
+            target: 'pino-pretty',
             options: {
               destination: loggerPath,
+              colorize: false,
+              translateTime: 'SYS:yyyy-mm-dd HH:MM:ss.l',
+              messageFormat: 'level: {level}、msg: {msg}',
             },
             level: 'trace',
           },

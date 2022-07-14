@@ -21,8 +21,10 @@
   },
   "dependencies": {
     "chalk": "^5.0.1",
+    "dayjs": "^1.11.3",
     "fs-extra": "^10.1.0",
-    "pino": "^8.1.0"
+    "pino": "^8.1.0",
+    "pino-pretty": "^8.1.0"
   },
   "authors": [
     "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"

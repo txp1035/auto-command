@@ -335,4 +335,10 @@ async function core({
   }
   signale.timeEnd('translate');
 }
-export default core;
+export default async (options: TranslateConfig) => {
+  try {
+    await core(options);
+  } catch (error) {
+    utils.node.logger.error(error);
+  }
+};
