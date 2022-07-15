@@ -26,6 +26,9 @@
     "pino": "^8.1.0",
     "pino-pretty": "^8.1.0"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "authors": [
     "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
   ]

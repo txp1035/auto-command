@@ -28,6 +28,9 @@
   "dependencies": {
     "milady": "^0.0.4"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "authors": [
     "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
   ]

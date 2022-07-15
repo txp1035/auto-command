@@ -19,6 +19,9 @@
     "build": "pnpm tsc",
     "sort": "npx sort-package-json"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "authors": [
     "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
   ]
