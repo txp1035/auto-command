@@ -11,6 +11,7 @@ importers:
       '@types/jest': ^24.0.15
       '@types/lodash': ^4.14.182
       '@types/md5': ^2.3.2
+      '@types/prettier': ^2.6.3
       '@types/tunnel': ^0.0.3
       '@types/yargs-parser': ^21.0.0
       '@umijs/fabric': ^2.12.2
@@ -30,6 +31,7 @@ importers:
       '@types/jest': 24.9.1
       '@types/lodash': 4.14.182
       '@types/md5': 2.3.2
+      '@types/prettier': 2.6.3
       '@types/tunnel': 0.0.3
       '@types/yargs-parser': 21.0.0
       '@umijs/fabric': 2.12.2
@@ -2680,6 +2682,10 @@ packages:
 
   /@types/parse-json/4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
+    dev: true
+
+  /@types/prettier/2.6.3:
+    resolution: {integrity: sha512-ymZk3LEC/fsut+/Q5qejp6R9O1rMxz3XaRHDV6kX8MrGAhOSPqVARbDi+EZvInBpw+BnCX3TD240byVkOfQsHg==}
     dev: true
 
   /@types/ps-tree/1.1.2:
