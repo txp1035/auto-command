@@ -1,6 +1,6 @@
 {
   "name": "txp-data-hub",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "This is a service that processes end-end data.",
   "homepage": "https://github.com/txp1035/txp/tree/master/packages/txp-data-hub",
   "bugs": {
