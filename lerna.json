@@ -1,4 +1,10 @@
 {
   "version": "independent",
+  "command": {
+    "publish": {
+      "ignoreChanges": ["*.md", "**/test/**"],
+      "message": "chore(release): publish"
+    }
+  },
   "workspaces": ["packages/*"]
 }
