@@ -25,6 +25,9 @@
     "lodash": "^4.0.0",
     "txp-utils": "^1.2.0"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "authors": [
     "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
   ]
