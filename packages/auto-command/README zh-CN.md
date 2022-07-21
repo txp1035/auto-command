@@ -18,7 +18,7 @@
 你必须配置 .autocmd.ts 文件
 
 ```js
-import { defineConfig } from 'auto-command';
+import { defineConfig } from 'auto-command/lib';
 
 export default defineConfig({
   translate: {

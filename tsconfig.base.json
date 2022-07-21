@@ -4,7 +4,7 @@
   "compilerOptions": {
     /* Projects 项目*/
     /* Language and Environment 语言与环境*/
-    "target": "es2019" /* 默认：为导出的 JavaScript 设置 JavaScript 语言版本并包含兼容的库声明 */,
+    "target": "es2021" /* 默认：为导出的 JavaScript 设置 JavaScript 语言版本并包含兼容的库声明 */,
     "jsx": "react" /* 指定生成什么 JSX 代码 */,
     /* Modules 模块*/
     "module": "commonjs" /* 默认：指定生成什么模块代码 */,
