@@ -4,6 +4,7 @@
     "build": "turbo run build",
     "prepare": "husky install",
     "prettier": "prettier --write .",
+    "publish": "pnpm build & lerna publish",
     "sort": "turbo run sort"
   },
   "lint-staged": {
