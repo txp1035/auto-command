@@ -18,7 +18,7 @@ An efficiency tool to reduce copy and paste operations
 You have to configure the .autocmd.ts file
 
 ```js
-import { defineConfig } from 'auto-command';
+import { defineConfig } from 'auto-command/lib';
 
 export default defineConfig({
   translate: {

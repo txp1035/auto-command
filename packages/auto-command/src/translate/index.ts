@@ -321,7 +321,7 @@ const hookDir: Hook = {
       name: `${item}${suffix}`,
       type: 'file',
       path: `${outDir}/${item}${suffix}`,
-      content: (baseFile.content as string).replace(language.from, item),
+      content: (baseFile.content as string).replaceAll(language.from, item),
     }));
     const allRequst = language.to.map((item) =>
       replaceValue(baseDir?.content as FileNode[], {
@@ -352,7 +352,6 @@ const hookDir: Hook = {
     } else {
       lastData = transData;
     }
-
     return [...lastData, ...newBaseFile] as FileNode[];
   },
 };

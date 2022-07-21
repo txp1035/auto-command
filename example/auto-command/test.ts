@@ -1,5 +1,5 @@
-import { defineConfig } from '@/packages/auto-command/src';
-import translate from '@/packages/auto-command/src/translate';
+import { defineConfig } from 'auto-command/src';
+import translate from 'auto-command/src/translate';
 
 const config1 = defineConfig({
   translate: {
