@@ -144,25 +144,15 @@ function getObj(str: string) {
   return obj;
 }
 
+// 判断是否为一个文件对象，只有目录翻译才需要传入文件类型对象
 function isFile(obj: FileNode | generalObj): boolean {
   let isFile = true;
-  const arr = Object.keys(obj).map((item) => {
-    if (item !== 'name') {
-      isFile = false;
-    }
-    if (item !== 'type') {
-      isFile = false;
-    }
-    if (item !== 'path') {
-      isFile = false;
-    }
-    if (item !== 'content') {
+  Object.keys(obj).forEach((item) => {
+    const arr = ['name', 'type', 'path', 'content'];
+    if (arr.indexOf(item) === -1) {
       isFile = false;
     }
   });
-  if (arr.length !== 4) {
-    isFile = false;
-  }
   return isFile;
 }
 
@@ -171,6 +161,7 @@ async function replaceValue<T>(params: T, options: I18nOptions): Promise<Awaited
   // 遍历对象value值成扁平数组
   const newParams = JSON.parse(JSON.stringify(params));
   const arr: string[] = [];
+
   recursiveObj(
     newParams,
     (obj, key) => {
