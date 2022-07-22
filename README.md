@@ -9,7 +9,7 @@
 [travis-badge]: https://img.shields.io/travis/txp1035/txp/master.svg
 [travis-badge-url]: https://travis-ci.org/txp1035/txp
 
-Some efficiency tools
+A gathering place for some of my ideas
 
 ## lib
 
