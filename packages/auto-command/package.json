@@ -11,6 +11,8 @@
     "url": "https://github.com/txp1035/txp/tree/master/packages/auto-command"
   },
   "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "bin": {
     "ac": "./bin/autocmd.js"
   },

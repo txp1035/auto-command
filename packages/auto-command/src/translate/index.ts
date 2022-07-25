@@ -5,6 +5,7 @@ import traverse from '@babel/traverse';
 import generate from '@babel/generator';
 import utils from 'txp-utils';
 import prettier from 'prettier';
+import { handelPath } from '../cli';
 import type { Code, I18nPartOptions, I18nOptions } from './translate-i18n/types';
 import type { ApiPartOptions } from './translate-api/types';
 import translate from './translate-i18n';
@@ -99,11 +100,14 @@ function writeFile(paths: string, text: string) {
     console.error(err);
   }
 }
-function formatting(params: object): string {
+
+function formatting(params: object, options?: object): string {
   const text = `export default ${JSON.stringify(params)};`;
-  const newText = prettier.format(text, { semi: false, parser: 'babel' });
+  const obj = options || { semi: false, parser: 'babel' };
+  const newText = prettier.format(text, obj);
   return newText;
 }
+
 // 基于文件字符串拿到对象
 function getObj(str: string) {
   // ast处理成需要的对象
@@ -201,6 +205,7 @@ export interface TranslateConfig extends ApiPartOptions, I18nPartOptions {
   type?: 'dir' | 'file';
   language?: { from: Code; to: Code[] };
   hook?: Hook;
+  prettierPath?: string;
 }
 interface FileNode {
   name: string;
@@ -260,15 +265,15 @@ function traverseDocument(dir: string, hook: Hook | undefined, level = 1): FileN
     })
     .filter((item) => item.type !== 'ignore');
 }
-function traverseWriteFile(array: FileNode[], hook: Hook | undefined, level = 1) {
+function traverseWriteFile(array: FileNode[], hook: Hook, level = 1, prettierOption?: object) {
   array.forEach((element) => {
     if (element.type === 'dir') {
-      traverseWriteFile(element.content as FileNode[], hook, level + 1);
+      traverseWriteFile(element.content as FileNode[], hook, level + 1, prettierOption);
     }
     if (element.type === 'file') {
       let newContent = element.content;
       if (hook?.convertContent) {
-        newContent = hook?.convertContent.out(element.content as generalObj, level);
+        newContent = hook?.convertContent.out(element.content as generalObj, level, prettierOption);
       }
       if (typeof newContent !== 'string') {
         throw new Error('类型异常');
@@ -283,8 +288,10 @@ function traverseWriteFile(array: FileNode[], hook: Hook | undefined, level = 1)
 const hookDir: Hook = {
   convertContent: {
     input: (params: string, level: number) => (level !== 1 ? getObj(params) : params),
-    out: (params: object | string, level: number) =>
-      level !== 1 && typeof params === 'object' ? formatting(params) : (params as string),
+    out: (params: object | string, level: number, prettierOption) =>
+      level !== 1 && typeof params === 'object'
+        ? formatting(params, prettierOption)
+        : (params as string),
   },
   handleData: async (arr, options) => {
     const {
@@ -349,7 +356,7 @@ const hookDir: Hook = {
 const hookFile: Hook = {
   convertContent: {
     input: (params: string) => getObj(params),
-    out: (params) => formatting(params as object),
+    out: (params, _, prettierOption) => formatting(params as object, prettierOption),
   },
   handleData: async (arr, options) => {
     const {
@@ -403,20 +410,24 @@ interface Hook {
   filter?: (name: string) => boolean;
   convertContent?: {
     input: (params: string, level: number) => generalObj;
-    out: (params: object | string, level: number) => string;
+    out: (params: object | string, level: number, prettierPath?: object) => string;
   };
   // 数据梳理阶段钩子
   handleData?: (arr: FileNode[], options: TranslateConfig) => Promise<FileNode[]>;
 }
 
 export async function main(options: TranslateConfig) {
-  const { outDir, type = 'dir', hook } = options;
-  let newHook = hook;
+  const { outDir, type = 'dir', prettierPath, hook } = options;
+  // 默认ant-pro的hook
+  let newHook = hookDir;
   if (type === 'dir') {
     newHook = hookDir;
   }
   if (type === 'file') {
     newHook = hookFile;
+  }
+  if (hook) {
+    newHook = hook;
   }
   let documentArr;
   utils.node.logger.info('开始阶段');
@@ -427,12 +438,24 @@ export async function main(options: TranslateConfig) {
     newDocumentArr = await newHook.handleData(newDocumentArr, options);
   }
   utils.node.logger.info('输出文件阶段');
-  traverseWriteFile(newDocumentArr, newHook);
+  // 如果配置路径存在就用用户的
+  let prettierOption;
+  if (prettierPath) {
+    try {
+      prettierOption = { parser: 'babel', ...require(handelPath(prettierPath)) };
+    } catch (error) {
+      utils.node.logger.warn('你配置了prettierPath但是没有生效');
+    }
+  }
+  traverseWriteFile(newDocumentArr, newHook, 1, prettierOption);
 }
 
 export default async (options: TranslateConfig) => {
   try {
+    const startTime = +new Date();
     await main(options);
+    const time = `本次翻译耗时：${+new Date() - startTime}ms`;
+    utils.node.logger.info(time);
   } catch (error) {
     utils.node.logger.error(error);
     throw new Error(String(error));

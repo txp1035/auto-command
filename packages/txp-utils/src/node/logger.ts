@@ -1,6 +1,6 @@
 import { join } from 'path';
 import pino, { type Logger } from 'pino';
-// import chalk from 'chalk';
+import chalk from 'chalk';
 import fsExtra from 'fs-extra';
 
 const loggerDir = join(process.cwd(), 'node_modules/.cache/logger');
@@ -39,26 +39,17 @@ function init() {
     );
   }
 }
+
 const prefixesBase = {
-  wait: 'wait -',
-  error: 'error-',
-  fatal: 'fatal-',
-  warn: 'warn -',
-  ready: 'ready-',
-  info: 'info -',
-  event: 'event-',
-  debug: 'debug-',
+  wait: chalk.cyan('wait') + '  -',
+  error: chalk.red('error') + ' -',
+  fatal: chalk.red('fatal') + ' -',
+  warn: chalk.yellow('warn') + '  -',
+  ready: chalk.green('ready') + ' -',
+  info: chalk.cyan('info') + '  -',
+  event: chalk.magenta('event') + ' -',
+  debug: chalk.gray('debug') + ' -',
 };
-// const prefixesBase = {
-//   wait: chalk.cyan('wait') + '  -',
-//   error: chalk.red('error') + ' -',
-//   fatal: chalk.red('fatal') + ' -',
-//   warn: chalk.yellow('warn') + '  -',
-//   ready: chalk.green('ready') + ' -',
-//   info: chalk.cyan('info') + '  -',
-//   event: chalk.magenta('event') + ' -',
-//   debug: chalk.gray('debug') + ' -',
-// };
 
 const prefixes = new Proxy(prefixesBase, {
   get(target, key, receiver) {
