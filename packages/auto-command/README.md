@@ -22,7 +22,7 @@ import { defineConfig } from 'auto-command/lib';
 
 export default defineConfig({
   translate: {
-    // path (required): absolute path to the locales file
+    // path (required): absolute or relative path to the locales file
     outDir: '/xxx/xxx/xxx/src/locales',
     // Whether to keep the previous translation unchanged (optional), enabled by default
     keep: true,
@@ -41,6 +41,8 @@ export default defineConfig({
     },
     // Separator (optional): The default is -, if your file name is not separated by -, you need to configure
     separator: '-',
+    // Configure your .prettier.js file path (absolute path or relative path). After translation, the output file will be formatted with your configuration to avoid useless changes
+    prettierPath: '/xxx/.prettierrc.js',
     // Translator type (optional): default youdao
     translatorType: 'youdao',
     // google translator configuration (optional): empty by default

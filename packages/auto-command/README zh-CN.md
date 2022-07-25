@@ -22,7 +22,7 @@ import { defineConfig } from 'auto-command/lib';
 
 export default defineConfig({
   translate: {
-    // 路径（必填）：locales文件的绝对路径
+    // 路径（必填）：locales文件的绝对路径或者相对路径
     outDir: '/xxx/xxx/xxx/src/locales',
     // 是否保持以前的翻译不变（可选），默认开启
     keep: true,
@@ -41,6 +41,8 @@ export default defineConfig({
     },
     // 分隔符号（可选）：默认为-，如果你的文件名不是以-分割的话需要配置
     separator: '-',
+    // 配置你的.prettier.js文件路径（绝对路径或者相对路径）翻译后输出文件会安装你的配置进行格式化，避免无用的变更
+    prettierPath: '/xxx/.prettierrc.js',
     // 翻译器类型（可选）：默认youdao
     translatorType: 'youdao',
     // google翻译器配置（可选）：默认空
