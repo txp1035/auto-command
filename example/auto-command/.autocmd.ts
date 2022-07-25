@@ -1,7 +1,6 @@
-import { defineConfig } from 'auto-command/src';
-import translate from 'auto-command/src/translate';
-
-const config1 = defineConfig({
+import { defineConfig } from 'auto-command';
+const dir = './localesDir';
+const dirs = defineConfig({
   translate: {
     translatorType: 'youdao',
     // 分隔符号（可选）：默认为-，如果你的文件名不是以-分割的话需要配置
@@ -11,7 +10,7 @@ const config1 = defineConfig({
     // 类型（可选）：默认为目录
     type: 'dir',
     // 路径（必填）：locales文件的绝对路径
-    outDir: '/Users/shawdanon/GitHub/mine/txp/example/auto-command/localesDir',
+    outDir: dir,
     // 语言转换（可选）：默认从中文转英文
     language: {
       from: 'zh-CN',
@@ -19,7 +18,7 @@ const config1 = defineConfig({
     },
   },
 });
-const config2 = defineConfig({
+const file = defineConfig({
   translate: {
     translatorType: 'youdao',
     language: {
@@ -27,10 +26,12 @@ const config2 = defineConfig({
       to: ['zh-TW'],
     },
     type: 'file',
-    outDir: '/Users/shawdanon/GitHub/mine/txp/example/auto-command/localesFile',
+    outDir: dir,
+    prettierPath: '../../.prettierrc.js',
   },
 });
-// 测试目录情况
-translate(config1.translate);
-// 测试文件情况
-// translate(config2.translate);
+let index = dirs;
+if (false) {
+  index = file;
+}
+export default index;

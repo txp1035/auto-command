@@ -82,13 +82,13 @@ importers:
 
   packages/txp-utils:
     specifiers:
-      chalk: ^5.0.1
+      chalk: ^4.0.0
       dayjs: ^1.11.3
       fs-extra: ^10.1.0
       pino: ^8.1.0
       pino-pretty: ^8.1.0
     dependencies:
-      chalk: 5.0.1
+      chalk: 4.1.2
       dayjs: 1.11.3
       fs-extra: 10.1.0
       pino: 8.1.0
@@ -3414,6 +3414,7 @@ packages:
   /chalk/5.0.1:
     resolution: {integrity: sha512-Fo07WOYGqMfCWHOzSXOt2CxDbC6skS/jO9ynEcmpANMoPrD+W1r1K6Vx7iNm+AQmETU1Xr2t+n8nzkV9t6xh3w==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+    dev: true
 
   /character-entities-legacy/1.1.4:
     resolution: {integrity: sha512-3Xnr+7ZFS1uxeiUDvV02wQ+QDbc55o97tIV5zHScSPJpcLm/r0DFPcoY3tYRp+VZukxuMeKgXYmsXQHO05zQeA==}

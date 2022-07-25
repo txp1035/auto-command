@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "esno ./test.ts"
+    "ac": "ac"
   },
   "keywords": [],
   "author": "",
