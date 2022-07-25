@@ -1,6 +1,7 @@
-import { join } from 'path';
+import { join, isAbsolute } from 'path';
 import { existsSync } from 'fs';
 import yParser from 'yargs-parser';
+import utils from 'txp-utils';
 import gitDiff from './gitDiff';
 import translate from './translate';
 import * as readEsmAndCjs from './readEsmAndCjs';
@@ -21,6 +22,13 @@ function getParams(): ConfigType {
     }
   }
   return config;
+}
+
+function handelPath(params: string) {
+  if (isAbsolute(params)) {
+    return params;
+  }
+  return join(process.cwd(), params);
 }
 
 function checkVersion() {
@@ -76,7 +84,15 @@ if (args.version && !args._[0]) {
         gitDiff();
       }
       if (answer.auto === 'translate') {
-        translate(getParams().translate);
+        const obj = {
+          ...getParams().translate,
+        };
+        obj.outDir = handelPath(obj.outDir);
+        if (existsSync(obj.outDir)) {
+          translate(obj);
+        } else {
+          utils.node.logger.error(`找不到输出的路径：${obj.outDir}`);
+        }
       }
     });
 }
