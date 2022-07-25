@@ -24,7 +24,7 @@ function getParams(): ConfigType {
   return config;
 }
 
-function handelPath(params: string) {
+export function handelPath(params: string) {
   if (isAbsolute(params)) {
     return params;
   }
