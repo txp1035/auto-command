@@ -432,7 +432,10 @@ export async function main(options: TranslateConfig) {
 
 export default async (options: TranslateConfig) => {
   try {
+    const startTime = +new Date();
     await main(options);
+    const time = `本次翻译耗时：${+new Date() - startTime}ms`;
+    utils.node.logger.info(time);
   } catch (error) {
     utils.node.logger.error(error);
     throw new Error(String(error));
