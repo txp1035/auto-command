@@ -1,5 +1,5 @@
 import { defineConfig } from 'auto-command';
-const dir = './localesDir';
+
 const dirs = defineConfig({
   translate: {
     translatorType: 'youdao',
@@ -10,7 +10,7 @@ const dirs = defineConfig({
     // 类型（可选）：默认为目录
     type: 'dir',
     // 路径（必填）：locales文件的绝对路径
-    outDir: dir,
+    outDir: './localesDir',
     // 语言转换（可选）：默认从中文转英文
     language: {
       from: 'zh-CN',
@@ -26,12 +26,12 @@ const file = defineConfig({
       to: ['zh-TW'],
     },
     type: 'file',
-    outDir: dir,
+    outDir: './localesFile',
     prettierPath: '../../.prettierrc.js',
   },
 });
 let index = dirs;
-if (false) {
+if (true) {
   index = file;
 }
 export default index;
