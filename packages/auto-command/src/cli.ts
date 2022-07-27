@@ -4,6 +4,7 @@ import yParser from 'yargs-parser';
 import utils from 'txp-utils';
 import gitDiff from './gitDiff';
 import translate from './translate';
+import fastElectron from './fastElectron';
 import * as readEsmAndCjs from './readEsmAndCjs';
 import { ConfigType } from './defineConfig';
 
@@ -66,6 +67,9 @@ if (args.version && !args._[0]) {
   if (args.type === 'diff') {
     gitDiff();
   }
+  if (args.type === 'fastElectron') {
+    fastElectron(getParams().fastElectron);
+  }
 } else {
   inquirer
     .prompt([
@@ -76,12 +80,18 @@ if (args.version && !args._[0]) {
         default: 'git diff',
         prefix: '****',
         suffix: ' ****',
-        choices: ['git diff', 'translate'],
+        choices: ['git diff', 'translate', 'fastElectron'],
       },
     ])
     .then((answer: any) => {
       if (answer.auto === 'git diff') {
         gitDiff();
+      }
+      if (answer.auto === 'fastElectron') {
+        const obj = {
+          ...getParams().fastElectron,
+        };
+        fastElectron(obj);
       }
       if (answer.auto === 'translate') {
         const obj = {
