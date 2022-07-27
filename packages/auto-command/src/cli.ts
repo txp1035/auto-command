@@ -22,7 +22,7 @@ function getParams(): ConfigType {
       throw new Error(String(error));
     }
   }
-  return config;
+  return config || {};
 }
 
 export function handelPath(params: string) {
@@ -56,6 +56,52 @@ const args = yParser(process.argv.slice(2), {
   boolean: ['version'],
 });
 
+async function inquirerScript() {
+  const type = await inquirer.prompt([
+    {
+      type: 'list',
+      message: 'Please select the task to be performed',
+      name: 'auto',
+      default: 'git diff',
+      prefix: '****',
+      suffix: ' ****',
+      choices: ['git diff', 'translate', 'fastElectron'],
+    },
+  ]);
+  if (type.auto === 'git diff') {
+    gitDiff();
+  }
+  if (type.auto === 'fastElectron') {
+    const fastElectronType = await inquirer.prompt([
+      {
+        type: 'list',
+        message: 'Please select the task to be performed',
+        name: 'auto',
+        default: 'git diff',
+        prefix: '****',
+        suffix: ' ****',
+        choices: ['ant-design-pro', 'create-react-app', 'vue'],
+      },
+    ]);
+    const obj = {
+      ...getParams().fastElectron,
+      type: fastElectronType.auto,
+    };
+    fastElectron(obj);
+  }
+  if (type.auto === 'translate') {
+    const obj = {
+      ...getParams().translate,
+    };
+    obj.outDir = handelPath(obj.outDir);
+    if (existsSync(obj.outDir)) {
+      translate(obj);
+    } else {
+      utils.node.logger.error(`找不到输出的路径：${obj.outDir}`);
+    }
+  }
+}
+
 if (args.version && !args._[0]) {
   args._[0] = 'version';
   const { name, version } = require('../package.json');
@@ -71,38 +117,5 @@ if (args.version && !args._[0]) {
     fastElectron(getParams().fastElectron);
   }
 } else {
-  inquirer
-    .prompt([
-      {
-        type: 'list',
-        message: 'Please select the task to be performed',
-        name: 'auto',
-        default: 'git diff',
-        prefix: '****',
-        suffix: ' ****',
-        choices: ['git diff', 'translate', 'fastElectron'],
-      },
-    ])
-    .then((answer: any) => {
-      if (answer.auto === 'git diff') {
-        gitDiff();
-      }
-      if (answer.auto === 'fastElectron') {
-        const obj = {
-          ...getParams().fastElectron,
-        };
-        fastElectron(obj);
-      }
-      if (answer.auto === 'translate') {
-        const obj = {
-          ...getParams().translate,
-        };
-        obj.outDir = handelPath(obj.outDir);
-        if (existsSync(obj.outDir)) {
-          translate(obj);
-        } else {
-          utils.node.logger.error(`找不到输出的路径：${obj.outDir}`);
-        }
-      }
-    });
+  inquirerScript();
 }

@@ -7,9 +7,9 @@ function createWindow() {
   })
   if (process.env.REACT_APP_ENV === 'dev') {
     win.webContents.openDevTools();
-    win.loadURL('http://localhost:8000');
+    win.loadURL('{{&local}}');
   } else {
-    win.loadFile('dist/index.html')
+    win.loadFile('{{&buildName}}/index.html')
   }
 }
 
