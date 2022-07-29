@@ -1,0 +1,41 @@
+{
+  "name": "@txpjs/utils-node",
+  "version": "1.0.0",
+  "description": "utils for node",
+  "homepage": "https://github.com/txp1035/txp/tree/master/packages/utils-node",
+  "bugs": {
+    "url": "https://github.com/txp1035/txp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/txp1035/txp.git"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "compiled"
+  ],
+  "scripts": {
+    "build": "pnpm tsc",
+    "build:deps": "father prebundle",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "pino": "^8.1.0",
+    "pino-pretty": "^8.1.0"
+  },
+  "devDependencies": {
+    "chalk": "4.1.2",
+    "fs-extra": "10.0.1",
+    "lodash": "4.17.21",
+    "yargs-parser": "21.0.1"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "authors": [
+    "tangxiaoping <txp1035@gmail.com> (https://github.com/txp1035)"
+  ]
+}
