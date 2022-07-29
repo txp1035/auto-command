@@ -18,7 +18,7 @@
     "compiled"
   ],
   "scripts": {
-    "build": "pnpm tsc",
+    "build": "father build",
     "build:deps": "father prebundle",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
