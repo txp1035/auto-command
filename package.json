@@ -2,6 +2,8 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./packages",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./packages",
     "prepare": "husky install",
     "prettier": "prettier --write .",
     "publish": "pnpm build & lerna publish",
