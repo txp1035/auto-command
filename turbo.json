@@ -1,12 +1,19 @@
 {
   "$schema": "https://turborepo.org/schema.json",
   "baseBranch": "origin/master",
+  "globalDependencies": [
+    "tsconfig.base.json",
+    "tsconfig.json"
+  ],
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["lib/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
     },
     "sort": {}
-  },
-  "globalDependencies": ["tsconfig.base.json", "tsconfig.json"]
+  }
 }
