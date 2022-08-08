@@ -1,14 +1,14 @@
 import { join, isAbsolute } from 'path';
 import { existsSync } from 'fs';
-import yParser from 'yargs-parser';
-import utils from 'txp-utils';
-import gitDiff from './gitDiff';
-import translate from './translate';
-import fastElectron from './fastElectron';
-import * as readEsmAndCjs from './readEsmAndCjs';
-import type { ConfigType } from './defineConfig';
+import { logger, yParser, inquirer } from '@txpjs/utils-node';
+import translate from '../translate';
+import fastElectron from '../fastElectron';
+import * as readEsmAndCjs from '../readEsmAndCjs';
+import type { ConfigType } from '../defineConfig';
+import git from './git';
 
-const inquirer = require('inquirer');
+// type CmdType = 'git' | 'translate' | 'fastElectron';
+type OperationType = 'cmd' | 'interface';
 
 function getParams(): ConfigType {
   let config;
@@ -47,29 +47,20 @@ function checkVersion() {
 
 checkVersion();
 
-const args = yParser(process.argv.slice(2), {
-  alias: {
-    version: ['v'],
-    help: ['h'],
-    type: ['t'],
-  },
-  boolean: ['version'],
-});
-
-async function inquirerScript() {
+async function inquirerScript(opts: Opts, args: any) {
   const type = await inquirer.prompt([
     {
       type: 'list',
       message: 'Please select the task to be performed',
       name: 'auto',
-      default: 'git diff',
+      default: 'git',
       prefix: '****',
       suffix: ' ****',
-      choices: ['git diff', 'translate', 'fastElectron'],
+      choices: ['git', 'translate', 'fastElectron'],
     },
   ]);
-  if (type.auto === 'git diff') {
-    gitDiff();
+  if (type.auto === 'git') {
+    git(opts, args);
   }
   if (type.auto === 'fastElectron') {
     const fastElectronType = await inquirer.prompt([
@@ -77,7 +68,7 @@ async function inquirerScript() {
         type: 'list',
         message: 'Please select the task to be performed',
         name: 'auto',
-        default: 'git diff',
+        default: 'ant-design-pro',
         prefix: '****',
         suffix: ' ****',
         choices: ['ant-design-pro', 'create-react-app', 'vue'],
@@ -90,32 +81,55 @@ async function inquirerScript() {
     fastElectron(obj);
   }
   if (type.auto === 'translate') {
+    const params = getParams()?.translate;
+    if (params === undefined) {
+      throw new Error('translate缺少参数');
+    }
     const obj = {
-      ...getParams().translate,
+      ...params,
     };
     obj.outDir = handelPath(obj.outDir);
     if (existsSync(obj.outDir)) {
       translate(obj);
     } else {
-      utils.node.logger.error(`找不到输出的路径：${obj.outDir}`);
+      logger.error(`找不到输出的路径：${obj.outDir}`);
     }
   }
 }
-
-if (args.version && !args._[0]) {
-  args._[0] = 'version';
-  const { name, version } = require('../package.json');
-  console.log(`${name}@${version}`);
-} else if (args.type && !args._[0]) {
-  if (args.type === 'translate') {
-    translate(getParams().translate);
-  }
-  if (args.type === 'diff') {
-    gitDiff();
-  }
-  if (args.type === 'fastElectron') {
-    fastElectron(getParams().fastElectron);
-  }
-} else {
-  inquirerScript();
+export interface Opts {
+  cwd: string;
+  type: OperationType;
 }
+const cwd = process.cwd();
+const args = yParser(process.argv.slice(2), {
+  alias: {
+    version: ['v'],
+    help: ['h'],
+    type: ['t'],
+  },
+  boolean: ['version'],
+});
+async function main() {
+  if (args.version && !args._[0]) {
+    args._[0] = 'version';
+    const { name, version } = require('../package.json');
+    console.log(`${name}@${version}`);
+  } else if (args.type && !args._[0]) {
+    if (args.type === 'translate') {
+      const params = getParams()?.translate;
+      if (params === undefined) {
+        throw new Error('translate缺少参数');
+      }
+      translate(params);
+    }
+    if (args.type === 'git') {
+      git({ cwd, type: 'cmd' }, args);
+    }
+    if (args.type === 'fastElectron') {
+      fastElectron(getParams()?.fastElectron || {});
+    }
+  } else {
+    inquirerScript({ cwd, type: 'interface' }, args);
+  }
+}
+main();

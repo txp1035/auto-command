@@ -1,1 +1,3 @@
-`git branch | grep -v master | grep -v main | xargs git branch -d`;
+import gitDiff from './git-diff';
+import deleteBranch from './delete-branch';
+export { gitDiff, deleteBranch };
