@@ -6,7 +6,7 @@ import google from '../../translate-api/languages/google';
 import youdao from '../../translate-api/languages/youdao';
 // 和umi库的SelectLang对标 import {SelectLang} from 'umi';
 import antd from './source/antd';
-import fs from 'fs-extra';
+import { fsExtra } from '@txpjs/utils-node';
 
 console.log('google', google.length);
 console.log('youdao', youdao.length);
@@ -74,6 +74,6 @@ function main() {
   const str2 = `export type Code = ${e}`;
   const paths =
     '/Users/shawdanon/GitHub/minehttp/txp/packages/auto-command/src/translate/translate-api/languages';
-  fs.outputFileSync(`${paths}/antd.ts`, str1 + str2);
+  fsExtra.outputFileSync(`${paths}/antd.ts`, str1 + str2);
 }
 main();

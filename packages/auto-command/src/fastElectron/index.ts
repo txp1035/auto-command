@@ -1,5 +1,4 @@
-import Mustache from 'mustache';
-import fs from 'fs-extra';
+import { Mustache, fsExtra } from '@txpjs/utils-node';
 import { join } from 'path';
 import * as babel from '@babel/core';
 import traverse from '@babel/traverse';
@@ -14,7 +13,7 @@ export interface FastElectronConfig {
 
 function writeFile(paths: string, text: string) {
   try {
-    fs.outputFileSync(paths, text);
+    fsExtra.outputFileSync(paths, text);
   } catch (err) {
     console.error(err);
   }
@@ -27,7 +26,7 @@ interface Config {
 }
 
 function getPkgStr(path: string, config: Config) {
-  const obj = JSON.parse(fs.readFileSync(path, 'utf-8'));
+  const obj = JSON.parse(fsExtra.readFileSync(path, 'utf-8'));
   obj.scripts = {
     ...obj.scripts,
     'ele:devAll': `concurrently "wait-on ${config.local} && npm run ele:dev" "${config.devScript}"`,
@@ -61,7 +60,7 @@ function getPkgStr(path: string, config: Config) {
   return JSON.stringify(obj);
 }
 function getUmiConfigStr(path: string) {
-  const str = fs.readFileSync(path, 'utf-8');
+  const str = fsExtra.readFileSync(path, 'utf-8');
   // ast处理成需要的对象
   const { ast }: any = babel.transform(str, { ast: true });
   // 保证对象的key是字符串才能json化成功
@@ -99,7 +98,7 @@ function getUmiConfigStr(path: string) {
   return ret;
 }
 function getVueConfigStr(path: string) {
-  const str = fs.readFileSync(path, 'utf-8');
+  const str = fsExtra.readFileSync(path, 'utf-8');
   // ast处理成需要的对象
   const { ast }: any = babel.transform(str, { ast: true, configFile: false });
   // 保证对象的key是字符串才能json化成功

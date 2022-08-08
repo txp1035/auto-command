@@ -1,9 +1,8 @@
-import fs from 'fs-extra';
 import path from 'path';
 import * as babel from '@babel/core';
 import traverse from '@babel/traverse';
 import generate from '@babel/generator';
-import utils from 'txp-utils';
+import { logger, fsExtra } from '@txpjs/utils-node';
 import prettier from 'prettier';
 import { handelPath } from '../cli';
 import type { Code, I18nPartOptions, I18nOptions } from './translate-i18n/types';
@@ -95,7 +94,7 @@ function recursiveObj(
 // 写文件统一调用
 function writeFile(paths: string, text: string) {
   try {
-    fs.outputFileSync(paths, text);
+    fsExtra.outputFileSync(paths, text);
   } catch (err) {
     console.error(err);
   }
@@ -142,7 +141,7 @@ function getObj(str: string) {
   try {
     obj = JSON.parse(ret);
   } catch (error) {
-    utils.node.logger.error(ret);
+    logger.error(123, ret);
     throw error;
   }
   return obj;
@@ -180,7 +179,7 @@ async function replaceValue<T>(params: T, options: I18nOptions): Promise<Awaited
   // 数组转换成字符串，翻译，再转换成数组
   const str = arr.join('\n');
   // @ts-ignore 这里设置默认值，options有值就覆盖
-  // utils.node.logger.error(str);
+  // logger.error(str);
   const newStr = await translate(str, { separator: '-', translatorType: 'youdao', ...options });
   const newArr = newStr.split('\n');
   // 新数组重新赋值给对象
@@ -214,13 +213,13 @@ interface FileNode {
   content: string | FileNode[] | generalObj;
 }
 function traverseDocument(dir: string, hook: Hook | undefined, level = 1): FileNode[] {
-  const dirArr = fs.readdirSync(dir);
+  const dirArr = fsExtra.readdirSync(dir);
   return dirArr
     .map((item): FileNode => {
       const itemPath = path.join(dir, `/${item}`);
       try {
         // 如果是目录
-        fs.ensureDirSync(itemPath);
+        fsExtra.ensureDirSync(itemPath);
         if (hook?.filter && !hook?.filter(item)) {
           return {
             name: item,
@@ -238,7 +237,7 @@ function traverseDocument(dir: string, hook: Hook | undefined, level = 1): FileN
       } catch (error) {
         try {
           // 如果是文件
-          fs.ensureFileSync(itemPath);
+          fsExtra.ensureFileSync(itemPath);
           if (hook?.filter && !hook?.filter(item)) {
             return {
               name: item,
@@ -247,7 +246,7 @@ function traverseDocument(dir: string, hook: Hook | undefined, level = 1): FileN
               content: 'ignore',
             };
           }
-          let file: string | generalObj = fs.readFileSync(itemPath, 'utf8');
+          let file: string | generalObj = fsExtra.readFileSync(itemPath, 'utf8');
           if (hook?.convertContent) {
             file = hook?.convertContent.input(file, level);
           }
@@ -281,7 +280,7 @@ function traverseWriteFile(array: FileNode[], hook: Hook, level = 1, prettierOpt
       writeFile(element.path, newContent);
     }
     if (element.type === undefined) {
-      utils.node.logger.error('输出文件出现类型错误！');
+      logger.error('输出文件出现类型错误！');
     }
   });
 }
@@ -307,11 +306,11 @@ const hookDir: Hook = {
       (item) => new RegExp(language.from).test(item.name) && item.type === 'file',
     );
     if (!baseDir) {
-      utils.node.logger.error('基础目录为空');
+      logger.error('基础目录为空');
       throw new Error('基础目录为空');
     }
     if (!baseFile) {
-      utils.node.logger.error('基础文件为空');
+      logger.error('基础文件为空');
       throw new Error('基础文件为空');
     }
     const suffix = path.extname(baseFile.name);
@@ -371,7 +370,7 @@ const hookFile: Hook = {
       (item) => new RegExp(language.from).test(item.name) && item.type === 'file',
     );
     if (!baseFile) {
-      utils.node.logger.error('基础文件为空');
+      logger.error('基础文件为空');
       throw new Error('基础文件为空');
     }
     const suffix = path.extname(baseFile.name);
@@ -430,21 +429,21 @@ export async function main(options: TranslateConfig) {
     newHook = hook;
   }
   let documentArr;
-  utils.node.logger.info('开始阶段');
+  logger.info('开始阶段');
   documentArr = traverseDocument(outDir, newHook);
-  utils.node.logger.info('数据处理阶段');
+  logger.info('数据处理阶段');
   let newDocumentArr = documentArr;
   if (newHook?.handleData) {
     newDocumentArr = await newHook.handleData(newDocumentArr, options);
   }
-  utils.node.logger.info('输出文件阶段');
+  logger.info('输出文件阶段');
   // 如果配置路径存在就用用户的
   let prettierOption;
   if (prettierPath) {
     try {
       prettierOption = { parser: 'babel', ...require(handelPath(prettierPath)) };
     } catch (error) {
-      utils.node.logger.warn('你配置了prettierPath但是没有生效');
+      logger.warn('你配置了prettierPath但是没有生效');
     }
   }
   traverseWriteFile(newDocumentArr, newHook, 1, prettierOption);
@@ -455,9 +454,9 @@ export default async (options: TranslateConfig) => {
     const startTime = +new Date();
     await main(options);
     const time = `本次翻译耗时：${+new Date() - startTime}ms`;
-    utils.node.logger.info(time);
+    logger.info(time);
   } catch (error) {
-    utils.node.logger.error(error);
+    logger.error('123', error);
     throw new Error(String(error));
   }
 };
