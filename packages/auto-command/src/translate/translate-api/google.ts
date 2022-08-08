@@ -5,8 +5,8 @@ import type { Language, GoogleConfig } from './types';
 import { checkCode } from './languages';
 
 function extract(key: any, res: any) {
-  var re = new RegExp(`"${key}":".*?"`);
-  var result = re.exec(res.body);
+  const re = new RegExp(`"${key}":".*?"`);
+  const result = re.exec(res.body);
   if (result !== null) {
     return result[0].replace(`"${key}":"`, '').slice(0, -1);
   }
@@ -30,15 +30,15 @@ function translate(text: any, opts: any, gotopts: any) {
   opts.to = opts.to || 'en';
   opts.tld = opts.tld || 'com';
   opts.autoCorrect = opts.autoCorrect === undefined ? false : Boolean(opts.autoCorrect);
-  var url = 'https://translate.google.' + opts.tld;
+  let url = 'https://translate.google.' + opts.tld;
   // 根据translate.google.com常量rpcid似乎有不同的值与不同的post体格式。
   // * MkEWBc - 返回翻译
   // * AVdN8 - 返回建议
   // * exi25c - 返回一些技术信息
-  var rpcids = 'MkEWBc';
+  const rpcids = 'MkEWBc';
   return got(url, gotopts)
     .then(function (res: any) {
-      var data = {
+      const data = {
         rpcids: rpcids,
         'source-path': '/',
         'f.sid': extract('FdrFJe', res),
@@ -55,7 +55,7 @@ function translate(text: any, opts: any, gotopts: any) {
     .then(function (data: any) {
       url = url + '/_/TranslateWebserverUi/data/batchexecute?' + querystring.stringify(data);
       // === 以下频率的格式仅适用于 rpcids = MkEWBc ===
-      var freq = [
+      const freq = [
         [
           [
             rpcids,
@@ -70,9 +70,9 @@ function translate(text: any, opts: any, gotopts: any) {
       return got
         .post(url, gotopts)
         .then(function (res: any) {
-          var json = res.body.slice(6);
-          var length = '';
-          var result = {
+          let json = res.body.slice(6);
+          let length = '';
+          const result = {
             text: '',
             pronunciation: '',
             from: {
@@ -119,7 +119,7 @@ function translate(text: any, opts: any, gotopts: any) {
             result.from.language.iso = json[1][3];
           }
           if (json[0] && json[0][1] && json[0][1][0]) {
-            var str = json[0][1][0][0][1];
+            let str = json[0][1][0][0][1];
             str = str.replace(/<b>(<i>)?/g, '[');
             str = str.replace(/(<\/i>)?<\/b>/g, ']');
 

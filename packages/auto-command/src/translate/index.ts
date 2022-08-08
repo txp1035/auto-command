@@ -57,7 +57,7 @@ function contrastFile(before: FileNode[], after: FileNode[]): FileNode[] {
     // 深度遍历处理内容节点
     recursiveObj(
       content as generalObj,
-      (obj: { [key: string]: any }, key: string, nodeStr: string[]) => {
+      (obj: Record<string, any>, key: string, nodeStr: string[]) => {
         // 根节点赋值
         if (typeof obj[key] !== 'object') {
           const beforeValue = getter(beforeContent, nodeStr);
@@ -77,7 +77,7 @@ function contrastFile(before: FileNode[], after: FileNode[]): FileNode[] {
 
 function recursiveObj(
   obj: generalObj,
-  fc: (obj: { [key: string]: any }, item: string, nodeStr: string[]) => void,
+  fc: (obj: Record<string, any>, item: string, nodeStr: string[]) => void,
   nodeStrs: string[],
 ) {
   const curNode = JSON.parse(JSON.stringify(nodeStrs || []));

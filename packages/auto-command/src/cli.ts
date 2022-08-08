@@ -6,7 +6,7 @@ import gitDiff from './gitDiff';
 import translate from './translate';
 import fastElectron from './fastElectron';
 import * as readEsmAndCjs from './readEsmAndCjs';
-import { ConfigType } from './defineConfig';
+import type { ConfigType } from './defineConfig';
 
 const inquirer = require('inquirer');
 

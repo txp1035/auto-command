@@ -1,5 +1,5 @@
-import { TranslateConfig } from './translate';
-import { FastElectronConfig } from './fastElectron';
+import type { TranslateConfig } from './translate';
+import type { FastElectronConfig } from './fastElectron';
 
 export type ConfigType = { translate: TranslateConfig; fastElectron: FastElectronConfig };
 
