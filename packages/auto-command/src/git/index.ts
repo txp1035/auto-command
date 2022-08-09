@@ -1,3 +1,4 @@
 import gitDiff from './git-diff';
 import deleteBranch from './delete-branch';
-export { gitDiff, deleteBranch };
+import clone from './clone';
+export { gitDiff, deleteBranch, clone };
