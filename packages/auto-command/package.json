@@ -1,6 +1,6 @@
 {
   "name": "auto-command",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Automatic command",
   "homepage": "https://github.com/txp1035/txp/tree/master/packages/auto-command",
   "bugs": {
@@ -39,7 +39,7 @@
     "tunnel": "^0.0.6"
   },
   "devDependencies": {
-    "@txpjs/utils-node": "^1.0.0-alpha.0",
+    "@txpjs/utils-node": "^1.0.0-alpha.1",
     "cheerio": "1.0.0-rc.12"
   },
   "publishConfig": {
