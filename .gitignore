@@ -7,3 +7,4 @@ temp
 example/auto-command/localesDir
 example/auto-command/localesFile
 .eslintcache
+coverage

@@ -39,7 +39,8 @@
     "tunnel": "^0.0.6"
   },
   "devDependencies": {
-    "@txpjs/utils-node": "workspace:1.0.0-alpha.0"
+    "@txpjs/utils-node": "^1.0.0-alpha.0",
+    "cheerio": "1.0.0-rc.12"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

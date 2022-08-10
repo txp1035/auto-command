@@ -2,5 +2,6 @@ packages:
   - 'packages/auto-command'
   - 'packages/txp-utils'
   - 'packages/utils-node'
+  - 'packages/testing'
   - 'examples/*'
   - 'scripts'
