@@ -1,6 +1,6 @@
 {
   "name": "@txpjs/utils-node",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "description": "utils for node",
   "homepage": "https://github.com/txp1035/txp/tree/master/packages/utils-node",
   "bugs": {
