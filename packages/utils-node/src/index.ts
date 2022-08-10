@@ -5,7 +5,7 @@ import crossSpawn from '../compiled/cross-spawn';
 import inquirer from '../compiled/inquirer';
 import Mustache from '../compiled/mustache';
 import axios from '../compiled/axios';
-import yParser from 'yargs-parser';
+import yParser from '../compiled/yargs-parser';
 import * as logger from './logger';
 
 export {
