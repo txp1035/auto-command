@@ -1,4 +1,4 @@
-import { Config, createConfig } from 'testing';
+import { Config, createConfig } from '@txpjs/test';
 
 export default {
   ...createConfig(),
