@@ -1,5 +1,3 @@
-import * as logger from './node/logger';
-
 /** 对象类 start */
 /**
  * 描述：过滤对象，过滤掉值为null、undefined、NaN的键
@@ -15,7 +13,7 @@ export function filterObj(
   param: object,
   fun?: (value: any, key?: string, obj?: object) => boolean,
 ) {
-  const obj: { [key: string]: any } = {};
+  const obj: Record<string, any> = {};
   Object.entries(param).forEach(([key, value]) => {
     // 默认过滤
     if (value !== null && value !== undefined && !Number.isNaN(value)) {
@@ -59,7 +57,7 @@ export function getChainObj(obj: object, str: string) {
 /** 对象类 end */
 /** 数组类 start */
 export function removal(
-  list: (string | { [key: string]: string | number | boolean })[],
+  list: (string | Record<string, string | number | boolean>)[],
   key?: string,
 ) {
   // 对象去重
@@ -124,11 +122,11 @@ export function getType(params: any): jsType {
   return type;
 }
 export function contrast(
-  [main, assistant]: [{ [key: string]: any }, { [key: string]: any }],
+  [main, assistant]: [Record<string, any>, Record<string, any>],
   fun: (params: any) => any,
 ) {
-  const newMain: { [key: string]: any } = {};
-  const newAssistant: { [key: string]: any } = {};
+  const newMain: Record<string, any> = {};
+  const newAssistant: Record<string, any> = {};
   Object.entries(main).map(([key, value]) => {
     if (key in assistant) {
       const [mainValue, assistantValue] = fun([value, assistant[key]]);
@@ -153,7 +151,4 @@ export default {
   removal,
   contrast,
   getValidValues,
-  node: {
-    logger,
-  },
 };

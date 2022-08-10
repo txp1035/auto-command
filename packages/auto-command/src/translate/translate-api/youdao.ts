@@ -1,5 +1,5 @@
 import md5 from 'md5';
-import axios from 'axios';
+import { axios } from '@txpjs/utils-node';
 import type { Language, YouDaoConfig } from './types';
 import { checkCode } from './languages';
 

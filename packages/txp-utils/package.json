@@ -11,20 +11,13 @@
     "url": "https://github.com/txp1035/txp/tree/master/packages/txp-utils"
   },
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "./dist/index.js",
   "files": [
-    "lib"
+    "dist"
   ],
   "scripts": {
     "build": "pnpm tsc",
     "sort": "npx sort-package-json"
-  },
-  "dependencies": {
-    "chalk": "^4.0.0",
-    "dayjs": "^1.11.3",
-    "fs-extra": "^10.1.0",
-    "pino": "^8.1.0",
-    "pino-pretty": "^8.1.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

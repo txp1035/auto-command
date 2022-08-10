@@ -1,10 +1,26 @@
 {
   "version": "independent",
+  "workspaces": [
+    "packages/*"
+  ],
   "command": {
     "publish": {
-      "ignoreChanges": ["*.md", "**/test/**"],
+      "ignoreChanges": [
+        "*.md",
+        "**/test/**",
+        "**/crons/**",
+        "**/fine-dog/**",
+        "**/first/**",
+        "**/pnrm/**",
+        "**/testing/**",
+        "**/testing/**",
+        "**/txp/**",
+        "**/txp-first/**",
+        "**/txp-data-hub/**",
+        "**/txp-utils/**",
+        "**/umi-plugin-codegen/**"
+      ],
       "message": "chore(release): publish"
     }
-  },
-  "workspaces": ["packages/*"]
+  }
 }

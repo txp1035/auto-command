@@ -1,6 +1,6 @@
 {
   "name": "@txpjs/utils-node",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "utils for node",
   "homepage": "https://github.com/txp1035/txp/tree/master/packages/utils-node",
   "bugs": {
@@ -27,9 +27,14 @@
     "pino-pretty": "^8.1.0"
   },
   "devDependencies": {
+    "@types/mustache": "^4.2.1",
+    "axios": "^0.27.2",
     "chalk": "4.1.2",
+    "cross-spawn": "^7.0.3",
     "fs-extra": "10.0.1",
+    "inquirer": "^7.3.0",
     "lodash": "4.17.21",
+    "mustache": "^4.2.0",
     "yargs-parser": "21.0.1"
   },
   "publishConfig": {
