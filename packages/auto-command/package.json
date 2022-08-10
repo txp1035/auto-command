@@ -1,6 +1,6 @@
 {
   "name": "auto-command",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Automatic command",
   "homepage": "https://github.com/txp1035/txp/tree/master/packages/auto-command",
   "bugs": {
@@ -30,7 +30,7 @@
     "@babel/generator": "^7.18.7",
     "@babel/traverse": "^7.18.6",
     "@babel/types": "^7.18.9",
-    "@txpjs/utils-node": "^1.0.0-alpha.1",
+    "@txpjs/utils-node": "^1.0.0-alpha.2",
     "cheerio": "1.0.0-rc.12",
     "esbuild": "^0.14.49",
     "got": "9.6.0",
