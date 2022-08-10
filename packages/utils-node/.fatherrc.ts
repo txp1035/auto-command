@@ -12,6 +12,7 @@ export default defineConfig({
       'inquirer',
       'mustache',
       'axios',
+      'node-fetch',
     ],
   },
 });

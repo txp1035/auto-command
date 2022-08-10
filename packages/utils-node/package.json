@@ -35,6 +35,7 @@
     "inquirer": "^7.3.0",
     "lodash": "4.17.21",
     "mustache": "^4.2.0",
+    "node-fetch": "^3.2.10",
     "yargs-parser": "21.0.1"
   },
   "publishConfig": {

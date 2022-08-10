@@ -5,6 +5,7 @@ import crossSpawn from '../compiled/cross-spawn';
 import inquirer from '../compiled/inquirer';
 import Mustache from '../compiled/mustache';
 import axios from '../compiled/axios';
+import fetch from '../compiled/node-fetch';
 import yParser from '../compiled/yargs-parser';
 import * as logger from './logger';
 
@@ -17,6 +18,7 @@ export {
   fsExtra,
   logger,
   yParser,
+  fetch,
   /** all */
   axios,
   lodash,
