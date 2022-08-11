@@ -14,7 +14,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "ac": "./bin/autocmd.js"
+    "tcmd": "./bin/autocmd.js"
   },
   "files": [
     "bin",
