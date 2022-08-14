@@ -95,3 +95,7 @@ $ npx ac -t=diff
 ```
 
 这样你就能够对两个分支（默认把当前分支和 master 分支做对比）进行对比并导出对比结果文件
+
+## LICENSE
+
+[MIT](./LICENSE)
