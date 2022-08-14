@@ -1,7 +1,7 @@
-import { Config, createConfig } from '@txpjs/test';
+import { TestConfig, createTestConfig } from '@txpjs/qa';
 
 export default {
-  ...createConfig(),
+  ...createTestConfig(),
   testMatch: ['<rootDir>/packages/*/src/**/*.test.ts'],
   modulePathIgnorePatterns: ['<rootDir>/packages/.+/compiled', '<rootDir>/packages/.+/fixtures'],
   transformIgnorePatterns: ['/node_modules/', '/compiled/'],
@@ -11,4 +11,4 @@ export default {
     '!**/compiled/**/*.{js,jsx}',
     '!**/fixtures/**/*.*',
   ],
-} as Config.InitialOptions;
+} as TestConfig.InitialOptions;

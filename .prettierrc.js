@@ -1,5 +1,5 @@
-const fabric = require('@umijs/fabric');
+const qa = require('@txpjs/qa');
 
 module.exports = {
-  ...fabric.prettier,
+  ...qa.prettier,
 };

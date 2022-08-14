@@ -22,17 +22,14 @@
     "dist"
   ],
   "scripts": {
-    "build": "pnpm tsc",
+    "build": "father build",
     "genLangs": "esno ./src/translate/translate-api/languages/genTargetCode.ts",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./packages",
     "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./packages",
     "prepare": "husky install",
     "prettier": "prettier --write .",
-    "publish": "pnpm build & lerna publish",
-    "republish": "lerna publish from-git",
     "sort": "npx sort-package-json",
-    "test": "jest",
-    "turbo:clean": "rimraf ./node_modules/.cache/turbo"
+    "test": "jest"
   },
   "lint-staged": {
     "*.{jsx,less,md,json}": [
@@ -50,7 +47,7 @@
     "@babel/generator": "^7.18.7",
     "@babel/traverse": "^7.18.6",
     "@babel/types": "^7.18.9",
-    "@txpjs/test": "workspace:^0.0.1",
+    "@txpjs/qa": "1.0.0-alpha.0",
     "@txpjs/utils-node": "^1.0.0-alpha.5",
     "@types/babel__core": "^7.1.19",
     "@types/babel__generator": "^7.6.4",
@@ -63,7 +60,6 @@
     "@types/prettier": "^2.6.3",
     "@types/tunnel": "^0.0.3",
     "@types/yargs-parser": "^21.0.0",
-    "@umijs/fabric": "^2.12.2",
     "auto-command": "workspace:^1.3.0",
     "cheerio": "1.0.0-rc.12",
     "esbuild": "^0.14.49",
@@ -73,7 +69,6 @@
     "got": "9.6.0",
     "husky": "^8.0.0",
     "jest": "^28.1.3",
-    "lerna": "^5.1.7",
     "lint-staged": "^13.0.3",
     "md5": "^2.3.0",
     "pirates": "^4.0.5",
@@ -81,9 +76,7 @@
     "query-string": "^7.1.1",
     "ts-node": "^10.9.1",
     "tunnel": "^0.0.6",
-    "turbo": "^1.3.1",
-    "typescript": "^4.7.4",
-    "zx": "^7.0.7"
+    "typescript": "^4.7.4"
   },
   "packageManager": "pnpm@7.3.0",
   "engines": {
