@@ -1,7 +1,7 @@
 import { join, isAbsolute } from 'path';
 import { existsSync } from 'fs';
 import { logger, yParser, inquirer } from '@txpjs/utils-node';
-import translate from '../translate';
+import { i18n } from '@txpjs/translate';
 import fastElectron from '../fastElectron';
 import * as readEsmAndCjs from '../readEsmAndCjs';
 import type { ConfigType } from '../defineConfig';
@@ -90,7 +90,7 @@ async function inquirerScript(opts: Opts, args: any) {
     };
     obj.outDir = handelPath(obj.outDir);
     if (existsSync(obj.outDir)) {
-      translate(obj);
+      i18n(obj);
     } else {
       logger.error(`找不到输出的路径：${obj.outDir}`);
     }
@@ -120,7 +120,7 @@ async function main() {
       if (params === undefined) {
         throw new Error('translate缺少参数');
       }
-      translate(params);
+      i18n(params);
     }
     if (args.type === 'git') {
       git({ cwd, type: 'cmd' }, args);
