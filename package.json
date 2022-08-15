@@ -1,7 +1,6 @@
 {
   "name": "auto-command",
   "version": "1.8.0-alpha.0",
-  "private": true,
   "description": "Automatic command",
   "homepage": "https://github.com/txp1035/auto-command",
   "bugs": {
