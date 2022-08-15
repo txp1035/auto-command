@@ -2,7 +2,7 @@ import { TestConfig, createTestConfig } from '@txpjs/qa';
 
 export default {
   ...createTestConfig(),
-  testMatch: ['<rootDir>/packages/*/src/**/*.test.ts'],
+  testMatch: ['<rootDir>/src/**/*.test.ts'],
   modulePathIgnorePatterns: ['<rootDir>/packages/.+/compiled', '<rootDir>/packages/.+/fixtures'],
   transformIgnorePatterns: ['/node_modules/', '/compiled/'],
   collectCoverageFrom: [

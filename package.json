@@ -24,8 +24,10 @@
   "scripts": {
     "build": "father build",
     "genLangs": "esno ./src/translate/translate-api/languages/genTargetCode.ts",
-    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./packages",
-    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./packages",
+    "lint": "npm run lint:js && npm run tsc",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
+    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
     "prepare": "husky install",
     "prettier": "prettier --write .",
     "sort": "npx sort-package-json",
@@ -38,7 +40,7 @@
     "*.ts?(x)": [
       "prettier --parser=typescript --write"
     ],
-    "*.(json)": [
+    "./package.json": [
       "npx sort-package-json"
     ]
   },
@@ -47,7 +49,8 @@
     "@babel/generator": "^7.18.7",
     "@babel/traverse": "^7.18.6",
     "@babel/types": "^7.18.9",
-    "@txpjs/qa": "1.0.0-alpha.0",
+    "@txpjs/qa": "1.0.0-alpha.1",
+    "@txpjs/translate": "1.0.0-alpha.0",
     "@txpjs/utils-node": "^1.0.0-alpha.5",
     "@types/babel__core": "^7.1.19",
     "@types/babel__generator": "^7.6.4",
