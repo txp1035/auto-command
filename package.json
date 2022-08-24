@@ -14,7 +14,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "tcmd": "./bin/autocmd.js"
+    "tcmd": "./bin/tcmd.js"
   },
   "files": [
     "bin",
@@ -49,7 +49,7 @@
     "@babel/traverse": "^7.18.6",
     "@babel/types": "^7.18.9",
     "@txpjs/qa": "1.0.0-alpha.1",
-    "@txpjs/translate": "1.0.0-alpha.0",
+    "@txpjs/translate": "1.0.0-alpha.2",
     "@txpjs/utils-node": "1.0.0-alpha.6",
     "cheerio": "1.0.0-rc.12",
     "esbuild": "^0.14.49",

@@ -1,5 +1,6 @@
 {
   "version": "1.0.0",
+  "name": "@example/auto-command",
   "private": true,
   "description": "",
   "keywords": [],
@@ -7,9 +8,9 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "ac": "ac"
+    "tcmd": "tcmd"
   },
   "devDependencies": {
-    "auto-command": "workspace:^1.5.0"
+    "auto-command": "workspace:*"
   }
 }
